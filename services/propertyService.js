@@ -1,6 +1,9 @@
 // let database = require('./dbConnection');
 
 const createProperty = (req) => {
+    
+   
+
 }
 
 const deleteProperty = (req) => {
