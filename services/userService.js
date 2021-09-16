@@ -27,7 +27,17 @@ const createUser = (req) => {
 }
 
 
+//Currently (16/09/2021), it is assumed a user document can be deleted with only id.
 const deleteUser = (req) => {
+    try {
+        let data = req.body;
+        let flag = database.DeleteUser(data.id);
+        
+        return flag;
+    }
+    catch {
+        return false;
+    }
 }
 
 
