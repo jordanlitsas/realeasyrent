@@ -1,9 +1,9 @@
 const { response } = require('express');
-let Service = require('../services');
+let Service = require('../../services/users/userService');
 
 const createUser = (req, res) => { 
 
-    if (Service.userService.insertUser(req)){
+    if (Service.createUser(req)){
         
         res.status(200).send();
     }
@@ -13,7 +13,7 @@ const createUser = (req, res) => {
 }
 
 const deleteUser = (req, res) => { 
-    if (Service.userService.deleteUser(req)){
+    if (Service.deleteUser(req)){
         res.status(200).send()
     }
     else {
@@ -23,7 +23,7 @@ const deleteUser = (req, res) => {
 
 
 const getUser = (req, res) => {
-    if (Service.userService.getUser(req)){
+    if (Service.getUser(req)){
         res.status(200).send();
     } 
     else {
@@ -33,8 +33,8 @@ const getUser = (req, res) => {
 
 
 const updateUser = (req, res) => { 
-    if (Service.userService.updateUser(req)){
-        res.stauts(200).send();
+    if (Service.updateUser(req)){
+        res.status(200).send();
     }
     else {
         res.status(400).send();
