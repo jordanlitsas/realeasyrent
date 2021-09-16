@@ -3,7 +3,7 @@ let Service = require('../../services/users/userService');
 
 const createUser = (req, res) => { 
 
-    if (Service.insertUser(req)){
+    if (Service.createUser(req)){
         
         res.status(200).send();
     }
@@ -34,7 +34,7 @@ const getUser = (req, res) => {
 
 const updateUser = (req, res) => { 
     if (Service.updateUser(req)){
-        res.stauts(200).send();
+        res.status(200).send();
     }
     else {
         res.status(400).send();

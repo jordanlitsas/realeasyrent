@@ -14,4 +14,4 @@ const updateUser = (newUserState) => {
     return true;
 }
 
-module.exports = {insertUser}
+module.exports = {insertUser, deleteUser, getUser, updateUser}

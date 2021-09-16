@@ -31,7 +31,7 @@ const createUser = (req) => {
 const deleteUser = (req) => {
     try {
         let data = req.body;
-        let flag = database.DeleteUser(data.id);
+        let flag = database.deleteUser(data.id);
         
         return flag;
     }
