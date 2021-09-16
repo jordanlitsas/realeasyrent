@@ -1,3 +1,4 @@
+const { response } = require('express');
 let propertyDocConnection = require('../../../services/database/propertyDocConnection');
 let userDocConnection = require('../../../services/database/userDocConnection');
 
@@ -14,8 +15,7 @@ let userDocConnection = require('../../../services/database/userDocConnection');
     update the new user doc with a reference to their newly listed property
  */
 const createProperty = (req) => {
-    try { 
-        
+    // try { 
         let flag = false;
         let userId = req.query.userId;
         let property = req.query;
@@ -28,23 +28,28 @@ const createProperty = (req) => {
         propertyId = propertyId.propertyId;
 
         let userDoc = userDocConnection.getUser(userId);
-        try {
-            userDoc.profile.propertyPortfolio.push(propertyId);
+
+        if (typeof(userDoc.profile) == 'undefined'){
+            userDoc.profile = {};
         }
-        catch{
+        if (typeof(userDoc.profile.propertyPortfolio) == 'undefined'){
+
             let propertyPortfolio = [propertyId];
-            userDoc.profile.push(propertyPortfolio);
+            userDoc.profile.propertyPortfolio.push(propertyPortfolio);
         }
+        else {
+
+            userDoc.profile.propertyPortfolio.push(propertyId);
+
+        }
+       
 
         userDocConnection.updateUser(userDoc);
         
         return flag;
 
     }
-    catch {
-        return false;
-    }
-}
+  
 
 
 const deleteProperty = (req) => {
