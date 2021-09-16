@@ -1,4 +1,4 @@
 module.exports = {
-    userService:require('./userService'),
-    propertyService:require('./propertyService')
+    userService:require('./users/userService'),
+    propertyService:require('./users/landlord/propertyService')
 }

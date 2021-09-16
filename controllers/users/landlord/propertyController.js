@@ -1,4 +1,4 @@
-let Service = require('../services');
+let Service = require('../../../services/users/landlord/propertyService');
 
 const createProperty = (req, res) => { 
     if (Service.propertyService.createProperty(req, res)){
