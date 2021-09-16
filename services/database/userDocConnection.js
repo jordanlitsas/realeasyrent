@@ -6,4 +6,8 @@ const deleteUser = (userId) => {
     return true;
 }
 
+const getUser = (userData) => {
+    return true;
+}
+
 module.exports = {insertUser}
