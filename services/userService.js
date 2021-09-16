@@ -44,11 +44,10 @@ const deleteUser = (req) => {
 
 const getUser = (req) => {
     try{
-
         /*By not converting the request body into a user document format, and only passing the forwarding the given argument (req.body), the decision as to what specific information
         is required to retrieve a user can be determined at a later time. Therefore, the only restriction is that the argument is sufficient to locate a document in the collection.*/
         let user = req.body;
-        let flag = database.deleteUser(user);
+        let flag = database.getUser(user);
 
         return flag;
         
@@ -60,6 +59,17 @@ const getUser = (req) => {
 
 
 const updateUser = (req) => {
+    try {
+        /* This will need to be redone after examining the desired method for updating records. i.e., whether req.body will already contain the updated document model or it will
+        need to be organised here. */
+        let user = req.body;
+        let flag = database.updateUser(user);
+
+        return flag;
+    }
+    catch {
+        return false;
+    }
 }
 
 

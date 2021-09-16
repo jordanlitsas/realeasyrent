@@ -10,4 +10,8 @@ const getUser = (userData) => {
     return true;
 }
 
+const updateUser = (newUserState) => {
+    return true;
+}
+
 module.exports = {insertUser}
