@@ -1,0 +1,16 @@
+{
+  "name": "sit725-2021-t2-assignment2",
+  "version": "1.0.0",
+  "description": "Deakin University SIT725-2021-t2 Assignment 2",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nathan Cahill, Jordan Litsas, Shar Vijayananda",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongodb": "^4.1.1",
+    "socket.io": "^4.2.0"
+  }
+}
