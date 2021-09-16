@@ -20,12 +20,10 @@ app.use(express.static(__dirname + '/public'));
 let userRoute = require('./routes/users/user');
 let propertyRoute = require('./routes/users/landlord/property');
 let rentalApplicationRoute = require('./routes/users/renter/application');
-let filterPropertyRoute = require("./routes/filters/filterProperty")
 
 app.use('/user', userRoute);
 app.use('/property', propertyRoute);
 app.use('/application', rentalApplicationRoute);
-app.use('/filterProperty', filterPropertyRoute)
 
 
 
