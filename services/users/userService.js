@@ -12,7 +12,6 @@ const createUser = (req) => {
             lastName: data.lastName,
             email: data.email,
             postcode: data.postcode,
-            profile: null
         };
 
         

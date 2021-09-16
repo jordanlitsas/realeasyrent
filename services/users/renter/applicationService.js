@@ -1,11 +1,21 @@
 // let database = require('./dbConnection');
 let Services = require('../../../services/users/renter');
 
-const getApplication = (req) => {
 
-    let userProfile = Services.getUser(req);
-    console.log(userProfile);
-    return userProfile;
+
+
+const createApplication = (req) => {
+
+
+    /*
+        retrieve form data
+        transofmr into appropaite json structure to repliactre a rental application
+        update user's document, inserting 
+
+        send obj to db 
+    */
+
+  
     
 }
 
