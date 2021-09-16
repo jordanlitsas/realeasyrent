@@ -1,41 +1,29 @@
-let Service = require('../../../services');
+let Services = require('../../../services/users/renter/applicationService');
 
 const createApplication = (req, res) => { 
-    let data = req.query;    
-
-    res.send(data);
-
-   /*
---- 16/09/21: Current schema for rental application
-
---- Current req.query structure:
-    {
-        userID , 
-        employment: {employer, lengthOfEmployment, position, income},
-        references: [
-                        { [ personal: {name, contactNumber, email, relationship} ] },
-                        { [ professional: [ {name: contactNumber, email, relationship} ] }   
-                    ],
-        pets: [ {species, breed, size, age} ],
-        children: [<age>],
-        rentalHistory: [ 
-                            {
-                                address, landlord/propertyManagerName, landlord/propertyManagerEmail, landlord/propertyManagerContactNumber, lengthOfTenancy, reasonLeaving,
-                                bondConditions: {bondReturned : <boolean>, reasonForBondWithheld : <string>, amountWitheld : <integer>},
-                                evicted : <boolean>, rentalAgreementBroken : <boolean>
-                            } 
-                        ],
-        smoker : <boolean>,
-        preferredMoveInDate : <date OR immediate>,
-        commitedOfCrime : <boolean>
+    let appData = req.query;
+    if (Services.createApplication(appData)){
+        res.status(200).send();
     }
- */
+    else {
+        res.status(400).send();
+    } 
+   
+}
+
+
+const deleteApplication = (req, res) => { 
+    let userId = req.query.userId;
+    if (Services.deleteApplication(userId)){
+        res.status(200).send();
+    }
+    else {
+        res.status(400).send();
+    } 
+   
 }
 
 
 
 
-
-
-
-module.exports = {getApcreateApplicationplication}
+module.exports = {createApplication, deleteApplication}

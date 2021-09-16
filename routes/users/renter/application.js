@@ -5,9 +5,12 @@ var Controller = require ('../../../controllers/users/renter/applicationControll
 
 
 router.post('/', (req, res) => {
-    
     Controller.createApplication(req, res);
 });
+
+router.delete('/', (req, res) => {
+    Controller.deleteApplication(req, res)
+})
 
 
 module.exports = router;

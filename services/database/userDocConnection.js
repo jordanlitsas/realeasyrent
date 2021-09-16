@@ -11,6 +11,8 @@ const getUser = (userData) => {
 }
 
 const updateUser = (newUserState) => {
+    //get id from newUserState
+    //findOneAndUpdate({userId: id})
     return true;
 }
 
