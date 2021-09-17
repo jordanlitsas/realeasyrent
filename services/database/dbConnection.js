@@ -1,21 +1,12 @@
-/*
-    TO DO
-    - set uri
-*/ 
+const { MongoClient } = require('mongodb');
 
-const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://admin:admin123@cluster0.wm9no.mongodb.net/Users?retryWrites=true&w=majority";
 
-const uri = "uriPlaceholder"; 
-let mongoClient = new MongoClient(uri, { useNewUrlParser: true,useUnifiedTopology: true });
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-mongoClient.connect((err, db) => {
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
 
-     if(!err){
-       console.log('Database Connected')
-     } else{
-       console.log('[error]',err)
-     }
- });
- 
-
-exports.mongoClient = mongoClient;
+});
