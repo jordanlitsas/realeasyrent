@@ -1,21 +1,12 @@
 // let database = require('./dbConnection');
-let database = require('../../../services/database/userDocConnection');
+let database = require('../../../services/database/rentalProfileApp');
 
 
 
 
 const deleteApplication = (userId) => {
     try {
-        let userDoc = database.getUser(userId);
-
-        let i = 0;
-        for (i; i < userDoc.profile[i]; i++){
-            if (typeof(userDoc.profile[i].rentalApplication) != 'undefined'){
-                userDoc.profile.splice(i, 1);
-            }
-        }
-
-        let flag = database.updateUser(userDoc);
+        let flag = database.deletProfileApplication(userId);
         return flag;
     }
 
@@ -35,14 +26,7 @@ const deleteApplication = (userId) => {
 const createApplication = (appData) => {
 
     try { 
-        let userId = appData.userId;
-
-        let userDoc = database.getUser(userId);
-
-        userDoc.profile.push({rentalApplication: appData});
-
-        let flag = database.updateUser(userDoc); //rental app cannot be made before user
-
+        let flag = database.insertProfileApplication(appData); //rental app cannot be made before user
         return flag;
     }
     catch {
