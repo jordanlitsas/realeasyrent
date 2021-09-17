@@ -1,4 +1,15 @@
 const insertUser = (user) => {
+    database.findOne(user, function(err, result){
+        if (result == null){
+            user.save();
+            res.status(200);
+            res.send({newUser: user});
+        } 
+        else {
+            res.status(400);
+            res.send({result: 'used'})
+        }
+    });
     return true;
 }
 
