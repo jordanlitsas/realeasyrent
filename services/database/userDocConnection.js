@@ -15,7 +15,9 @@ exports.insertUser = (userData)=>{
     // save user in the database
     user.save().then(savedUser => {
         if (savedUser != null){
-            savedUser.userId = savedUser._id;
+            return true;
+        } else {
+            return false;
         }
     }).catch(err =>{
         if (err){
@@ -26,75 +28,77 @@ exports.insertUser = (userData)=>{
 }
 
 // retrieve and return all users/ retrive and return a single user
-exports.find = (req, res)=>{
+exports.getUser = (userData)=>{
 
-    if(req.query.id){
-        const id = req.query.id;
+    // if(userData){
 
-        Userdb.findById(id)
-            .then(data =>{
-                if(!data){
-                    res.status(404).send({ message : "Not found user with id "+ id})
-                }else{
-                    res.send(data)
+        Userdb.findById(userData._id)
+            .then(returnedUser =>{
+                if(!returnedUser){
+                    return null;
+                }else {
+                    return returnedUser;
                 }
             })
             .catch(err =>{
-                res.status(500).send({ message: "Erro retrieving user with id " + id})
+                if (err){
+                    return null;
+                }
             })
 
-    }else{
-        Userdb.find()
-            .then(user => {
-                res.send(user)
-            })
-            .catch(err => {
-                res.status(500).send({ message : err.message || "Error Occurred while retriving user information" })
-            })
-    }
+    // } else{
+    //     Userdb.find({firstName: userData.firstName, lastName: userData.lastName, email: userData.email})
+    //         .then(returnedUser => {
+    //             if(!returnedUser){
+    //                 return null;
+    //             }else {
+    //                 return returnedUser;
+    //             }
+    //         })
+    //         .catch(err =>{
+    //             if (err){
+    //                 return null;
+    //             }
+    //         })
+    // }
 
     
 }
 
 // Update a new idetified user by user id
-exports.update = (req, res)=>{
-    if(!req.body){
-        return res
-            .status(400)
-            .send({ message : "Data to update can not be empty"})
-    }
+exports.update = (user)=>{
+    
 
-    const id = req.params.id;
-    Userdb.findByIdAndUpdate(id, req.body, { useFindAndModify: false})
-        .then(data => {
-            if(!data){
-                res.status(404).send({ message : `Cannot Update user with ${id}. Maybe user not found!`})
-            }else{
-                res.send(data)
+    let userId = user._id;
+    Userdb.findByIdAndUpdate(userId, user, { useFindAndModify: false})
+        .then(updatedUser => {
+            if (updatedUser != null){
+                return true;
+            } else {
+                return false;
             }
-        })
-        .catch(err =>{
-            res.status(500).send({ message : "Error Update user information"})
-        })
+        }).catch(err =>{
+            if (err){
+                return false;
+            }
+        });
 }
 
 // Delete a user with specified user id in the request
-exports.delete = (req, res)=>{
-    const id = req.params.id;
+exports.delete = (userId)=>{
+    let id = userId;
 
     Userdb.findByIdAndDelete(id)
-        .then(data => {
-            if(!data){
-                res.status(404).send({ message : `Cannot Delete with id ${id}. Maybe id is wrong`})
+        .then(deletedUser => {
+            if(!deletedUser){
+                return false
             }else{
-                res.send({
-                    message : "User was deleted successfully!"
-                })
+                return true;
             }
         })
         .catch(err =>{
-            res.status(500).send({
-                message: "Could not delete User with id=" + id
-            });
+            if (err){
+                return false;
+            }
         });
 }

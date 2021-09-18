@@ -29,8 +29,8 @@ const createUser = (req) => {
 //Currently (16/09/2021), it is assumed a user document can be deleted with only id.
 const deleteUser = (req) => {
     try {
-        let data = req.body;
-        let flag = database.deleteUser(data.id);
+        let userId = req.query.user._id;
+        let flag = database.deleteUser(userId);
         
         return flag;
     }
@@ -44,8 +44,8 @@ const getUser = (req) => {
     try{
         /*By not converting the request body into a user document format, and only passing the forwarding the given argument (req.body), the decision as to what specific information
         is required to retrieve a user can be determined at a later time. Therefore, the only restriction is that the argument is sufficient to locate a document in the collection.*/
-        let user = req.body;
-        let flag = database.getUser(user);
+        let userId = req.query.user._id;
+        let flag = database.getUser(userId);
 
         return flag;
         
@@ -60,7 +60,7 @@ const updateUser = (req) => {
     try {
         /* This will need to be redone after examining the desired method for updating records. i.e., whether req.body will already contain the updated document model or it will
         need to be organised here. */
-        let user = req.body;
+        let user = req.query.user;
         let flag = database.updateUser(user);
 
         return flag;
