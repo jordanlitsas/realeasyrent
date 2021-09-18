@@ -1,59 +1,29 @@
 // var Userdb = require('../model/model');
 
 // create and save new user
-exports.create = (req,res)=>{
+
+
+exports.insertUser = (userData)=>{
     // validate request
-    if(!req.body){
-        res.status(400).send({ message : "Content can not be empty!"});
-        return;
+    if(!userData){
+        return false;
     }
 
     // new user
-    const user = new Userdb({
-        ID : req.body.ID,
-        firstname : req.body.firstname,
-        surname : req.body.surname,
-        email : req.body.email,
-        postcode: req.body.postcode,
-        profiletype : req.body.profiletype
-    })
+    const user = new Userdb( { userData } )
 
     // save user in the database
-    user
-        .save(user)
-        .then(data => {
-            //res.send(data)
-            res.redirect('/add-user');
-        })
-        .catch(err =>{
-            res.status(500).send({
-                message : err.message || "Some error occurred while creating a create operation"
-            });
-        });
+    user.save().then(savedUser => {
+        if (savedUser != null){
+            savedUser.userId = savedUser._id;
+        }
+    }).catch(err =>{
+        if (err){
+            return false;
+        }
+    });
 
 }
-
-
-// exports.create = (userData)=>{
-//     // validate request
-//     if(!userData){
-//         return false;
-//     }
-
-//     // new user
-//     const user = new Userdb( { userData } )
-
-//     // save user in the database
-//     user
-//         .save(user)
-//         .then(data => {
-//             return true;
-//         })
-//         .catch(err =>{
-//             return false;
-//         });
-
-// }
 
 // retrieve and return all users/ retrive and return a single user
 exports.find = (req, res)=>{
