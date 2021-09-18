@@ -1,5 +1,5 @@
 // let database = require('./dbConnection');
-let database = require('../../../services/database/rentalProfileApp');
+let database = require('../../database/rentalProfileApp');
 
 
 
