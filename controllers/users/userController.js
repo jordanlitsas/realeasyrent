@@ -23,11 +23,12 @@ const deleteUser = (req, res) => {
 
 
 const getUser = (req, res) => {
-    if (Service.getUser(req)){
-        res.status(200).send();
-    } 
-    else {
+    let user = Service.getUser(req);
+
+    if (user == null){
         res.status(400).send();
+    } else {
+        res.status(200).send(user);
     }
 }
 

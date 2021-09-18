@@ -17,35 +17,11 @@ let userDocConnection = require('../../../services/database/userDocConnection');
 const createProperty = (req) => {
     // try { 
         let flag = false;
-        let userId = req.query.userId;
-        let property = req.query;
-        delete property.userId;
+        let property = req.body.property;
 
         flag = propertyDocConnection.insertProperty(property);
         if (!flag){ return flag; }
 
-        let propertyId = propertyDocConnection.getProperty({address: property.address, postcode: property.postcode});
-        propertyId = propertyId.propertyId;
-
-        let userDoc = userDocConnection.getUser(userId);
-
-        if (typeof(userDoc.profile) == 'undefined'){
-            userDoc.profile = {};
-        }
-        if (typeof(userDoc.profile.propertyPortfolio) == 'undefined'){
-
-            let propertyPortfolio = [propertyId];
-            userDoc.profile.propertyPortfolio.push(propertyPortfolio);
-        }
-        else {
-
-            userDoc.profile.propertyPortfolio.push(propertyId);
-
-        }
-       
-
-        userDocConnection.updateUser(userDoc);
-        
         return flag;
 
     }
@@ -55,25 +31,9 @@ const createProperty = (req) => {
 const deleteProperty = (req) => {
     try { 
         
-        let flag = false;
-        let userId = req.query.userId;
-        let propertyId = req.query.propertyId;
-
-        flag = propertyDocConnection.deleteProperty(propertyId);
-        if (!flag){ return flag; }
-
-
-        let userDoc = userDocConnection.getUser(userId);
-        let i = 0;
-        
-        for (i; i < userDoc.profile.propertyPortfolio.length; i++){
-            if (property == userDoc.profile.propertyPortfolio[i]){
-                userDoc.profile.propertyPortfolio.splice(i, 1);
-            }
-        }
-
-        flag = userDocConnection.updateUser(userDoc);
-        
+        let propertyId = req.body.propertyId;
+        let flag = propertyDocConnection.deleteProperty(propertyId);
+                
         return flag;
 
     }
@@ -83,9 +43,15 @@ const deleteProperty = (req) => {
 }
 
 
+
 const getProperty = (req) => {
-    return true;
+  
+    let query = {address: req.body.address, postcode: req.body.postcode};
+    let property = database.getProperty(query);
+
+    return property;
 }
+
 
 
 const updateProperty = (req) => {

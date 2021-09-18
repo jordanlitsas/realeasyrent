@@ -15,6 +15,7 @@ exports.insertUser = (userData)=>{
     // save user in the database
     user.save().then(savedUser => {
         if (savedUser != null){
+            savedUser.userId = savedUser._id;
             return true;
         } else {
             return false;

@@ -1,11 +1,11 @@
 const { profile } = require("console");
 
-const insertProfileApplication = (app) => {
-    const profileApplication = new profileApplication({app});
+const insertRenterProfile = (renterProfileData) => {
+    let renterProfile = new renterProfile({renterProfileData});
        
 
     // save profileApp in the database
-    profileApplication.save(profile).then(data => {
+    renterProfile.save(profile).then(data => {
         if (data == null){
             return false
         }
@@ -19,17 +19,17 @@ const insertProfileApplication = (app) => {
     return true;
 }
 
-const deletProfileApplication = (userId) => {
+const deleteRenterProfile = (userId) => {
     return true;
 }
 
-const getProfileApplication = (userId) => {
+const getRenterProfile = (userId) => {
     return true;
 }
 
-const updateProfileApplication = (app) => {
+const updateRenterProfile = (app) => {
 
     return true;
 }
 
-module.exports = {insertProfileApplication, deletProfileApplication, getProfileApplication, updateProfileApplication} 
+module.exports = {insertRenterProfile, deleteRenterProfile, getRenterProfile, updateRenterProfile} 
