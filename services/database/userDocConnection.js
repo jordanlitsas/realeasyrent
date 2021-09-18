@@ -33,6 +33,28 @@ exports.create = (req,res)=>{
 
 }
 
+
+// exports.create = (userData)=>{
+//     // validate request
+//     if(!userData){
+//         return false;
+//     }
+
+//     // new user
+//     const user = new Userdb( { userData } )
+
+//     // save user in the database
+//     user
+//         .save(user)
+//         .then(data => {
+//             return true;
+//         })
+//         .catch(err =>{
+//             return false;
+//         });
+
+// }
+
 // retrieve and return all users/ retrive and return a single user
 exports.find = (req, res)=>{
 
