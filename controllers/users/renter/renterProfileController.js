@@ -1,8 +1,8 @@
 let Services = require('../../../services/users/renter/renterProfileService');
 
-const createApplication = (req, res) => { 
+const createRenterProfile = (req, res) => { 
     let appData = req.query;
-    if (Services.createApplication(appData)){
+    if (Services.createRenterProfile(appData)){
         res.status(200).send();
     }
     else {
@@ -12,9 +12,9 @@ const createApplication = (req, res) => {
 }
 
 
-const deleteApplication = (req, res) => { 
+const deleteRenterProfile = (req, res) => { 
     let userId = req.query.userId;
-    if (Services.deleteApplication(userId)){
+    if (Services.deleteRenterProfile(userId)){
         res.status(200).send();
     }
     else {
@@ -26,4 +26,4 @@ const deleteApplication = (req, res) => {
 
 
 
-module.exports = {createApplication, deleteApplication}
+module.exports = {createRenterProfile, deleteRenterProfile}

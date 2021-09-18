@@ -22,11 +22,13 @@ app.use(express.static(__dirname + '/public'));
 
 let userRoute = require('./routes/users/user');
 let propertyRoute = require('./routes/users/landlord/property');
-let rentalApplicationRoute = require('./routes/users/renter/renterProfile');
+let renterProfileRoute = require('./routes/users/renter/renterProfile');
+let applicationRoute = require('./routes/transactions/application')
 
 app.use('/user', userRoute);
 app.use('/property', propertyRoute);
-app.use('/renterProfile', rentalApplicationRoute);
+app.use('/renterProfile', renterProfileRoute);
+app.use('/application', applicationRoute)
 
 
 

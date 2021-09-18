@@ -4,9 +4,9 @@ let database = require('../../database/renterProfileDocConnection');
 
 
 
-const deleteApplication = (userId) => {
+const deleteRenterProfile = (userId) => {
     try {
-        let flag = database.deletProfileApplication(userId);
+        let flag = database.deleteRenterProfile(userId);
         return flag;
     }
 
@@ -16,17 +16,11 @@ const deleteApplication = (userId) => {
 }
 
 
-/*
-    Capture users' id
-    Get the user's document from db with their id
-    push their new rentalApplication into their profile array
-    update their document with the new rentalApplication : appData element as rental application stored in user
-    return false if there was an issue with db update.
-*/
-const createApplication = (appData) => {
+
+const createRenterProfile = (appData) => {
 
     try { 
-        let flag = database.insertProfileApplication(appData); //rental app cannot be made before user
+        let flag = database.insertRenterProfile(appData); //rental app cannot be made before user
         return flag;
     }
     catch {
@@ -60,4 +54,4 @@ const createApplication = (appData) => {
  */
 
 
-module.exports = {createApplication, deleteApplication};
+module.exports = {createRenterProfile, deleteRenterProfile};

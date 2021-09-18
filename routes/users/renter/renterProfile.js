@@ -5,11 +5,11 @@ var Controller = require ('../../../controllers/users/renter/renterProfileContro
 
 
 router.post('/', (req, res) => {
-    Controller.createApplication(req, res);
+    Controller.createRenterProfile(req, res);
 });
 
 router.delete('/', (req, res) => {
-    Controller.deleteApplication(req, res)
+    Controller.deleteRenterProfile(req, res)
 })
 
 

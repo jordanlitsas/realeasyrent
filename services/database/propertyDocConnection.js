@@ -1,4 +1,4 @@
-var Propertydb = require();
+// var Propertydb = require();
 
 // create and save new user
 exports.create = (req,res)=>{

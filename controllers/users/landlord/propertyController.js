@@ -10,7 +10,7 @@ const createProperty = (req, res) => {
 }
 
 const deleteProperty = (req, res) => {
-    if (Service.propertyService.deleteProperty(req)){
+    if (Service.deleteProperty(req)){
         res.status(200).send();
     }
     else {
@@ -19,7 +19,7 @@ const deleteProperty = (req, res) => {
 }
 
 const getProperty = (req, res) => {
-    if (Service.propertyService.getProperty(req)){
+    if (Service.getProperty(req)){
         res.status(200).send();
     }
     else {
@@ -29,7 +29,7 @@ const getProperty = (req, res) => {
 
 
 const updateProperty = (req, res) => {
-    if (Service.propertyService.updateProperty(req)){
+    if (Service.updateProperty(req)){
         res.status(200).send();
     }
     else {
