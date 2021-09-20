@@ -32,7 +32,7 @@ const createApplication = (req) => {
 
 const getApplications = (req) => {
     try {
-        let propertyId = req.query.propertyId;
+        let propertyId = req.body.propertyId;
         let applicationsForProperty = database.getApplications(propertyId);
 
         if (applicationsForProperty == null){
@@ -51,7 +51,7 @@ const getApplications = (req) => {
 
 const deleteApplication = (req) => {
     try {
-        let applicantToRemove = req.query.applicantToRemove;
+        let applicantToRemove = req.body.applicantToRemove;
         let flag = database.deleteApplication(applicantToRemove);
         return flag;
     }
