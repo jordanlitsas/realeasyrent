@@ -1,7 +1,19 @@
 // var Userdb = require('../model/model');
 
 // create and save new user
-
+exports.create = (req,res)=>{
+    // validate request
+    if(!req.body){
+        res.status(400).send({ message : "Content can not be empty!"});
+        return;
+    }
+// new property listing
+const newUser= new Userdb({
+    firstname : req.body.firstname,
+    surname : req.body.surname,
+    email: req.body.email,
+    postcode: req.body.postcode,
+})
 
 exports.insertUser = (userData)=>{
     // validate request
@@ -102,4 +114,4 @@ exports.delete = (userId)=>{
                 return false;
             }
         });
-}
+}}
