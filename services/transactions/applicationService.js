@@ -5,8 +5,8 @@ const createApplication = (req) => {
     
     try {
 
-        let propertyId = req.query.propertyId;
-        let userId = req.query.userId;
+        let propertyId = req.body.propertyId;
+        let userId = req.body.userId;
         let flag;
         let applicationsForProperty = database.getApplications(propertyId);
 
