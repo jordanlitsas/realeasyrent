@@ -10,7 +10,8 @@ app.use(express.urlencoded({ extended: false }))
 let http = require('http').createServer(app);
 let io = require('socket.io')(http);
 
-
+const io = new Server(server);
+const { instrument } = require('@socket.io/admin-ui')
 
 
 
@@ -36,11 +37,27 @@ app.use('/application', applicationRoute)
 
 //socket test
 io.on('connection', (socket) => {
-  console.log('a user connected');
+  console.log('a user connected' + (socket.id));
+  socket.broadcast.emit('hi');
   socket.on('disconnect', () => {
-    console.log('user disconnected');
+      console.log('user disconnected');
   });
+
+  
+socket.on('chat message', (msg) => {
+  console.log('message: ' + msg);
+ io.emit('chat message', msg);
+ });
 });
+
+// socket.on("send-notification", function () {
+  // io.broadcast.emit("new-notification", data);
+ // socket.broadcast.emit("new-notification", data);
+//})
+
+//instrument(io, {auth: false})
+ 
+//io.emit('some event', { someProperty: 'some value', otherProperty: 'other value' });
 
 
 http.listen(port,()=>{
