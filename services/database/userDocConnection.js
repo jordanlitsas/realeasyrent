@@ -4,11 +4,26 @@ var dbConnection = require('./dbConnection.js')
 const userModel = mongoose.model('personal_information', schemas.user);
 
 dbConnection.userCollection();
-    
+
+const getUserWithPersonalInfoQuery = async (query) => {
+    let user = await userModel.findOne(query);
+    console.log(user)
+    return user;
+}
+
+const getAllUsersWithPersonalInfoQuery = async (query) => {
+    let users = await userModel.find();
+    console.log(users)
+    return users;
+}
+
+
 const getUserWithId = async (userId) => {
     let user = await userModel.findById(userId);
     return user;
 }
+
+
 const insertUser = async (userData)=>{
     
     if(!userData){
@@ -35,4 +50,4 @@ const insertUser = async (userData)=>{
 
 }
 
-module.exports = {insertUser, getUserWithId}
+module.exports = {insertUser, getUserWithId, getUserWithPersonalInfoQuery, getAllUsersWithPersonalInfoQuery}

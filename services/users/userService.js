@@ -34,15 +34,30 @@ const createUser = async (req) => {
 
 const getUser = async (req) => {
     try{
-        /*By not converting the request body into a user document format, and only passing the forwarding the given argument (req.body), the decision as to what specific information
-        is required to retrieve a user can be determined at a later time. Therefore, the only restriction is that the argument is sufficient to locate a document in the collection.*/
-        let userId = req.body.userId;
+        
+        if (req.body.userId){
+            let userId = req.body.userId;
 
-        userId = mongoose.Types.ObjectId(userId); 
+            userId = mongoose.Types.ObjectId(userId); 
+    
+            let user = await database.getUserWithId(userId);
+    
+            return user;
 
-        let user = await database.getUserWithId(userId);
+        } else if (req.body.personalInfoQuery){
+            let query = req.body.personalInfoQuery;
+            let user = await database.getUserWithPersonalInfoQuery(query);
+            console.log(user)
+            return user;
 
-        return user;
+        } else if (req.body.getMultipleUsers){
+            let query = req.body.getMultipleUsers;
+
+            let users = await database.getAllUsersWithPersonalInfoQuery(query);
+            return users;
+
+        }
+      
         
     }
     catch {
