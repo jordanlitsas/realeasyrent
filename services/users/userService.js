@@ -1,23 +1,30 @@
+const { nextTick } = require('process');
 let database = require('../database/userDocConnection');
+var mongoose = require('mongoose');
 
 
 //Receives form data, creates object mirroring database schema, 
-const createUser = (req) => {
+const createUser = async (req) => {
+    let userData;
     try {
         let data = req.body;
 
-        let userData = {
-            userId: null,
+        userData = {
             firstName: data.firstName,
             lastName: data.lastName,
             email: data.email,
             postcode: data.postcode,
         };
 
+       let user = await database.insertUser(userData);
+       let userId = user._id.toString();
+       
 
-        let flag = database.insertUser(userData);
+       return userId;
+        
+        
 
-        return flag;
+      
         
     }
     catch{
@@ -25,6 +32,23 @@ const createUser = (req) => {
     }
 }
 
+const getUser = async (req) => {
+    try{
+        /*By not converting the request body into a user document format, and only passing the forwarding the given argument (req.body), the decision as to what specific information
+        is required to retrieve a user can be determined at a later time. Therefore, the only restriction is that the argument is sufficient to locate a document in the collection.*/
+        let userId = req.body.userId;
+
+        userId = mongoose.Types.ObjectId(userId); 
+
+        let user = await database.getUserWithId(userId);
+
+        return user;
+        
+    }
+    catch {
+        return false;
+    }
+}
 
 //Currently (16/09/2021), it is assumed a user document can be deleted with only id.
 const deleteUser = (req) => {
@@ -40,20 +64,6 @@ const deleteUser = (req) => {
 }
 
 
-const getUser = (req) => {
-    try{
-        /*By not converting the request body into a user document format, and only passing the forwarding the given argument (req.body), the decision as to what specific information
-        is required to retrieve a user can be determined at a later time. Therefore, the only restriction is that the argument is sufficient to locate a document in the collection.*/
-        let userId = req.query.user._id;
-        let flag = database.getUser(userId);
-
-        return flag;
-        
-    }
-    catch {
-        return false;
-    }
-}
 
 
 const updateUser = (req) => {

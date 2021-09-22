@@ -1,117 +1,38 @@
-// var Userdb = require('../model/model');
+var schemas = require('./_schemas');
+var mongoose = require('mongoose')
+var dbConnection = require('./dbConnection.js')
+const userModel = mongoose.model('personal_information', schemas.user);
 
-// create and save new user
-exports.create = (req,res)=>{
-    // validate request
-    if(!req.body){
-        res.status(400).send({ message : "Content can not be empty!"});
-        return;
-    }
-// new property listing
-const newUser= new Userdb({
-    firstname : req.body.firstname,
-    surname : req.body.surname,
-    email: req.body.email,
-    postcode: req.body.postcode,
-})
-
-exports.insertUser = (userData)=>{
-    // validate request
+dbConnection.userCollection();
+    
+const getUserWithId = async (userId) => {
+    let user = await userModel.findById(userId);
+    return user;
+}
+const insertUser = async (userData)=>{
+    
     if(!userData){
         return false;
     }
 
-    // new user
-    const user = new Userdb( { userData } )
-
-    // save user in the database
-    user.save().then(savedUser => {
-        if (savedUser != null){
-            savedUser.userId = savedUser._id;
-            return true;
-        } else {
+    let existingUser = await userModel.findOne(userData);
+    
+    if (existingUser == null){
+        const user = new userModel(userData);
+        let savedUser = await user.save();
+        if (savedUser == user){
+            return user;
+        }
+        else {
             return false;
         }
-    }).catch(err =>{
-        if (err){
-            return false;
-        }
-    });
+        
+    } 
+    else {
+        return false;
+    }    
+  
 
 }
 
-// retrieve and return all users/ retrive and return a single user
-exports.getUser = (userData)=>{
-
-    // if(userData){
-
-        Userdb.findById(userData._id)
-            .then(returnedUser =>{
-                if(!returnedUser){
-                    return null;
-                }else {
-                    return returnedUser;
-                }
-            })
-            .catch(err =>{
-                if (err){
-                    return null;
-                }
-            })
-
-    // } else{
-    //     Userdb.find({firstName: userData.firstName, lastName: userData.lastName, email: userData.email})
-    //         .then(returnedUser => {
-    //             if(!returnedUser){
-    //                 return null;
-    //             }else {
-    //                 return returnedUser;
-    //             }
-    //         })
-    //         .catch(err =>{
-    //             if (err){
-    //                 return null;
-    //             }
-    //         })
-    // }
-
-    
-}
-
-// Update a new idetified user by user id
-exports.update = (user)=>{
-    
-
-    let userId = user._id;
-    Userdb.findByIdAndUpdate(userId, user, { useFindAndModify: false})
-        .then(updatedUser => {
-            if (updatedUser != null){
-                return true;
-            } else {
-                return false;
-            }
-        }).catch(err =>{
-            if (err){
-                return false;
-            }
-        });
-}
-
-// Delete a user with specified user id in the request
-exports.delete = (userId)=>{
-    let id = userId;
-
-    Userdb.findByIdAndDelete(id)
-        .then(deletedUser => {
-            if(!deletedUser){
-                return false
-            }else{
-                return true;
-            }
-        })
-        .catch(err =>{
-            if (err){
-                return false;
-            }
-        });
-}}
+module.exports = {insertUser, getUserWithId}

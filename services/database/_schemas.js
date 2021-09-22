@@ -1,6 +1,11 @@
 let mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const renterProfile = new Schema({}); 
+const user = new mongoose.Schema({
+    firstName: String,
+    lastName: String,
+    postcode: Number, 
+    email: String
+}); 
 
-module.exports = {renterProfile}
+module.exports = {user}

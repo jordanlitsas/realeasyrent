@@ -1,15 +1,4 @@
-const mongoose = require('mongoose');
-// const applicationSchema = require()
-// const { Schema } = mongoose;
 
-// const schema = new Schema( {});
-
-const database = mongoose.model('application_schema', applicationSchema);
-
-
-setTimeout(() => {
-    client.mongoClient.db("application").collection('active_applications');
-}, 2000)
 
 const insertInitialApplication = (applicationForProperty) => { 
     if(!applicationForProperty){
@@ -104,4 +93,4 @@ const deleteApplication = (applicantToRemove) => {
 
 
 
-module.exports = {insertInitialApplication, deleteApplication, getApplications, updateApplications}
+module.exports = {insertInitialApplication, deleteApplication, getApplications}

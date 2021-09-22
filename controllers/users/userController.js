@@ -1,15 +1,39 @@
 const { response } = require('express');
+ObjectId = require('mongodb').ObjectID;
 let Service = require('../../services/users/userService');
 
-const createUser = (req, res) => { 
+const createUser = async (req, res) => { 
 
-    if (Service.createUser(req)){
-        
-        res.status(200).send();
-    }
-    else {
-        res.status(400).send();
-    } 
+    let userId;
+    Service.createUser(req).then(newId => { 
+        userId = newId;
+
+        if (typeof(userId) == 'undefined' || userId == false){
+            res.status(400).send();
+        }
+        else {
+            res.status(200).send(userId);
+    
+        } 
+
+     });   
+}
+
+
+const getUser = async (req, res) => {
+
+
+    
+    Service.getUser(req).then(user => {
+        res.status(200).send(user);
+    })
+    // Service.getUser(req).then(returnedUser => { 
+    //     user = returnedUser;
+
+    //     console.log(user)
+
+    //  });   
+
 }
 
 const deleteUser = (req, res) => { 
@@ -22,15 +46,6 @@ const deleteUser = (req, res) => {
 }
 
 
-const getUser = (req, res) => {
-    let user = Service.getUser(req);
-
-    if (user == null){
-        res.status(400).send();
-    } else {
-        res.status(200).send(user);
-    }
-}
 
 
 const updateUser = (req, res) => { 

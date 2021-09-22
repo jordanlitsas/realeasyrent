@@ -1,9 +1,5 @@
-const { profile } = require("console");
-let schemas = require('./_schemas');
-console.log(schemas.renterProfile.obj)
-let renferProfileSchema = schemas.renterProfile.obj;
 
-const insertRenterProfile = (renterProfileData, res) => {
+const insertRenterProfile = (renterProfileData) => {
     let renterProfile = new renferProfileSchema({renterProfileData});
        
 
