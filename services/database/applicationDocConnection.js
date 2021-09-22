@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const applicationSchema = require()
-const { Schema } = mongoose;
+// const applicationSchema = require()
+// const { Schema } = mongoose;
 
 // const schema = new Schema( {});
 

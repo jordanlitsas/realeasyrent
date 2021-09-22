@@ -17,10 +17,10 @@ const deleteRenterProfile = (userId) => {
 
 
 
-const createRenterProfile = (renterProfileData) => {
+const createRenterProfile = (renterProfileData, res) => {
 
     try { 
-        let flag = database.insertRenterProfile(renterProfileData); //rental app cannot be made before user
+        let flag = database.insertRenterProfile(renterProfileData, res); //rental app cannot be made before user
         return flag;
     }
     catch {

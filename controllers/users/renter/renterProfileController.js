@@ -2,7 +2,7 @@ let Services = require('../../../services/users/renter/renterProfileService');
 
 const createRenterProfile = (req, res) => { 
     let appData = req.query;
-    if (Services.createRenterProfile(appData)){
+    if (Services.createRenterProfile(appData, res)){
         res.status(200).send();
     }
     else {

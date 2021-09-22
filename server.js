@@ -10,8 +10,6 @@ app.use(express.urlencoded({ extended: false }))
 let http = require('http').createServer(app);
 let io = require('socket.io')(http);
 
-const io = new Server(server);
-const { instrument } = require('@socket.io/admin-ui')
 
 
 
@@ -28,7 +26,7 @@ let applicationRoute = require('./routes/transactions/application')
 
 app.use('/user', userRoute);
 app.use('/property', propertyRoute);
-app.use('/renterProfile', renterProfileRoute);
+app.use('/renter_profile', renterProfileRoute);
 app.use('/application', applicationRoute)
 
 

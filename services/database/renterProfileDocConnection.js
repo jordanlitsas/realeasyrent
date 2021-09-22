@@ -1,9 +1,13 @@
 const { profile } = require("console");
+let schemas = require('./_schemas');
+console.log(schemas.renterProfile.obj)
+let renferProfileSchema = schemas.renterProfile.obj;
 
-const insertRenterProfile = (renterProfileData) => {
-    let renterProfile = new renterProfile({renterProfileData});
+const insertRenterProfile = (renterProfileData, res) => {
+    let renterProfile = new renferProfileSchema({renterProfileData});
        
 
+    res.send(renterProfile)
     // save profileApp in the database
     renterProfile.save(profile).then(data => {
         if (data == null){
