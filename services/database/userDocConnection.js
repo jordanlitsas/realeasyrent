@@ -12,7 +12,7 @@ const getUserWithPersonalInfoQuery = async (query) => {
 }
 
 const getAllUsersWithPersonalInfoQuery = async (query) => {
-    let users = await userModel.find();
+    let users = await userModel.find(query);
     console.log(users)
     return users;
 }
