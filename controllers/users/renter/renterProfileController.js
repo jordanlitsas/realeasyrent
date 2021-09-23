@@ -21,6 +21,17 @@ const getRenterProfile = (req, res) => {
                 res.status(400).send();
             } 
         })
+    } 
+    
+    else if (req.body.renterProfilesMatchingCriteria){
+        Services.getRenterProfilesMatchingCriteria(req).then(renterProfiles => {
+            if (renterProfiles){
+                res.status(200).send(renterProfiles);
+            }
+            else {
+                res.status(400).send();
+            } 
+        })
     }
     
 }

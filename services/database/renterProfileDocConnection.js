@@ -44,6 +44,10 @@ const updateRenterProfile = async (updatedRenterProfileData) => {
     }
 }
 
+const getRenterProfilesMatchingCriteria = async (query) => {
+   
+    let renterProfiles = await renterProfileModel.find(query);
+    return renterProfiles;
+}
 
-
-module.exports = {insertRenterProfile, getRenterProfileWithUserId, updateRenterProfile} 
+module.exports = {insertRenterProfile, getRenterProfileWithUserId, updateRenterProfile, getRenterProfilesMatchingCriteria} 

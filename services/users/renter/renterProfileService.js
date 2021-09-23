@@ -44,5 +44,16 @@ const getRenterProfileWithUserId = async (req) => {
     }
 }
 
+const getRenterProfilesMatchingCriteria = async (req) => {
+    try { 
+        let query = req.body.renterProfilesMatchingCriteria;
 
-module.exports = {createRenterProfile, updateRenterProfile, getRenterProfileWithUserId};
+        let renterProfiles = await database.getRenterProfilesMatchingCriteria(query); 
+        return renterProfiles;
+    }
+    catch {
+        return null;
+    }
+}
+
+module.exports = {createRenterProfile, updateRenterProfile, getRenterProfileWithUserId, getRenterProfilesMatchingCriteria};
