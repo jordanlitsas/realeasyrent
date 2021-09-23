@@ -62,4 +62,37 @@ const activeApplication = new mongoose.Schema({
     propertyId: String,
     applicants: [String]
 })
-module.exports = {user, renterProfile, activeApplication}
+
+const property = new mongoose.Schema({
+    userId: String,
+    applicantCriteria: {},
+    availabledate: String, 
+    bathrooms: Number,
+    bedrooms: Number,
+    commuteProfile: {
+        drive: Number,
+        publicTransport: Number,
+        walk: Number
+    },
+    demographics: String,
+    energyLevels: Number,
+    hvac: String,
+    housingType: String,
+    indoorFeatures: String,
+    keywords: String,
+    location: String,
+    marketValue: Number,
+    nbn: String,
+    outdoorFeatures: String,
+    parking: String,
+    petsAllowed: Boolean,
+    streetNumberAndName: String,
+    postcode: Number,
+    stateOrTerritory: String,
+    rentAmount: String,
+    rentFrequency: String
+
+})
+
+
+module.exports = {user, renterProfile, activeApplication, property}
