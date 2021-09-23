@@ -26,18 +26,20 @@ const getRenterProfile = (req, res) => {
 }
 
 
-const deleteRenterProfile = (req, res) => { 
-    let userId = req.query.userId;
-    if (Services.deleteRenterProfile(userId)){
-        res.status(200).send();
-    }
-    else {
-        res.status(400).send();
-    } 
-   
+const updateRenterProfile = (req, res) => { 
+    if (Services.updateRenterProfile(req).then(updateSuccess => {
+        if (updateSuccess){
+            res.status(200).send();
+
+        } else {
+            res.status(400).send();
+
+        }
+    }));
 }
 
 
 
 
-module.exports = {createRenterProfile, deleteRenterProfile, getRenterProfile}
+
+module.exports = {createRenterProfile, updateRenterProfile, getRenterProfile}

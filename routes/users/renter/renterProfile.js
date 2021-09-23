@@ -12,8 +12,8 @@ router.get('/', (req, res) => {
     Controller.getRenterProfile(req, res);
 });
 
-router.delete('/', (req, res) => {
-    Controller.deleteRenterProfile(req, res)
+router.put('/', (req, res) => {
+    Controller.updateRenterProfile(req, res)
 })
 
 

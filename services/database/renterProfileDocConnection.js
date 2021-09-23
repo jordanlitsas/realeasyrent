@@ -35,8 +35,15 @@ const getRenterProfileWithUserId = async (id) => {
     return renterProfile;
 }
 
+const updateRenterProfile = async (updatedRenterProfileData) => {
+    let success = await renterProfileModel.findOneAndUpdate({userId: updatedRenterProfileData.userId}, updatedRenterProfileData, {new: true});
+    if (success) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 
 
-
-module.exports = {insertRenterProfile, getRenterProfileWithUserId} 
+module.exports = {insertRenterProfile, getRenterProfileWithUserId, updateRenterProfile} 

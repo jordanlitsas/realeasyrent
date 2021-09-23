@@ -4,9 +4,10 @@ let database = require('../../database/renterProfileDocConnection');
 
 
 
-const deleteRenterProfile = (userId) => {
+const updateRenterProfile = (req) => {
+    let updatedRenterProfileData = req.body.updatedRenterProfileData;
     try {
-        let flag = database.deleteRenterProfile(userId);
+        let flag = database.updateRenterProfile(updatedRenterProfileData);
         return flag;
     }
 
@@ -44,4 +45,4 @@ const getRenterProfileWithUserId = async (req) => {
 }
 
 
-module.exports = {createRenterProfile, deleteRenterProfile, getRenterProfileWithUserId};
+module.exports = {createRenterProfile, updateRenterProfile, getRenterProfileWithUserId};
