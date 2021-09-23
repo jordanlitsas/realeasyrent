@@ -14,12 +14,19 @@ const createApplication = (req, res) => {
 const deleteApplication = (req, res) => {
 
     if (req.body.operator == "property"){
-
+        Service.removeProperty(req).then(deletionSuccess => {
+            if (deletionSuccess){
+                res.status(200).send();
+            }
+            else {
+                res.status(400).send();
+            }  
+        });
     } 
     else if (req.body.operator == "applicant"){
         Service.removeApplicant(req).then(deletionSuccess => {
             if (deletionSuccess){
-                res.status(200).send(deletionSuccess);
+                res.status(200).send();
             }
             else {
                 res.status(400).send();

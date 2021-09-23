@@ -4,16 +4,21 @@ const activeApplicationModel = mongoose.model('active_applications', schemas.act
 
 
 
-const insertInitialApplication = async (userId, propertyId) => { 
-    if(!propertyId || !userId){
+const insertInitialApplication = async (appUserId, appPropertyId) => { 
+    let existingApplicationList = await activeApplicationModel.findOne({propertyId: appPropertyId});
+    if (existingApplicationList != null){
+        return false;
+    }
+
+    if(!appPropertyId || !appUserId){
         return false;
     }
     let applicationModel = {
-        propertyId: propertyId,
+        propertyId: appPropertyId,
         applicants: []
     }
 
-    applicationModel.applicants.push(userId);
+    applicationModel.applicants.push(appUserId);
 
     let propertyApplicationList = new activeApplicationModel( applicationModel );
 
@@ -27,7 +32,21 @@ const insertInitialApplication = async (userId, propertyId) => {
 }
 
 const addApplication = async (appUserId, appPropertyId) => {
+
     let applicationListToUpdate = await activeApplicationModel.findOne({propertyId: appPropertyId});
+
+    let flag = true;
+    applicationListToUpdate.applicants.forEach(userId => {
+        if (userId == appUserId){
+            flag = false;
+        }
+    })
+
+    if (!flag){
+        return false;
+    }
+
+
     applicationListToUpdate.applicants.push(appUserId);
     let success = await activeApplicationModel.findOneAndUpdate({propertyID: appPropertyId}, applicationListToUpdate, {new: true});
 
@@ -73,15 +92,10 @@ const removeApplicant = async (appUserId, appPropertyId) => {
     return success;
 }
 
-//const updateApplications = (applicationsForProperty) => {
-        /*
-        applicationsForProperty is equal to  an updated {propertyId: [array of userId that have applied] }
-        update the document with corresponding propertyId 
-        return true for success, else return false
-        */
-
-//}
+const removeProperty = async (appPropertyId) => {
+    let success = await activeApplicationModel.findOneAndDelete({propertyId: appPropertyId});
+    return success;
+}
 
 
-
-module.exports = {insertInitialApplication, removeApplicant, getApplications, addApplication}
+module.exports = {insertInitialApplication, removeApplicant, removeProperty, getApplications, addApplication}

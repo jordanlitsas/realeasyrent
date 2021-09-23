@@ -54,4 +54,15 @@ const removeApplicant = async (req) => {
     }
 }
 
- module.exports = {createApplication, removeApplicant, getApplications}
+const removeProperty = async (req) => {
+    try {
+        let propertyId = req.body.propertyId;
+        let flag = await database.removeProperty(propertyId);
+        return flag;
+    }
+    catch{
+        return false;
+    }
+}
+
+ module.exports = {createApplication, removeApplicant, getApplications, removeProperty}
