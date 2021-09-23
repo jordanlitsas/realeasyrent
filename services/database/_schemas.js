@@ -58,4 +58,8 @@ const renterProfile = new mongoose.Schema({
     committedOfCrime: Boolean
 })
 
-module.exports = {user, renterProfile}
+const activeApplication = new mongoose.Schema({
+    propertyId: String,
+    applicants: [String]
+})
+module.exports = {user, renterProfile, activeApplication}

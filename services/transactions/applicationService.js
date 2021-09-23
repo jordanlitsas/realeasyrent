@@ -1,58 +1,52 @@
 var database = require('../database/applicationDocConnection')
 
-const createApplication = (req) => {
+const createApplication = async (req) => {
 
-    
+    let userId = req.body.userId;
+    let propertyId = req.body.propertyId;
     try {
 
+        if (req.body.operator == "new"){
+
+            let flag = await database.insertInitialApplication(userId, propertyId);
+            return flag;
+
+        } 
+        else if (req.body.operator == "add"){
+
+            let flag = await database.addApplication(userId, propertyId);
+            return flag;
+
+        }
+        
+    
+    }
+    catch{
+        return false;
+    }
+    
+}
+
+const getApplications = async (req) => {
+    try {
+        let propertyId = req.body.propertyId;
+        let applicantUserIds = await database.getApplications(propertyId);
+
+        return applicantUserIds;
+    }
+    catch{
+        return false;
+    }
+}
+
+
+
+
+const removeApplicant = async (req) => {
+    try {
         let propertyId = req.body.propertyId;
         let userId = req.body.userId;
-        let flag;
-        let applicationsForProperty = database.getApplications(propertyId);
-
-        if (applicationsForProperty == null){
-            applicationsForProperty = {propertyId: [userId]};
-            flag = database.insertInitialApplication(applicationsForProperty);
-
-        }
-        else {
-            applicationsForProperty.propertyId.push(userId);
-            flag = database.updateApplications(applicationsForProperty);
-        }
-
-        
-        return flag;
-    
-    }
-    catch{
-        return false;
-    }
-    
-}
-
-const getApplications = (req) => {
-    try {
-        let propertyId = req.body.propertyId;
-        let applicationsForProperty = database.getApplications(propertyId);
-
-        if (applicationsForProperty == null){
-            return false;
-        }
-
-        return applicationsForProperty;
-    }
-    catch{
-        return false;
-    }
-}
-
-
-
-
-const deleteApplication = (req) => {
-    try {
-        let applicantToRemove = req.body.applicantToRemove;
-        let flag = database.deleteApplication(applicantToRemove);
+        let flag = await database.removeApplicant(userId, propertyId);
         return flag;
     }
     catch{
@@ -60,4 +54,4 @@ const deleteApplication = (req) => {
     }
 }
 
- module.exports = {createApplication, deleteApplication, getApplications}
+ module.exports = {createApplication, removeApplicant, getApplications}
