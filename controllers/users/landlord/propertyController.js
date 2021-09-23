@@ -12,32 +12,42 @@ const createProperty = (req, res) => {
 }
 
 const getProperty = (req, res) => {
-    if (Service.getProperty(req)){
-        res.status(200).send();
-    }
-    else {
-        res.status(400).send();
-    }   
+
+    Service.getProperty(req).then(property => {
+        if (property){
+            res.status(200).send(property);
+        }
+        else {
+            res.status(400).send();
+        }
+    });
+   
 }
 
 const deleteProperty = (req, res) => {
-    if (Service.deleteProperty(req)){
-        res.status(200).send();
-    }
-    else {
-        res.status(400).send();
-    }   
+    Service.deleteProperty(req).then(deletionSuccess => {
+        if (deletionSuccess){
+            res.status(200).send();
+        }
+        else {
+            res.status(400).send();
+        }   
+    })
+   
 }
 
 
 
 
 const updateProperty = (req, res) => {
-    if (Service.updateProperty(req)){
-        res.status(200).send();
-    }
-    else {
-        res.status(400).send();
-    }  
+    Service.updateProperty(req).then(updateSuccess => {
+        if (updateSuccess){
+            res.status(200).send();
+        }
+        else {
+            res.status(400).send();
+        }  
+    })
+   
 }
 module.exports = {createProperty, deleteProperty, getProperty, updateProperty}

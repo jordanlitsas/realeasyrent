@@ -28,4 +28,39 @@ const insertProperty = async (newProperty) => {
   
 }
 
-module.exports = {insertProperty}
+const getPropertyWithUserId = async (ownersUserId) => {
+    let property = propertyModel.findOne({userId: ownersUserId});
+    return property;
+}
+
+const getPropertyWithPropertyId = async (ownersPropertyId) => {
+    let property = propertyModel.findById(ownersPropertyId);
+    return property;
+}
+
+const getPropertiesWithCriteria = async (propertyCriteria) => {
+    let properties = propertyModel.find(propertyCriteria);
+    return properties;
+}
+
+const updateProperty = async (propertyUpdate) => {
+    try {
+        let success = await propertyModel.findOneAndUpdate({propertyId: propertyUpdate._id}, propertyUpdate, {new: true});
+        if (success) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    catch{
+        return false;
+    }
+    
+}
+
+const deleteProperty = async (propertyId) => {
+    let success = propertyModel.findByIdAndDelete(propertyId);
+    return success;
+}
+
+module.exports = {insertProperty, getPropertyWithUserId, getPropertyWithPropertyId, getPropertiesWithCriteria, updateProperty, deleteProperty}

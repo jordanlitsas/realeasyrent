@@ -89,7 +89,7 @@ const property = new mongoose.Schema({
     streetNumberAndName: String,
     postcode: Number,
     stateOrTerritory: String,
-    rentAmount: String,
+    rentAmount: Number,
     rentFrequency: String
 
 })

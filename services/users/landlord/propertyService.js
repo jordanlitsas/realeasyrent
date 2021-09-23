@@ -1,13 +1,10 @@
-const { response } = require('express');
-let propertyDocConnection = require('../../../services/database/propertyDocConnection');
-let userDocConnection = require('../../../services/database/userDocConnection');
-
+var database = require('../../database/propertyDocConnection')
 
 
 const createProperty = async (req) => {
     
     let property = req.body.property;
-    propertyId = await propertyDocConnection.insertProperty(property);
+    propertyId = await database.insertProperty(property);
 
     return propertyId;
 
@@ -15,12 +12,10 @@ const createProperty = async (req) => {
   
 
 
-const deleteProperty = (req) => {
+const deleteProperty = async (req) => {
     try { 
-        
         let propertyId = req.body.propertyId;
-        let flag = propertyDocConnection.deleteProperty(propertyId);
-                
+        let flag = await database.deleteProperty(propertyId);      
         return flag;
 
     }
@@ -31,18 +26,36 @@ const deleteProperty = (req) => {
 
 
 
-const getProperty = (req) => {
-  
-    let query = {address: req.body.address, postcode: req.body.postcode};
-    let property = database.getProperty(query);
+const getProperty = async (req) => {
+    let operator = req.body.operator;
+    let query = req.body.query;
 
-    return property;
+    switch(operator){
+        case "userId":
+            let ownersUserId = query.userId;
+            let propertyFromUserId = await database.getPropertyWithUserId(ownersUserId);
+            return propertyFromUserId;
+        
+        case "propertyId":
+            let ownersPropertyId = query.propertyId;
+            let propertyFromPropertyId = await database.getPropertyWithPropertyId(ownersPropertyId);
+            return propertyFromPropertyId
+
+        case "criteria":
+            let propertyCriteria = query;
+            let propertyFromCriteria = await database.getPropertiesWithCriteria(propertyCriteria);
+            return propertyFromCriteria;
+        }
+
+
 }
 
 
 
-const updateProperty = (req) => {
-    return true;
+const updateProperty = async (req) => {
+    let propertyUpdate = req.body.property;
+    let success = await database.updateProperty(propertyUpdate);
+    return success;
 }
 
 
