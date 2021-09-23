@@ -27,13 +27,6 @@ const getUser = async (req, res) => {
     Service.getUser(req).then(user => {
         res.status(200).send(user);
     })
-    // Service.getUser(req).then(returnedUser => { 
-    //     user = returnedUser;
-
-    //     console.log(user)
-
-    //  });   
-
 }
 
 const deleteUser = (req, res) => { 
@@ -49,12 +42,13 @@ const deleteUser = (req, res) => {
 
 
 const updateUser = (req, res) => { 
-    if (Service.updateUser(req)){
-        res.status(200).send();
-    }
-    else {
-        res.status(400).send();
-    }
+    Service.updateUser(req).then(updateSuccess => {
+        if (updateSuccess){
+            res.status(200).send();
+        } else {
+            res.status(400).send();
+        }
+    });
 }
 
 module.exports = {createUser, deleteUser, getUser, updateUser}

@@ -14,7 +14,7 @@ let io = require('socket.io')(http);
 
 
 
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 

@@ -7,13 +7,11 @@ dbConnection.userCollection();
 
 const getUserWithPersonalInfoQuery = async (query) => {
     let user = await userModel.findOne(query);
-    console.log(user)
     return user;
 }
 
 const getAllUsersWithPersonalInfoQuery = async (query) => {
     let users = await userModel.find(query);
-    console.log(users)
     return users;
 }
 
@@ -50,4 +48,15 @@ const insertUser = async (userData)=>{
 
 }
 
-module.exports = {insertUser, getUserWithId, getUserWithPersonalInfoQuery, getAllUsersWithPersonalInfoQuery}
+const updateUser = async (user) => {
+    let updatedUser = await userModel.findOneAndUpdate({_id: user._id}, user, {new: true});
+    if (updatedUser) {
+        return true;
+    } else {
+        return false;
+    }
+
+
+}
+
+module.exports = {insertUser, getUserWithId, getUserWithPersonalInfoQuery, getAllUsersWithPersonalInfoQuery, updateUser}

@@ -47,7 +47,6 @@ const getUser = async (req) => {
         } else if (req.body.personalInfoQuery){
             let query = req.body.personalInfoQuery;
             let user = await database.getUserWithPersonalInfoQuery(query);
-            console.log(user)
             return user;
 
         } else if (req.body.getMultipleUsers){
@@ -57,7 +56,6 @@ const getUser = async (req) => {
             return users;
 
         }
-      
         
     }
     catch {
@@ -65,28 +63,15 @@ const getUser = async (req) => {
     }
 }
 
-//Currently (16/09/2021), it is assumed a user document can be deleted with only id.
-const deleteUser = (req) => {
-    try {
-        let userId = req.query.user._id;
-        let flag = database.deleteUser(userId);
-        
-        return flag;
-    }
-    catch {
-        return false;
-    }
-}
 
 
 
-
-const updateUser = (req) => {
+const updateUser = async (req) => {
     try {
         /* This will need to be redone after examining the desired method for updating records. i.e., whether req.body will already contain the updated document model or it will
         need to be organised here. */
-        let user = req.query.user;
-        let flag = database.updateUser(user);
+        let user = req.body.user;
+        let flag = await database.updateUser(user);
 
         return flag;
     }
@@ -96,4 +81,4 @@ const updateUser = (req) => {
 }
 
 
-module.exports = {createUser, deleteUser, getUser, updateUser}
+module.exports = {createUser, getUser, updateUser}
