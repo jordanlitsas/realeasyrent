@@ -1,35 +1,42 @@
+var schemas = require('./_schemas');
+var mongoose = require('mongoose')
+const renterProfileModel = mongoose.model('renter_profile', schemas.renterProfile);
 
-const insertRenterProfile = (renterProfileData) => {
-    let renterProfile = new renferProfileSchema({renterProfileData});
-       
 
-    res.send(renterProfile)
-    // save profileApp in the database
-    renterProfile.save(profile).then(data => {
-        if (data == null){
-            return false
+
+
+const insertRenterProfile = async (renterProfileData)=>{
+    if(!renterProfileData){
+        return false;
+    }
+
+    let existingUser = await renterProfileModel.findOne({userId: renterProfileData.userId});
+    if (existingUser == null){
+
+        const renterProfile = new renterProfileModel(renterProfileData);
+        let savedRenterProfile = await renterProfile.save();
+        if (savedRenterProfile == renterProfile){
+            return renterProfileData;
         }
-    })
-        .catch(err =>{
-           if (err){
-               return false;
-           }
-        });
+        else {
+            return false;
+        }
+        
+    } 
+    else {
+        return false;
+    }    
+  
 
-    return true;
 }
 
-const deleteRenterProfile = (userId) => {
-    return true;
+const getRenterProfileWithUserId = async (id) => {
+    let renterProfile = await renterProfileModel.findOne({userId: id});
+    return renterProfile;
 }
 
-const getRenterProfile = (userId) => {
-    return true;
-}
 
-const updateRenterProfile = (app) => {
 
-    return true;
-}
 
-module.exports = {insertRenterProfile, deleteRenterProfile, getRenterProfile, updateRenterProfile} 
+
+module.exports = {insertRenterProfile, getRenterProfileWithUserId} 

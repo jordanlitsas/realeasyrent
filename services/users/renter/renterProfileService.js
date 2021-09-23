@@ -17,10 +17,12 @@ const deleteRenterProfile = (userId) => {
 
 
 
-const createRenterProfile = (renterProfileData, res) => {
+const createRenterProfile = async (req) => {
 
     try { 
-        let flag = database.insertRenterProfile(renterProfileData, res); //rental app cannot be made before user
+        let renterProfileData = req.body.renterProfileData;
+
+        let flag = await database.insertRenterProfile(renterProfileData); 
         return flag;
     }
     catch {
@@ -29,29 +31,17 @@ const createRenterProfile = (renterProfileData, res) => {
     
 }
 
-/*
---- 16/09/21: Current schema for rental application
+const getRenterProfileWithUserId = async (req) => {
+    try { 
+        let id = req.body.userId;
 
---- Current req.query structure:
-    {
-        userId , 
-        employment: {employer, lengthOfEmployment, position, income},
-        personalreferences: [ {name, contactNumber, email, relationship } ]
-        professionalReferences: [ {name: contactNumber, email, relationship}  } ]  
-        pets: [ {species, breed, size, age} ],
-        children: [<age>],
-        rentalHistory: [ 
-                            {
-                                address, landlord/propertyManagerName, landlord/propertyManagerEmail, landlord/propertyManagerContactNumber, lengthOfTenancy, reasonLeaving,
-                                bondConditions: {bondReturned : <boolean>, reasonForBondWithheld : <string>, amountWitheld : <integer>},
-                                evicted : <boolean>, rentalAgreementBroken : <boolean>
-                            } 
-                        ],
-        smoker : <boolean>,
-        preferredMoveInDate : <date OR immediate>,
-        commitedOfCrime : <boolean>
+        let renterProfile = await database.getRenterProfileWithUserId(id); 
+        return renterProfile;
     }
- */
+    catch {
+        return null;
+    }
+}
 
 
-module.exports = {createRenterProfile, deleteRenterProfile};
+module.exports = {createRenterProfile, deleteRenterProfile, getRenterProfileWithUserId};

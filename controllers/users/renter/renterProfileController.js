@@ -1,14 +1,28 @@
 let Services = require('../../../services/users/renter/renterProfileService');
 
 const createRenterProfile = (req, res) => { 
-    let appData = req.query;
-    if (Services.createRenterProfile(appData, res)){
-        res.status(200).send();
+    Services.createRenterProfile(req).then(newRenterProfile => {
+        if (newRenterProfile.userId){
+            res.status(200).send(newRenterProfile.userId);
+        }
+        else {
+            res.status(400).send();
+        } 
+    })
+}
+
+const getRenterProfile = (req, res) => {
+    if (req.body.userId){
+        Services.getRenterProfileWithUserId(req).then(renterProfile => {
+            if (renterProfile){
+                res.status(200).send(renterProfile);
+            }
+            else {
+                res.status(400).send();
+            } 
+        })
     }
-    else {
-        res.status(400).send();
-    } 
-   
+    
 }
 
 
@@ -26,4 +40,4 @@ const deleteRenterProfile = (req, res) => {
 
 
 
-module.exports = {createRenterProfile, deleteRenterProfile}
+module.exports = {createRenterProfile, deleteRenterProfile, getRenterProfile}

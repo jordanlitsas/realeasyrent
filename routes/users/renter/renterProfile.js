@@ -8,6 +8,10 @@ router.post('/', (req, res) => {
     Controller.createRenterProfile(req, res);
 });
 
+router.get('/', (req, res) => {
+    Controller.getRenterProfile(req, res);
+});
+
 router.delete('/', (req, res) => {
     Controller.deleteRenterProfile(req, res)
 })

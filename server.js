@@ -1,9 +1,11 @@
 //Server template credit to Alessio Bonti - found at: https://github.com/alexbonti/deakin-crowds/blob/master/server.js
+var dbConnection = require('./services/database/dbConnection')
 var express = require("express");
 var app = express();
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+
 
 // let dbConnection = require('./dbConnection.js');
 

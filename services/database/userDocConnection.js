@@ -1,9 +1,7 @@
 var schemas = require('./_schemas');
 var mongoose = require('mongoose')
-var dbConnection = require('./dbConnection.js')
-const userModel = mongoose.model('personal_information', schemas.user);
+const userModel = mongoose.model('user', schemas.user);
 
-dbConnection.userCollection();
 
 const getUserWithPersonalInfoQuery = async (query) => {
     let user = await userModel.findOne(query);
