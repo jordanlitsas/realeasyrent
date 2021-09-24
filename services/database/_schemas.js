@@ -77,10 +77,13 @@ const activeApplication = new mongoose.Schema({
 const property = new mongoose.Schema({
     userId: String,
     applicantCriteria: 
-    [
-        {flexible: {}}, 
-        {nonFlexible: {}}
-    ],
+    {  
+        nonFlexible: 
+        [
+            {criterion: String, benchmark: Schema.Types.Mixed}, 
+        ],
+        flexible: {}
+    },
     availabledate: String, 
     bathrooms: Number,
     bedrooms: Number,
