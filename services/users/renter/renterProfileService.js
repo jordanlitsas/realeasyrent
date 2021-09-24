@@ -2,13 +2,17 @@
 let database = require('../../database/renterProfileDocConnection');
 
 
+var dbConnection = require('../../database/dbConnection')
 
 
 const updateRenterProfile = (req) => {
     let updatedRenterProfileData = req.body.updatedRenterProfileData;
     try {
         let flag = database.updateRenterProfile(updatedRenterProfileData);
+
+        dbConnection.reset();
         return flag;
+        
     }
 
     catch {
@@ -18,10 +22,9 @@ const updateRenterProfile = (req) => {
 
 
 
-const createRenterProfile = async (req) => {
+const createRenterProfile = async (renterProfileData) => {
 
     try { 
-        let renterProfileData = req.body.renterProfileData;
 
         let flag = await database.insertRenterProfile(renterProfileData); 
         return flag;
@@ -32,9 +35,8 @@ const createRenterProfile = async (req) => {
     
 }
 
-const getRenterProfileWithUserId = async (req) => {
+const getRenterProfileWithUserId = async (id) => {
     try { 
-        let id = req.body.userId;
 
         let renterProfile = await database.getRenterProfileWithUserId(id); 
         return renterProfile;

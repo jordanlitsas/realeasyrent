@@ -29,12 +29,12 @@ const insertProperty = async (newProperty) => {
 }
 
 const getPropertyWithUserId = async (ownersUserId) => {
-    let property = propertyModel.findOne({userId: ownersUserId});
+    let property = await propertyModel.findOne({userId: ownersUserId});
     return property;
 }
 
 const getPropertyWithPropertyId = async (ownersPropertyId) => {
-    let property = propertyModel.findById(ownersPropertyId);
+    let property = await propertyModel.findById(ownersPropertyId);
     return property;
 }
 
@@ -59,7 +59,7 @@ const updateProperty = async (propertyUpdate) => {
 }
 
 const deleteProperty = async (propertyId) => {
-    let success = propertyModel.findByIdAndDelete(propertyId);
+    let success = await propertyModel.findByIdAndDelete(propertyId);
     return success;
 }
 

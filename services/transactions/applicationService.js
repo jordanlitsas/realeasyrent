@@ -1,4 +1,6 @@
 var database = require('../database/applicationDocConnection')
+var applicationScreeningService = require('../../services/transactions/applicationScreening')
+
 
 const createApplication = async (req) => {
 
@@ -9,6 +11,10 @@ const createApplication = async (req) => {
         if (req.body.operator == "new"){
 
             let flag = await database.insertInitialApplication(userId, propertyId);
+
+            if (flag){
+                applicationScreeningService.accessApplicationWithRenterProfile(userId, propertyId);
+            }
             return flag;
 
         } 

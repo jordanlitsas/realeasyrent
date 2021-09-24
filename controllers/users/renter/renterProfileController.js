@@ -1,8 +1,9 @@
 let Services = require('../../../services/users/renter/renterProfileService');
 
 const createRenterProfile = (req, res) => { 
-    Services.createRenterProfile(req).then(newRenterProfile => {
+    Services.createRenterProfile(req.body.renterProfileData).then(newRenterProfile => {
         if (newRenterProfile.userId){
+
             res.status(200).send(newRenterProfile.userId);
         }
         else {
@@ -13,7 +14,7 @@ const createRenterProfile = (req, res) => {
 
 const getRenterProfile = (req, res) => {
     if (req.body.userId){
-        Services.getRenterProfileWithUserId(req).then(renterProfile => {
+        Services.getRenterProfileWithUserId(id).then(renterProfile => {
             if (renterProfile){
                 res.status(200).send(renterProfile);
             }

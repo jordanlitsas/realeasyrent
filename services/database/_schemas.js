@@ -60,12 +60,27 @@ const renterProfile = new mongoose.Schema({
 
 const activeApplication = new mongoose.Schema({
     propertyId: String,
-    applicants: [String]
+    applicants: [{
+        userId: String,
+        dateApplicationMade: String,
+        status: String, /* approved, denied, processing*/
+        coApplicantUserId: [String],
+        ranking: Number,
+        report: {
+            flexibleViolations: [String],
+            nonFlexibleViolations: Boolean
+        }
+    }], 
+    
 })
 
 const property = new mongoose.Schema({
     userId: String,
-    applicantCriteria: {},
+    applicantCriteria: 
+    [
+        {flexible: {}}, 
+        {nonFlexible: {}}
+    ],
     availabledate: String, 
     bathrooms: Number,
     bedrooms: Number,
