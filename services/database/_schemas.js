@@ -80,7 +80,7 @@ const property = new mongoose.Schema({
     {  
         nonFlexible: 
         [
-            {criterion: String, benchmark: Schema.Types.Mixed}, 
+            {category: Schema.Types.Mixed, benchmark: Schema.Types.Mixed}, 
         ],
         flexible: {}
     },
