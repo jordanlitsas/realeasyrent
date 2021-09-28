@@ -5,12 +5,10 @@ let database = require('../../database/renterProfileDocConnection');
 var dbConnection = require('../../database/dbConnection')
 
 
-const updateRenterProfile = (req) => {
+const updateRenterProfile = async (req) => {
     let updatedRenterProfileData = req.body.updatedRenterProfileData;
     try {
-        let flag = database.updateRenterProfile(updatedRenterProfileData);
-
-        dbConnection.reset();
+        let flag = await database.updateRenterProfile(updatedRenterProfileData);
         return flag;
         
     }

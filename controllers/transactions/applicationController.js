@@ -1,7 +1,9 @@
 let Service = require('../../services/transactions/applicationService');
 
 const createApplication = (req, res) => { 
-    Service.createApplication(req).then(insertionSuccess => {
+    let userId = req.body.userId;
+    let propertyId = req.body.propertyId;
+    Service.createApplication(userId, propertyId).then(insertionSuccess => {
         if (insertionSuccess){
             res.status(200).send();
         }

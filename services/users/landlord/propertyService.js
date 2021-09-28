@@ -26,9 +26,9 @@ const deleteProperty = async (req) => {
 
 
 
-const getProperty = async (req) => {
-    let operator = req.body.operator;
-    let query = req.body.query;
+const getProperty = async (filter) => {
+    let operator = filter.operator;
+    let query = filter.query;
 
     switch(operator){
         case "userId":

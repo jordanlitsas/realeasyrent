@@ -41,18 +41,22 @@ const renterProfile = new mongoose.Schema({
         }
     ], 
     children: [ ],
-    rentalHistory: [
-        {
+    rentalHistory: 
+        {            
+            property: {
+                bondConditions: {bondReturned: Boolean, reasonBondWitheld: String, amountWitheld: Number},
+
             address: String,
             landlordName: String,
             landlordEmail: String,
             landlordContactNumber: Number,
             lengthOfTenancy: Number,
-            bondConditions: {bondReturned: Boolean, reasonBondWitheld: String, amountWitheld: Number},
             evicted: Boolean,
             rentalAgreementBroken: Boolean
         }
-    ],
+            
+        }
+    ,
     smoker: Boolean,
     preferredMoveInDate: String,
     committedOfCrime: Boolean
@@ -80,7 +84,9 @@ const property = new mongoose.Schema({
     {  
         nonFlexible: 
         [
-            {category: Schema.Types.Mixed, benchmark: Schema.Types.Mixed}, 
+            {category: Schema.Types.Mixed, 
+                benchmark: Schema.Types.Mixed, 
+                classification: String}, 
         ],
         flexible: {}
     },

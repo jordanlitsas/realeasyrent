@@ -24,12 +24,15 @@ app.use(express.static(__dirname + '/public'));
 let userRoute = require('./routes/users/user');
 let propertyRoute = require('./routes/users/landlord/property');
 let renterProfileRoute = require('./routes/users/renter/renterProfile');
-let applicationRoute = require('./routes/transactions/application')
+let applicationRoute = require('./routes/transactions/application');
+let nonFlexibleReqFilterRoute = require ('./routes/transactions/nonFlexibleFilter')
+
 
 app.use('/user', userRoute);
 app.use('/property', propertyRoute);
 app.use('/renter_profile', renterProfileRoute);
 app.use('/application', applicationRoute)
+app.use('/filter/non_flexible', nonFlexibleReqFilterRoute);
 
 
 

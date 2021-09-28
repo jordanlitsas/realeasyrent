@@ -14,7 +14,7 @@ const createRenterProfile = (req, res) => {
 
 const getRenterProfile = (req, res) => {
     if (req.body.userId){
-        Services.getRenterProfileWithUserId(id).then(renterProfile => {
+        Services.getRenterProfileWithUserId(req.body.userId).then(renterProfile => {
             if (renterProfile){
                 res.status(200).send(renterProfile);
             }

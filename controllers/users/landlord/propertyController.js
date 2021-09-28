@@ -13,7 +13,8 @@ const createProperty = (req, res) => {
 
 const getProperty = (req, res) => {
 
-    Service.getProperty(req).then(property => {
+    let filter = req.body;
+    Service.getProperty(filter).then(property => {
         if (property){
             res.status(200).send(property);
         }
