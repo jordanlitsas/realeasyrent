@@ -58,6 +58,24 @@ const compareRenterValuesToBenchmarkValues = (renterProfileCriteria) => {
                 flag = true;
             break;
 
+            case "personalReferences":
+                if (typeof(criterion.benchmark) == "number"){
+                    criterion.rentersValue = criterion.rentersValue.length;
+                }
+            break;
+
+            case "professionalReferences":
+                if (typeof(criterion.benchmark) == "number"){
+                    criterion.rentersValue = criterion.rentersValue.length;
+                }
+            break;
+
+            case "children":
+                if (typeof(criterion.benchmark) == "number"){
+                    criterion.rentersValue = criterion.rentersValue.length;
+                }
+            break;
+
             case "size":
                 criterion.rentersValue.forEach(pet => {
                     result = sortClassification(pet.breed, criterion.benchmark, criterion.classification);

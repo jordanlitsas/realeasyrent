@@ -16,8 +16,6 @@ const initiateRenterProfileScreening = async (userId, propertyId) => {
 
     let renterProfileCriteriaValues = extractCriterionValuesFromRenterProfile(renterProfile, nonFlexibleCriteria);
     let screeningOutcome = comparer.compareRenterValuesToBenchmarkValues(renterProfileCriteriaValues, nonFlexibleCriteria);
-
-    console.log(screeningOutcome)
     
     let result = true;
     screeningOutcome.forEach(criterion => {
