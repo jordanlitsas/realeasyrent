@@ -1,4 +1,3 @@
-const { nextTick } = require('process');
 let database = require('../database/userDocConnection');
 var mongoose = require('mongoose');
 
@@ -6,11 +5,8 @@ var mongoose = require('mongoose');
 //Receives form data, creates object mirroring database schema, 
 const createUser = async (userData) => {
     try {
-        console.log(userData)
-        let user = await database.insertUser(userData);
-        let userId = user._id.toString();
-        
-        return userId;
+        let user = await database.insertUser(userData);        
+        return user;
         
     }
     catch{
@@ -18,51 +14,36 @@ const createUser = async (userData) => {
     }
 }
 
+
 const getUserWithPersonalInfoQuery = async (userData) => {
     let user = await database.getUserWithPersonalInfoQuery(userData);
     return user;
 }
-const getUser = async (req) => {
-    try{
-        
-        if (req.body.userId){
-            let userId = req.body.userId;
 
-            userId = mongoose.Types.ObjectId(userId); 
-    
-            let user = await database.getUserWithId(userId);
-    
-            return user;
+const getMultipleUsersWithPersonalInfoQuery = async (userData) => {
+    let user = await database.getMultipleUsersWithPersonalInfoQuery(userData);
+    return user;
+}
 
-        } else if (req.body.personalInfoQuery){
-            let query = req.body.personalInfoQuery;
-            let user = await database.getUserWithPersonalInfoQuery(query);
-            return user;
 
-        } else if (req.body.getMultipleUsers){
-            let query = req.body.getMultipleUsers;
-
-            let users = await database.getAllUsersWithPersonalInfoQuery(query);
-            return users;
-
-        }
-        
+const getUserWithUserId = async (userId) => {
+  
+    try {
+        let user = await database.getUserWithId(userId);
+        return user;
     }
-    catch {
-        return false;
+    catch{
+        return null;
     }
+  
 }
 
 
 
 
-const updateUser = async (req) => {
+const updateUser = async (userUpdate) => {
     try {
-        /* This will need to be redone after examining the desired method for updating records. i.e., whether req.body will already contain the updated document model or it will
-        need to be organised here. */
-        let user = req.body.user;
-        let flag = await database.updateUser(user);
-
+        let flag = await database.updateUser(userUpdate);
         return flag;
     }
     catch {
@@ -71,4 +52,4 @@ const updateUser = async (req) => {
 }
 
 
-module.exports = {createUser, getUser, updateUser, getUserWithPersonalInfoQuery}
+module.exports = {createUser, getUserWithUserId, updateUser, getUserWithPersonalInfoQuery, getMultipleUsersWithPersonalInfoQuery}

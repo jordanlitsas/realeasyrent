@@ -1,7 +1,8 @@
-const { response } = require('express');
-const { isNull } = require('util');
-ObjectId = require('mongodb').ObjectID;
 let Service = require('../../services/index');
+
+/*
+    This page is responsible for managing CRUD operations for the user collection. Each document represents a unique system user.
+*/
 
 /*
     Creates a new system user
@@ -16,7 +17,6 @@ const createUser = async (req, res) => {
         let data = req.body;
 
         //set to false if a user can be retrieved with the given email
-        let newUser = true;
 
         let userData = {
             firstName: data.firstName,
@@ -25,55 +25,104 @@ const createUser = async (req, res) => {
             postcode: data.postcode,
         };
 
-        //Validate no existing user
-        Service.userService.getUserWithPersonalInfoQuery(userData.email).then(existingUser => {
-            if (existingUser != null){
-                newUser = false;
+        //validation - make sure all required user information is not empty or null
+        for (var key in userData){
+            if (userData[key] == null || typeof(userData[key]) == 'undefined' || userData[key].toString().length == 0){
+                res.status(400).send(`User was not created - missing user information for ${key}.`)
             }
-        })
-
-
-        if (newUser){
-            
-            //create a new user with the inputted information
-            Service.userService.createUser(userData).then(newId => { 
-
-               
-                if (newId == null){
-                    res.status(400).send();
-                }
-                else {
-
-                    //return new user's id for user's logged in instance.
-                    res.status(200).send(newId);
-                } 
-             });  
-        } else {
-            res.status(400).send();
         }
 
+        //Validate no existing user
+        Service.userService.getUserWithPersonalInfoQuery({email: userData.email}).then(existingUser => {
+            if (existingUser == null){
+                //create the new user
+                Service.userService.createUser(userData).then(user => { 
+
+                    //capture the user's id
+                    let newId = user._id.toString();
+    
+                    if (newId == null){
+                        res.status(400).send(`User was not created - user document objectId was null.`);
+                    } else {
+                        //return new user's id for user's logged in instance.
+                        res.status(200).send(newId);
+                    } 
+                 });  
+            } else {
+                //send existing user can be retrieved with given email
+                res.status(400).send(`User was not created - this email is associated with another user.`);
+            }            
+        });
     }
     catch{
-        res.status(400).send();
+        res.status(400).send(`User was not created - something went wrong, catch block was called.`);
     }
 }
 
 
 const getUser = async (req, res) => {
+    try{
+        
+        //returns a single user with a given userId (equal to that user's document's objectid)
+        if (req.body.userId){
+            let userId = req.body.userId;
+            
+            Service.userService.getUserWithUserId(userId).then(user => {
+                if (user == null){
+                    res.status(400).send(`That userId is not associated with a user document.`);
+                } else {
+                    res.status(200).send(user)
+                }
+            })
+        } 
+        
+        else if (req.body.personalInfoQuery){
+            let query = req.body.personalInfoQuery;
+            Service.userService.getUserWithPersonalInfoQuery(query).then(user => {
+                console.log(user)
+                if (user == null){
+                    res.status(400).send('User could not be retrieved with that information.')
+                } else {
+                    res.status(200).send(user)
+                }
+            })
+           
 
+        } 
+        
+        else if (req.body.getMultipleUsers){
+            let query = req.body.getMultipleUsers;
+            Service.userService.getMultipleUsersWithPersonalInfoQuery(query).then(userArray => {
+                if (userArray.length == 0){
+                    res.status(400).send(`No users could be retrieved with that information.`);
+                }
+                res.status(200).send(userArray);
+            })
+        }
+        
+    }
+    catch {
+        res.status(400).send('Something went wrong - catch blocked was called.');
+    }
 
     
-    Service.getUser(req).then(user => {
-        res.status(200).send(user);
-    })
+   
 }
 
+//users can only be deleted with userId.
 const deleteUser = (req, res) => { 
-    if (Service.deleteUser(req)){
-        res.status(200).send()
+    try {
+        let userId = req.body.userId;
+        Service.userService.deleteUserWithUserId(userId).then(success => {
+            if (success){
+                res.status(200).send();
+            } else {
+                res.status(400).send(`User not deleted - incorrect userId`);
+            }
+        })
     }
-    else {
-        res.status(400).send();
+    catch{
+        res.status(400).send(`Something went wrong - catch block was called.`);
     }
 }
 
@@ -81,11 +130,13 @@ const deleteUser = (req, res) => {
 
 
 const updateUser = (req, res) => { 
-    Service.updateUser(req).then(updateSuccess => {
+
+    let userUpdate = req.body.userUpdate;
+    Service.userService.updateUser(userUpdate).then(updateSuccess => {
         if (updateSuccess){
             res.status(200).send();
         } else {
-            res.status(400).send();
+            res.status(400).send('The user was not updated.');
         }
     });
 }

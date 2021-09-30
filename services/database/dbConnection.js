@@ -12,13 +12,10 @@ client.connect((err, db) => {
   if (!err){ console.log("Connected to development database"); }
 });
 
-const reset = () => {
-  db.user.deleteMany({});
-}
+
 
 db.on('error', console.error.bind(console, 'connection error: '));
 db.once('open', function(){
   console.log("Mongoose Connection");
 })
 
-module.exports = {reset}

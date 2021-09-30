@@ -8,38 +8,32 @@ const getUserWithPersonalInfoQuery = async (query) => {
     return user;
 }
 
-const getAllUsersWithPersonalInfoQuery = async (query) => {
+const getMultipleUsersWithPersonalInfoQuery = async (query) => {
     let users = await userModel.find(query);
     return users;
 }
 
 
 const getUserWithId = async (userId) => {
-    let user = await userModel.findById(userId);
-    return user;
+    try {
+        let user = await userModel.findById(userId);
+        return user;
+    }
+    catch{
+        return null;
+    }
+    
 }
 
 
 const insertUser = async (userData)=>{
-    
-    if(!userData){
-        return null;
-    }
-
-    // let existingUser = await userModel.findOne(userData);
-    
-        const user = new userModel(userData);
-        let savedUser = await user.save();
-        if (savedUser == user){
-            return user;
-        }
-        else {
-            return null;
-        } 
+    const user = new userModel(userData);
+    let savedUser = await user.save();
+    return savedUser;
 }
 
-const updateUser = async (user) => {
-    let updatedUser = await userModel.findOneAndUpdate({_id: user._id}, user, {new: true});
+const updateUser = async (userUpdate) => {
+    let updatedUser = await userModel.findOneAndUpdate({_id: userUpdate._id}, userUpdate, {new: true});
     if (updatedUser) {
         return true;
     } else {
@@ -49,4 +43,4 @@ const updateUser = async (user) => {
 
 }
 
-module.exports = {insertUser, getUserWithId, getUserWithPersonalInfoQuery, getAllUsersWithPersonalInfoQuery, updateUser}
+module.exports = {insertUser, getUserWithId, getUserWithPersonalInfoQuery, getMultipleUsersWithPersonalInfoQuery, updateUser}
