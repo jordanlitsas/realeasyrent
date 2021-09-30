@@ -23,27 +23,19 @@ const getUserWithId = async (userId) => {
 const insertUser = async (userData)=>{
     
     if(!userData){
-        return false;
+        return null;
     }
 
-    let existingUser = await userModel.findOne(userData);
+    // let existingUser = await userModel.findOne(userData);
     
-    if (existingUser == null){
         const user = new userModel(userData);
         let savedUser = await user.save();
         if (savedUser == user){
             return user;
         }
         else {
-            return false;
-        }
-        
-    } 
-    else {
-        return false;
-    }    
-  
-
+            return null;
+        } 
 }
 
 const updateUser = async (user) => {

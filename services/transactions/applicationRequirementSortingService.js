@@ -2,20 +2,28 @@ const renterProfileService = require('../users/renter/renterProfileService')
 const propertyService = require('../users/landlord/propertyService');
 const { renterProfile } = require('../database/_schemas');
 const { resourceLimits } = require('worker_threads');
-const comparer = require('../transactions/renterProfileRequirementComparer')
+const comparer = require('./renterProfileRequirementComparer')
 
-const initiateRenterProfileScreening = async (userId, propertyId) => {
+const initiateRenterProfileScreening = async (userId, propertyId, criteriaFlexibility) => {
     let renterProfile = await renterProfileService.getRenterProfileWithUserId(userId);
 
     let query = {
         operator: "propertyId",
         query: {"propertyId": propertyId}
     };
-    let nonFlexibleCriteria = await propertyService.getProperty(query);
-    nonFlexibleCriteria = nonFlexibleCriteria.applicantCriteria.nonFlexible;
 
-    let renterProfileCriteriaValues = extractCriterionValuesFromRenterProfile(renterProfile, nonFlexibleCriteria);
-    let screeningOutcome = comparer.compareRenterValuesToBenchmarkValues(renterProfileCriteriaValues, nonFlexibleCriteria);
+    let criteria;
+    let property = await propertyService.getProperty(query);
+
+    if (criteriaFlexibility == "nonFlexible"){
+        criteria = property.applicantCriteria.nonFlexible;
+    } else if (criteriaFlexibility == 'flexible'){
+        criteria = property.applicantCriteria.flexible;
+
+    }
+
+    let renterProfileCriteriaValues = extractCriterionValuesFromRenterProfile(renterProfile, criteria);
+    let screeningOutcome = comparer.compareRenterValuesToBenchmarkValues(renterProfileCriteriaValues, criteria);
     
     let result = true;
     screeningOutcome.forEach(criterion => {
@@ -27,11 +35,11 @@ const initiateRenterProfileScreening = async (userId, propertyId) => {
 }
 
 
-const extractCriterionValuesFromRenterProfile = (renterProfile, nonFlexibleCriteria) => {
+const extractCriterionValuesFromRenterProfile = (renterProfile, criteria) => {
 
     let report = [];
 
-    nonFlexibleCriteria.forEach(criterion => {
+    criteria.forEach(criterion => {
         
         let category = criterion.category;
         let renterCategoryValue;

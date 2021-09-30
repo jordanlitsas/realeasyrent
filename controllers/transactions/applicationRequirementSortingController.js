@@ -1,4 +1,4 @@
-let Service = require('../../services/transactions/nonFlexibleFilterService');
+let Service = require('../../services/transactions/applicationRequirementSortingService.js');
 
 const screenRenterProfile = (req, res) => { 
     let userId = req.body.userId;

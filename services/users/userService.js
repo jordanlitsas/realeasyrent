@@ -4,34 +4,24 @@ var mongoose = require('mongoose');
 
 
 //Receives form data, creates object mirroring database schema, 
-const createUser = async (req) => {
-    let userData;
+const createUser = async (userData) => {
     try {
-        let data = req.body;
-
-        userData = {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            email: data.email,
-            postcode: data.postcode,
-        };
-
-       let user = await database.insertUser(userData);
-       let userId = user._id.toString();
-       
-
-       return userId;
+        console.log(userData)
+        let user = await database.insertUser(userData);
+        let userId = user._id.toString();
         
-        
-
-      
+        return userId;
         
     }
     catch{
-        return false;
+        return null;
     }
 }
 
+const getUserWithPersonalInfoQuery = async (userData) => {
+    let user = await database.getUserWithPersonalInfoQuery(userData);
+    return user;
+}
 const getUser = async (req) => {
     try{
         
@@ -81,4 +71,4 @@ const updateUser = async (req) => {
 }
 
 
-module.exports = {createUser, getUser, updateUser}
+module.exports = {createUser, getUser, updateUser, getUserWithPersonalInfoQuery}

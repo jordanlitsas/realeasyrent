@@ -5,6 +5,7 @@ const createApplication = (req, res) => {
     let propertyId = req.body.propertyId;
     Service.createApplication(userId, propertyId).then(insertionSuccess => {
         if (insertionSuccess){
+            
             res.status(200).send();
         }
         else {
