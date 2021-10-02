@@ -28,9 +28,9 @@ const insertProperty = async (newProperty) => {
   
 }
 
-const getPropertyWithUserId = async (ownersUserId) => {
-    let property = await propertyModel.findOne({userId: ownersUserId});
-    return property;
+const getPropertiesWithUserId = async (ownersUserId) => {
+    let properties = await propertyModel.find({userId: ownersUserId});
+    return properties;
 }
 
 const getPropertyWithPropertyId = async (ownersPropertyId) => {
@@ -39,28 +39,18 @@ const getPropertyWithPropertyId = async (ownersPropertyId) => {
 }
 
 const getPropertiesWithCriteria = async (propertyCriteria) => {
-    let properties = propertyModel.find(propertyCriteria);
+    let properties = await propertyModel.find(propertyCriteria);
     return properties;
 }
 
 const updateProperty = async (propertyUpdate) => {
-    try {
-        let success = await propertyModel.findOneAndUpdate({propertyId: propertyUpdate._id}, propertyUpdate, {new: true});
-        if (success) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    catch{
-        return false;
-    }
-    
+    let flag = await propertyModel.findOneAndUpdate({propertyId: propertyUpdate._id}, propertyUpdate, {new: true});
+    return flag;
 }
 
 const deleteProperty = async (propertyId) => {
-    let success = await propertyModel.findByIdAndDelete(propertyId);
-    return success;
+    let flag = await propertyModel.findByIdAndDelete(propertyId);
+    return flag;
 }
 
-module.exports = {insertProperty, getPropertyWithUserId, getPropertyWithPropertyId, getPropertiesWithCriteria, updateProperty, deleteProperty}
+module.exports = {insertProperty, getPropertiesWithUserId, getPropertyWithPropertyId, getPropertiesWithCriteria, updateProperty, deleteProperty}
