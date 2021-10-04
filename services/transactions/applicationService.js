@@ -3,68 +3,33 @@ var database = require('../database/applicationDocConnection')
 
 
 
-const createApplication = async (userId, propertyId) => {
+const createApplication = async (application) => {
 
-  
-    try {
+    let flag = await database.insertInitialApplication(application);
+    return flag;
 
-        if (req.body.operator == "new"){
-
-            let flag = await database.insertInitialApplication(userId, propertyId);
-            return flag;
-
-        } 
-        else if (req.body.operator == "add"){
-
-            let flag = await database.addApplication(userId, propertyId);
-            return flag;
-
-        }
-        
-    
-    }
-    catch{
-        return false;
-    }
     
 }
 
-const getApplications = async (req) => {
-    try {
-        let propertyId = req.body.propertyId;
-        let applicantUserIds = await database.getApplications(propertyId);
-
-        return applicantUserIds;
-    }
-    catch{
-        return false;
-    }
+const getApplications = async (propertyId) => {
+ 
+    let applications = await database.getApplications(propertyId);
+    return applications;
+    
 }
 
 
 
 
-const removeApplicant = async (req) => {
-    try {
-        let propertyId = req.body.propertyId;
-        let userId = req.body.userId;
-        let flag = await database.removeApplicant(userId, propertyId);
-        return flag;
-    }
-    catch{
-        return false;
-    }
+const removeApplicant = async (query) => {
+    let flag = await database.removeApplicant(query.userId, query.propertyId);
+    return flag;
 }
 
-const removeProperty = async (req) => {
-    try {
-        let propertyId = req.body.propertyId;
-        let flag = await database.removeProperty(propertyId);
-        return flag;
-    }
-    catch{
-        return false;
-    }
+const removeProperty = async (propertyId) => {
+    let flag = await database.removeProperty(propertyId);
+    return flag;
+    
 }
 
  module.exports = {createApplication, removeApplicant, getApplications, removeProperty}
