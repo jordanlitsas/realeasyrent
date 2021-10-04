@@ -15,8 +15,6 @@ const getMultipleUsersWithPersonalInfoQuery = async (query) => {
 
 
 const getUserWithId = async (userId) => {
-    console.log(userId)
-
     try {
         let user = await userModel.findById(userId);
         return user;

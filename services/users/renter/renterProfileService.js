@@ -1,12 +1,8 @@
-// let database = require('./dbConnection');
 let database = require('../../database/renterProfileDocConnection');
 
 
-var dbConnection = require('../../database/dbConnection')
 
-
-const updateRenterProfile = async (req) => {
-    let updatedRenterProfileData = req.body.updatedRenterProfileData;
+const updateRenterProfile = async (updatedRenterProfileData) => {
     try {
         let flag = await database.updateRenterProfile(updatedRenterProfileData);
         return flag;
@@ -28,15 +24,14 @@ const createRenterProfile = async (renterProfileData) => {
         return flag;
     }
     catch {
-        return false;
+        return null;
     }
     
 }
 
-const getRenterProfileWithUserId = async (id) => {
+const getRenterProfileWithUserId = async (userId) => {
     try { 
-
-        let renterProfile = await database.getRenterProfileWithUserId(id); 
+        let renterProfile = await database.getRenterProfileWithUserId(userId); 
         return renterProfile;
     }
     catch {
@@ -44,11 +39,9 @@ const getRenterProfileWithUserId = async (id) => {
     }
 }
 
-const getRenterProfilesMatchingCriteria = async (req) => {
+const getRenterProfilesMatchingCriteria = async (criteria) => {
     try { 
-        let query = req.body.renterProfilesMatchingCriteria;
-
-        let renterProfiles = await database.getRenterProfilesMatchingCriteria(query); 
+        let renterProfiles = await database.getRenterProfilesMatchingCriteria(criteria); 
         return renterProfiles;
     }
     catch {
