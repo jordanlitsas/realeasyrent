@@ -1,23 +1,8 @@
-const path = require('path');
-const http = require('http');
-const express = require('express');
-const socketio = require('socket.io');
-const formatMessage = require('./utils/messages');
-const {userJoin, getCurrentUser, userLeave, getRoomUsers} = require('./utils/users');
-// const {numberGen} = require('./utils/randomnumber');
-
-
-const app = express();
-const server = http.createServer(app);
-const io = socketio(server)
-
-// set static folder
-app.use(express.static(path.join(__dirname, 'public')));
-
-const botName = 'Support Bot';
+const connect = (server)=>{
+const io = socketio(server);
 
 //Display when someone connects
-io.on('connection', socket => {
+ io.on('connection', socket => {
     socket.on('joinRoom', ({username, room})=> {
         const user = userJoin(socket.id, username, room);
 
@@ -72,7 +57,6 @@ io.on('connection', socket => {
      });
  
 });
+};
 
-const PORT = 3000 || process.env.PORT;
-
-server.listen(PORT,() => console.log(`Server running on port ${PORT}`));
+exports = {connect};
