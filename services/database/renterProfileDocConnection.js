@@ -9,6 +9,7 @@ const insertRenterProfile = async (renterProfileData)=>{
    
     let renterProfile = new renterProfileModel(renterProfileData);
     let savedRenterProfile = await renterProfile.save();
+
     return savedRenterProfile;
 
 }

@@ -51,8 +51,8 @@ const compareRenterValuesToBenchmarkValues = (renterProfileCriteria) => {
                 else if (criterion.classification == "before"){
                     result = lt (renterDate, requiredDate);
                 }
+                screeningOutcome.push({category: criterion.classification, outcome: result});
 
-                screeningOutcome.push(result);
                 flag = true;
             break;
 
@@ -84,7 +84,7 @@ const compareRenterValuesToBenchmarkValues = (renterProfileCriteria) => {
 
             case "children":
                 if (typeof(criterion.benchmark) == "number"){
-                    criterion.rentersValue = criterion.rentersValue.length;
+                    criterion.rentersValue = criterion.rentersValue;
                 }
             break;
 
@@ -102,7 +102,7 @@ const compareRenterValuesToBenchmarkValues = (renterProfileCriteria) => {
         if (!flag){
             result = sortClassification(criterion.rentersValue, criterion.benchmark, criterion.classification);
             screeningOutcome.push({category: criterion.category, outcome: result});
-        }
+        } 
 
     }
     

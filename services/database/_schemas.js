@@ -40,7 +40,7 @@ const renterProfile = new mongoose.Schema({
             age: Number
         }
     ], 
-    children: [ ],
+    children: Number,
     rentalHistory: 
         {            
             property: {
@@ -64,6 +64,7 @@ const renterProfile = new mongoose.Schema({
 
 const activeApplication = new mongoose.Schema({
     propertyId: String,
+    shortList: [Object],
     applicants: [{
         userId: String,
         dateApplicationMade: String,
@@ -71,7 +72,7 @@ const activeApplication = new mongoose.Schema({
         coApplicantUserId: [String],
         ranking: Number,
         report: {
-            flexibleViolations: [String],
+            flexibleViolations: Number,
             nonFlexibleViolations: Boolean
         }
     }], 
