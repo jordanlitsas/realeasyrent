@@ -12,6 +12,8 @@ app.use(express.urlencoded({ extended: false }))
 let http = require('http').createServer(app);
 let io = require('socket.io')(http);
 
+var sockets = require('./util/sockets');
+sockets.connect(io);
 
 
 

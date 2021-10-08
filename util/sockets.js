@@ -1,5 +1,6 @@
-const connect = (server)=>{
-const io = socketio(server);
+const connect = (serverIO)=>{
+// const io = socketio(server);
+const io = serverIO;
 
 //Display when someone connects
  io.on('connection', socket => {
@@ -59,4 +60,4 @@ const io = socketio(server);
 });
 };
 
-exports = {connect};
+module.exports = {connect};
