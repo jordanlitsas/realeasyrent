@@ -45,7 +45,7 @@ const addApplication = async (appUserId, appPropertyId) => {
 
 const getApplications = async (appPropertyId) => {
 
-  let applications = await activeApplicationModel.find({propertyId: appPropertyId});
+  let applications = await activeApplicationModel.findOne({propertyId: appPropertyId});
   return applications;
 }
 
@@ -70,5 +70,10 @@ const removeProperty = async (appPropertyId) => {
     return success;
 }
 
+const updateApplication = async (appUpdate) => {
+    let success = await activeApplicationModel.findOneAndUpdate({propertyId: appUpdate.propertyId}, appUpdate, {new: true});
+    return success;
+}
 
-module.exports = {insertInitialApplication, removeApplicant, removeProperty, getApplications, addApplication}
+
+module.exports = {insertInitialApplication, removeApplicant, removeProperty, getApplications, addApplication, updateApplication}

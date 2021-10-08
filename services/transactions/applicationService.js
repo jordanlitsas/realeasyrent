@@ -6,9 +6,7 @@ var database = require('../database/applicationDocConnection')
 const createApplication = async (application) => {
 
     let flag = await database.insertInitialApplication(application);
-    return flag;
-
-    
+    return flag; 
 }
 
 const getApplications = async (propertyId) => {
@@ -17,8 +15,6 @@ const getApplications = async (propertyId) => {
     return applications;
     
 }
-
-
 
 
 const removeApplicant = async (query) => {
@@ -32,4 +28,9 @@ const removeProperty = async (propertyId) => {
     
 }
 
- module.exports = {createApplication, removeApplicant, getApplications, removeProperty}
+const updateApplication = async (appUpdate) => {
+    let flag = await database.updateApplication(appUpdate);
+    return flag;
+}
+
+ module.exports = {createApplication, removeApplicant, getApplications, removeProperty, updateApplication}

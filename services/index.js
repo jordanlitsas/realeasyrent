@@ -3,6 +3,6 @@ module.exports = {
     propertyService:require('./users/landlord/propertyService'),
     renterProfileService:require('./users/renter/renterProfileService'),
     applicationService:require('./transactions/applicationService'),
-    applicationCriteriaSorterService:require('./transactions/applicationRequirementSortingService')
+    applicationRequirementSortingService:require('./transactions/applicationRequirementSortingService')
 
 }

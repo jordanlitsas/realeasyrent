@@ -7,9 +7,14 @@ const insertProperty = async (newProperty) => {
         return null;
     }
 
-    let existingListing = await propertyModel.findOne({streetNumberAndName: newProperty.streetNumberAndName, postcode: newProperty.postcode});
+    let existingListing = await propertyModel.find({
+        addressNumber: {$eq: newProperty.addressNumber}, 
+        addressName: {$eq: newProperty.addressName}, 
+        postcode: {$eq: newProperty.postcode} 
+    });
 
-    if (existingListing == null){
+    console.log(existingListing)
+    if (existingListing.length == 0){
 
         const property = new propertyModel(newProperty);
         let savedListing = await property.save();
