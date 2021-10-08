@@ -51,7 +51,6 @@ const getApplications = async (appPropertyId) => {
 
 const removeApplicant = async (appUserId, appPropertyId) => {
 
-
     let applicationList =  await activeApplicationModel.findOne({propertyId: appPropertyId});
 
     let i = 0;

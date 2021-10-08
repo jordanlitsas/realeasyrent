@@ -17,8 +17,8 @@ const getApplications = async (propertyId) => {
 }
 
 
-const removeApplicant = async (query) => {
-    let flag = await database.removeApplicant(query.userId, query.propertyId);
+const removeApplicant = async (userId, propertyId) => {
+    let flag = await database.removeApplicant(userId, propertyId);
     return flag;
 }
 

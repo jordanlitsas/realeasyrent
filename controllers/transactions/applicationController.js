@@ -1,3 +1,4 @@
+const { application } = require('express');
 let Services = require('../../services');
 let applicationController  = require("./applicationRequirementSorterController");
 // let notification = require('../../util/notificationSocket');
@@ -71,12 +72,15 @@ const createApplication = async (req, res) => {
 const deleteApplication = async (req, res) => {
     let operator = req.body.operator;
     let query = req.body.query;
+    let propertyId = req.body.propertyId;
     let errorMessage = "Could not delete application\n";
     let flag = true;
 
+    let activeApplications;
     //Confirm the property has been listed
-    await Services.applicationService.getApplications(query.propertyId).then(existingApplications => {
-        if (existingApplications.length == 0){
+    await Services.applicationService.getApplications(propertyId).then(existingApplications => {
+        activeApplications = existingApplications;
+        if (existingApplications == null){
             errorMessage += "There are no current applications for this property.\n";
             flag = false;
         }
@@ -85,8 +89,9 @@ const deleteApplication = async (req, res) => {
         //Validate the user has applied for this property
         if (operator == "applicant"){
             let existingApplication = false;
-            existingApplications[0].applicants.forEach(applicant => {
-                if (applicant.userId == query.userId){
+            activeApplications.applicants.forEach(applicant => {
+                
+                if (applicant.userId == query){
                     existingApplication = true;
                 }
                 
@@ -110,7 +115,7 @@ const deleteApplication = async (req, res) => {
 
             //Confirm the user has applied for this application
             
-            await Services.applicationService.removeApplicant(query).then(deletionSuccess => {
+            await Services.applicationService.removeApplicant(query, propertyId).then(deletionSuccess => {
 
                 //No documents are allowed without an active application
                 if (deletionSuccess.applicants.length == 0){
@@ -188,7 +193,6 @@ const updateApplication = async (req, res) => {
 
             applicationPosting.applicants.forEach(existingApplicant => {
                 if (existingApplicant.userId == userId){
-                    console.log(userId)
                     errorMessage += "This userId is already associated with an active application.";
                     flag = false;
                 }
@@ -206,6 +210,7 @@ const updateApplication = async (req, res) => {
 
                 Services.applicationService.updateApplication(applicationPosting).then(updateSuccess => {
                     if (updateSuccess){
+                        console.log(updateSuccess)
                         res.status(200).send();
                     } else{
                         res.status(400).send(errorMessage);
