@@ -1,6 +1,7 @@
 const { application } = require('express');
+const { applicationRequirementSortingService, applicationService } = require('../../services');
 let Services = require('../../services');
-let applicationController  = require("./applicationRequirementSorterController");
+let appReqSorterController  = require("./applicationRequirementSorterController");
 // let notification = require('../../util/notificationSocket');
 
 
@@ -208,14 +209,54 @@ const updateApplication = async (req, res) => {
 
                 applicationPosting.applicants.push(appUpdate);
 
-                Services.applicationService.updateApplication(applicationPosting).then(updateSuccess => {
-                    if (updateSuccess){
-                        console.log(updateSuccess)
-                        res.status(200).send();
-                    } else{
-                        res.status(400).send(errorMessage);
+                let updateSuccess = await Services.applicationService.updateApplication(applicationPosting);
+
+
+                if (updateSuccess){
+                    let applicationScreeningRequest = {
+                        body:{
+                            "userId": userId,
+                            "propertyId": propertyId,
+                            "applicationCriteriaType": "nonFlexible"
+                        }
                     }
-                });
+                    let outcome = await appReqSorterController.screenRenterProfile(applicationScreeningRequest)
+                    // applicationRequirementSortingService.screenRenterProfile(applicationScreeningReq)
+                    
+                    applicationPosting = await applicationService.getApplications(propertyId);
+                    
+                    applicationPosting.applicants.forEach( async application => {
+                        if (application.userId == userId){
+                            application.report.nonFlexibleViolations = outcome;
+
+                            if (!outcome){
+                                application.status = "denied";
+                            }
+
+                            let success = await Services.applicationService.updateApplication(applicationPosting);
+
+                            if (success){
+                                //call notification receiver and pass notification to front end
+                                if (!outcome){
+                                    let property = await Services.propertyService.getPropertyWithPropertyId(propertyId);
+                                    let notification = `Your application for ${property.addressNumber} ${property.addressName}, ${property.postcode} was unsuccessful.`;
+                                    console.log(notification);
+                                } else {
+                                    let property = await Services.propertyService.getPropertyWithPropertyId(propertyId);
+                                    let notification = `Your application for ${property.addressNumber} ${property.addressName}, ${property.postcode} has passed pre-screening.`;
+                                    console.log(notification);
+                                }
+                               
+                            }
+                           
+                        }
+                    })
+
+                    res.status(200).send();
+                } else{
+                    res.status(400).send(errorMessage);
+                }
+                
 
             
             } else {
@@ -234,11 +275,5 @@ module.exports = {createApplication, deleteApplication, getApplications, updateA
 
 
 
-                    //  let applicationScreeningReq = {
-                    //      body:{ 
-                            
-                    //      }
-                    //  }
-                    //  let response = await applicationController.screenRenterProfile(dataReq)
-                    //  console.log(response);
+                   
                 
