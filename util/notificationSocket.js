@@ -1,4 +1,5 @@
-const io = require('socket.io')
+const io = require('socket.io');
+
 //toast notifications
 const Toast = {
   init(){
@@ -53,8 +54,10 @@ document.addEventListener('DOMContentLoaded', ()=> Toast.init());
 
 const socket = io();
 
-
-
+//receiving message from Jordans end
+socket.on('recieveMessage', (msg)=>{
+    io.to(console.log).emit('message', msg);
+   });
 
 // Message from server
 socket.on('message', (message) => {
@@ -64,7 +67,9 @@ socket.on('message', (message) => {
 
 
 
- 
+module.exports = {
+    recieveMessage,
+};
 
 
 
