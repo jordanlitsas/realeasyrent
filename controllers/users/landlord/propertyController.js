@@ -26,9 +26,9 @@ const createProperty = async (req, res) => {
 
     //Validate no existing property has that number, name, postcode combo.
     await Service.propertyService.getPropertiesWithCriteria({
-        addressNumber: propertyData.addressNumber, 
-        addressName: propertyData.addressName, 
-        postcode: propertyData.postcode})
+        addressNumber: { $eq: propertyData.addressNumber }, 
+        addressName: { $eq: propertyData.addressName }, 
+        postcode: { $eq: propertyData.postcode }})
     .then(existingProperty => {
         if (existingProperty.length != 0){
             errorMessage += 'An existing property has this address number, name and postcode combination.\n';
@@ -40,6 +40,7 @@ const createProperty = async (req, res) => {
 
     if (flag){
         Service.propertyService.createProperty(propertyData).then(propertyId => {
+            // console.log(propertyId);
             if (propertyId){
                 res.status(200).send(propertyId);
             }
@@ -102,8 +103,10 @@ const getProperty = (req, res) => {
 //Using propertyId is the only way to delete a property document.
 const deleteProperty = (req, res) => {
     let propertyId = req.body.propertyId;
+    let flag = false;
     Service.propertyService.deleteProperty(propertyId).then(deletionSuccess => {
         if (deletionSuccess){
+            flag = true;
             res.status(200).send();
         }
         else {
@@ -111,6 +114,16 @@ const deleteProperty = (req, res) => {
         }   
     })
    
+    if (flag){
+        Service.applicationService.removeProperty(propertyId).then(appListingDeletionSuccess => {
+            if (appListingDeletionSuccess){
+            res.status(200).send();
+            }
+            else {
+                res.status(404).send();
+            }   
+        })
+    }
 }
 
 

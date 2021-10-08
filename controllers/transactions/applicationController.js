@@ -1,4 +1,7 @@
 let Services = require('../../services');
+let applicationController  = require("./applicationRequirementSorterController");
+// let notification = require('../../util/notificationSocket');
+
 
 const createApplication = async (req, res) => { 
     let userId = req.body.userId;
@@ -10,7 +13,8 @@ const createApplication = async (req, res) => {
     //Validate that property does not have existing applications 
     //this method is to create the initial applications. Properties aren't stored in this doc until they have 1 application
     await Services.applicationService.getApplications(propertyId).then(applications => {
-        if (applications.length > 0){
+        console.log(applications)
+        if (applications != null){
             errorMessage += "There are current applications for that property - update active_applications instead.\n";
             flag = false;
         }
@@ -50,6 +54,8 @@ const createApplication = async (req, res) => {
 
         Services.applicationService.createApplication(application).then(insertionSuccess => {
             if (insertionSuccess){
+
+                Services.applicationService.initAutomaticAppProcessing(userId, propertyId);
                 res.status(200).send();
             }
             else {
@@ -139,8 +145,8 @@ const deleteApplication = async (req, res) => {
 const getApplications = (req, res) => {
     let propertyId = req.body.propertyId;
     Services.applicationService.getApplications(propertyId).then(applicationList => {
-        if (applicationList.length > 0){
-            res.status(200).send(applicationList[0].applicants);
+        if (applicationList != null){
+            res.status(200).send(applicationList);
         }
         else {
             res.status(400).send("There are no applications associated with this propertyId.");
@@ -148,6 +154,86 @@ const getApplications = (req, res) => {
     })
 }
 
+const updateApplication = async (req, res) => {
+    let userId = req.body.userId;
+    let propertyId = req.body.propertyId;
+    let appUpdate = req.body.appUpdate;
+
+    let flag = true;
+    let errorMessage = "Application was not created\n";
 
 
-module.exports = {createApplication, deleteApplication, getApplications}
+     //Validate the userId 
+     await Services.userService.getUserWithUserId(userId).then(existingUser => {
+        if (existingUser == null){
+            errorMessage += "userId is not associated with a user\n";
+            flag = false;
+        }
+    })
+
+    //validate the propertyId
+    await Services.propertyService.getPropertyWithPropertyId(propertyId).then(existingProperty => {
+        if (existingProperty == null){
+            errorMessage += "propertyId is not associated with a property";
+            flag = false;
+        }
+    })
+
+
+    if (flag){
+        if (appUpdate == "add"){
+
+
+            let applicationPosting = await Services.applicationService.getApplications(propertyId);
+
+            applicationPosting.applicants.forEach(existingApplicant => {
+                if (existingApplicant.userId == userId){
+                    console.log(userId)
+                    errorMessage += "This userId is already associated with an active application.";
+                    flag = false;
+                }
+            })
+
+
+            if (flag){
+                appUpdate = {
+                    userId: userId,
+                    dateApplicationMade: new Date(),
+                    status: "processing"
+                };
+
+                applicationPosting.applicants.push(appUpdate);
+
+                Services.applicationService.updateApplication(applicationPosting).then(updateSuccess => {
+                    if (updateSuccess){
+                        res.status(200).send();
+                    } else{
+                        res.status(400).send(errorMessage);
+                    }
+                });
+
+            
+            } else {
+                res.status(400).send(errorMessage);
+            }
+        } else {
+            res.status(400).send(errorMessage);
+        }
+    } else {
+        res.status(400).send(errorMessage);
+    }
+}
+
+
+module.exports = {createApplication, deleteApplication, getApplications, updateApplication}
+
+
+
+                    //  let applicationScreeningReq = {
+                    //      body:{ 
+                            
+                    //      }
+                    //  }
+                    //  let response = await applicationController.screenRenterProfile(dataReq)
+                    //  console.log(response);
+                

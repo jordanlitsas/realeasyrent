@@ -15,7 +15,7 @@ const insertRenterProfile = async (renterProfileData)=>{
 
 const getRenterProfileWithUserId = async (id) => {
 
-    let renterProfile = await renterProfileModel.findOne({userId: id}).exec();
+    let renterProfile = await renterProfileModel.findOne({userId: id});
     return renterProfile;
 }
 

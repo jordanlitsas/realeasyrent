@@ -25,14 +25,14 @@ let userRoute = require('./routes/users/user');
 let propertyRoute = require('./routes/users/landlord/property');
 let renterProfileRoute = require('./routes/users/renter/renterProfile');
 let applicationRoute = require('./routes/transactions/application');
-let applicationRequirementSorting = require ('./routes/transactions/applicationRequirementSorting.js')
+let applicationRequirementSorter = require ('./routes/transactions/applicationRequirementSorter');
 
 
 app.use('/user', userRoute);
 app.use('/property', propertyRoute);
 app.use('/renter_profile', renterProfileRoute);
 app.use('/application', applicationRoute)
-app.use('/filter/application_requirements', applicationRequirementSorting);
+app.use('/filter/application_requirements', applicationRequirementSorter);
 
 
 
