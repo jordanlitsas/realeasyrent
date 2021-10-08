@@ -42,6 +42,9 @@ const screenRenterProfile = async (req, res) => {
 
     
 
+    if (res == null){
+        return outcome;
+    }
     res.send({"outcome": outcome});
     
 }
