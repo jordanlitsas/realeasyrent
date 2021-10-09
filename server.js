@@ -39,143 +39,199 @@ app.use('/filter/application_requirements', applicationRequirementSorter);
 
 
 
-
-//socket test
-io.on('connection', (socket) => {
-  console.log('a user connected' + (socket.id));
-  socket.broadcast.emit('hi');
-  socket.on('disconnect', () => {
-      console.log('user disconnected');
-  });
-
-  
-socket.on('chat message', (msg) => {
-  console.log('message: ' + msg);
- io.emit('chat message', msg);
- });
-});
-
-// socket.on("send-notification", function () {
-  // io.broadcast.emit("new-notification", data);
- // socket.broadcast.emit("new-notification", data);
-//})
-
-//instrument(io, {auth: false})
- 
-//io.emit('some event', { someProperty: 'some value', otherProperty: 'other value' });
-
 app.post('/test/:api', async (req, res) => {
-  let Controller; 
-  let api = req.params.api;
-  switch(api){
-    
-    case 'user1':
+    let Controller; 
+    let api = req.params.api;
+    switch(api){
+      
+      case 'user1':
+          Controller = require('./controllers/users/userController');
+          req.body = {
+            firstName: "",
+            lastName: "Simpson",
+            email: "eatmy@shorts.com",
+            postcode: 3000
+          };
+  
+          Controller.createUser(req, res);
+        break;
+  
+        case 'user2':
+          Controller = require('./controllers/users/userController');
+          req.body = {
+            firstName: "Bart",
+            lastName: "",
+            email: "eatmy@shorts.com",
+            postcode: 3000
+          };
+  
+          Controller.createUser(req, res);
+        break;
+  
+        case 'user3':
+          Controller = require('./controllers/users/userController');
+          req.body = {
+            firstName: "Bart",
+            lastName: "Simpson",
+            email: "eatmy@shorts.com",
+            postcode: ""
+          };
+  
+          Controller.createUser(req, res);
+        break;
+  
+        case 'user4':
+          Controller = require('./controllers/users/userController');
+          req.body = {
+            firstName: "Bart",
+            lastName: "Simpson",
+            email: "",
+            postcode: 3000
+          };
+  
+          Controller.createUser(req, res);
+        break;
+  
+        case 'user5':
+          Controller = require('./controllers/users/userController');
+          req.body = {
+            firstName: "Bart",
+            lastName: "Simpson",
+            email: "eatmy@shorts.com",
+            postcode: 3000
+          };
+  
+          Controller.createUser(req, res);
+        break;
+      }
+  });
+  
+  
+  app.get('/test/:api', async (req, res) => {
+    let Controller; 
+    let api = req.params.api;
+    let userId = "";
+    switch(api){
+      
+      case 'user1':
         Controller = require('./controllers/users/userController');
         req.body = {
-          firstName: "",
-          lastName: "Simpson",
-          email: "eatmy@shorts.com",
-          postcode: 3000
+          operator: "",
+          query:""
         };
-
-        Controller.createUser(req, res);
+  
+        Controller.getUser(req, res);
       break;
-
+  
       case 'user2':
         Controller = require('./controllers/users/userController');
         req.body = {
-          firstName: "Bart",
-          lastName: "",
-          email: "eatmy@shorts.com",
-          postcode: 3000
+          operator: "userId",
+          query:"false id"
         };
-
-        Controller.createUser(req, res);
+  
+        Controller.getUser(req, res);
       break;
-
+  
       case 'user3':
         Controller = require('./controllers/users/userController');
+        let Service = require('./services/users/userService');
+  
+        
+        userId = await Service.createUser({firstName: "Lisa", lastName: "Simpson", postcode: 1000, email: "lisa's email"});
+  
         req.body = {
-          firstName: "Bart",
-          lastName: "Simpson",
-          email: "eatmy@shorts.com",
-          postcode: ""
+          operator: "userId",
+          query: userId
         };
-
-        Controller.createUser(req, res);
+  
+        Controller.getUser(req, res);
       break;
-
+  
       case 'user4':
         Controller = require('./controllers/users/userController');
+  
         req.body = {
-          firstName: "Bart",
-          lastName: "Simpson",
-          email: "",
-          postcode: 3000
+          operator: "userId",
+          query: "a bad userId"
         };
-
-        Controller.createUser(req, res);
+  
+        Controller.getUser(req, res);
       break;
-
+  
       case 'user5':
         Controller = require('./controllers/users/userController');
+  
         req.body = {
-          firstName: "Bart",
-          lastName: "Simpson",
-          email: "eatmy@shorts.com",
-          postcode: 3000
+          operator: "personalInfoQuery",
+          query: {firstName: "Lisa"}
         };
-
-        Controller.createUser(req, res);
+  
+        Controller.getUser(req, res);
+      break;
+  
+      case 'user6':
+        Controller = require('./controllers/users/userController');
+  
+        req.body = {
+          operator: "personalInfoQuery",
+          query: {firstName: "Moe"}
+        };
+  
+        Controller.getUser(req, res);
+      break;
+  
+      case 'user7':
+        Controller = require('./controllers/users/userController');
+  
+        req.body = {
+          operator: "multipleUsers",
+          query: {firstName: "Moe"}
+        };
+  
+        Controller.getUser(req, res);
+      break;
+  
+      case 'user8':
+        Controller = require('./controllers/users/userController');
+  
+        req.body = {
+          operator: "multipleUsers",
+          query: {firstName: "Moe"}
+        };
+  
+        Controller.getUser(req, res);
+      break;
+  
+      case 'user9':
+        Controller = require('./controllers/users/userController');
+  
+        req.body = {
+          operator: "multipleUsers",
+          query: {}
+        };
+  
+        Controller.getUser(req, res);
+      break;
+  
+       
+      }
+  });
+  
+  app.delete('localhost:3000/test/:api', (req, res) => {
+    let Controller; 
+    let api = req.params.api;
+    let userId = "";
+  
+    switch(api){
+      case "user1":
+        Controller = require('./controllers/users/userController');
+        req.body = {};
+        Controller.deleteUser(req, res);
       break;
     }
-});
-
-
-app.get('/test/:api', async (req, res) => {
-  let Controller; 
-  let api = req.params.api;
-  switch(api){
-    
-    case 'user1':
-      Controller = require('./controllers/users/userController');
-      req.body = {
-        operator: "",
-        query:""
-      };
-
-      Controller.getUser(req, res);
-    break;
-
-    case 'user2':
-      Controller = require('./controllers/users/userController');
-      req.body = {
-        operator: "userId",
-        query:"false id"
-      };
-
-      Controller.getUser(req, res);
-    break;
-
-    case 'user3':
-      Controller = require('./controllers/users/userController');
-      let Service = require('./services/users/userService');
-
-      await Service.de
-      let userId = await Service.createUser({firstName: "Lisa", lastName: "Simpson", postcode: 1000, email: "lisa@simpson.com"});
-
-      req.body = {
-        operator: "userId",
-        query: userId
-      };
-
-      Controller.getUser(req, res);
-    break;
-
-     
-    }
-});
-
+  
+  });
 
 http.listen(port,()=>{
   console.log("Listening on port ", port);

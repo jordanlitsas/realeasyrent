@@ -32,21 +32,25 @@ const createUser = async (req, res) => {
             if (userData[key] == null || typeof(userData[key]) == 'undefined' || userData[key].toString().length == 0){
                 errorMessage += `User was not created - missing user information for ${key}.`;
                 flag = false;
+
             }
         }
 
+
         if (flag){
             Service.userService.getUserWithPersonalInfoQuery({email: userData.email}).then(existingUser => {
+
                 if (existingUser == null){
                     //create the new user
                     Service.userService.createUser(userData).then(user => { 
-    
+
                         //capture the user's id
                         let newId = user._id.toString();
         
                         if (newId == null){
                             res.status(400).send(`User was not created - user document objectId was null.`);
                         } else {
+
                             //return new user's id for user's logged in instance.
                             res.status(200).send(newId);
                         } 
@@ -60,7 +64,6 @@ const createUser = async (req, res) => {
         else {
             res.status(400).send(errorMessage)
         }
-        //Validate no existing user
         
     }
     catch{
@@ -98,6 +101,7 @@ const getUser = async (req, res) => {
         break;
 
         case "multipleUsers":
+            
             Service.userService.getMultipleUsersWithPersonalInfoQuery(query).then(userArray => {
                 if (userArray.length == 0){
                     res.status(204).send();
