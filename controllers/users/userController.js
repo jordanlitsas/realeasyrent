@@ -15,6 +15,8 @@ let Service = require('../../services');
 const createUser = async (req, res) => { 
     try {
         let data = req.body;
+        let flag = true;
+        let errorMessage = "";
 
         //set to false if a user can be retrieved with the given email
 
@@ -28,31 +30,38 @@ const createUser = async (req, res) => {
         //validation - make sure all required user information is not empty or null
         for (var key in userData){
             if (userData[key] == null || typeof(userData[key]) == 'undefined' || userData[key].toString().length == 0){
-                res.status(400).send(`User was not created - missing user information for ${key}.`)
+                errorMessage += `User was not created - missing user information for ${key}.`;
+                flag = false;
             }
         }
 
-        //Validate no existing user
-        Service.userService.getUserWithPersonalInfoQuery({email: userData.email}).then(existingUser => {
-            if (existingUser == null){
-                //create the new user
-                Service.userService.createUser(userData).then(user => { 
-
-                    //capture the user's id
-                    let newId = user._id.toString();
+        if (flag){
+            Service.userService.getUserWithPersonalInfoQuery({email: userData.email}).then(existingUser => {
+                if (existingUser == null){
+                    //create the new user
+                    Service.userService.createUser(userData).then(user => { 
     
-                    if (newId == null){
-                        res.status(400).send(`User was not created - user document objectId was null.`);
-                    } else {
-                        //return new user's id for user's logged in instance.
-                        res.status(200).send(newId);
-                    } 
-                 });  
-            } else {
-                //send existing user can be retrieved with given email
-                res.status(400).send(`User was not created - this email is associated with another user.`);
-            }            
-        });
+                        //capture the user's id
+                        let newId = user._id.toString();
+        
+                        if (newId == null){
+                            res.status(400).send(`User was not created - user document objectId was null.`);
+                        } else {
+                            //return new user's id for user's logged in instance.
+                            res.status(200).send(newId);
+                        } 
+                     });  
+                } else {
+                    //send existing user can be retrieved with given email
+                    res.status(400).send(`User was not created - this email is associated with another user.`);
+                }            
+            });
+        }
+        else {
+            res.status(400).send(errorMessage)
+        }
+        //Validate no existing user
+        
     }
     catch{
         res.status(400).send(`User was not created - something went wrong, catch block was called.`);

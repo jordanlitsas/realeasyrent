@@ -65,21 +65,73 @@ socket.on('chat message', (msg) => {
 //io.emit('some event', { someProperty: 'some value', otherProperty: 'other value' });
 
 app.post('/test/:api', async (req, res) => {
+  let Controller; 
   let api = req.params.api;
   switch(api){
     
-    case 'user':
-      let Controller = require('./controllers/users/userController')
+    case 'user1':
+        Controller = require('./controllers/users/userController');
+        req.body = {
+          firstName: "",
+          lastName: "Simpson",
+          email: "eatmy@shorts.com",
+          postcode: 3000
+        };
 
-      req.body = {
-        firstName: "",
-        lastName: "Simpson",
-        email: "eatmy@shorts.com",
-        postcode: 3000
-      };
+        Controller.createUser(req, res);
+      break;
 
-      Controller.createUser(req, res);
+      case 'user2':
+        Controller = require('./controllers/users/userController');
+        req.body = {
+          firstName: "Bart",
+          lastName: "",
+          email: "eatmy@shorts.com",
+          postcode: 3000
+        };
+
+        Controller.createUser(req, res);
+      break;
+
+      case 'user3':
+        Controller = require('./controllers/users/userController');
+        req.body = {
+          firstName: "Bart",
+          lastName: "Simpson",
+          email: "eatmy@shorts.com",
+          postcode: ""
+        };
+
+        Controller.createUser(req, res);
+      break;
+
+      case 'user4':
+        Controller = require('./controllers/users/userController');
+        req.body = {
+          firstName: "Bart",
+          lastName: "Simpson",
+          email: "",
+          postcode: 3000
+        };
+
+        Controller.createUser(req, res);
+      break;
+
+      case 'user5':
+        Controller = require('./controllers/users/userController');
+        req.body = {
+          firstName: "Bart",
+          lastName: "Simpson",
+          email: "eatmy@shorts.com",
+          postcode: 3000
+        };
+
+        Controller.createUser(req, res);
+      break;
     }
+    
+
+    
   });
 
 http.listen(port,()=>{
