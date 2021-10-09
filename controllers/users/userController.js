@@ -78,7 +78,7 @@ const getUser = async (req, res) => {
         //returns a single user with a given userId (equal to that user's document's objectid)
             Service.userService.getUserWithUserId(query).then(user => {
                 if (user == null){
-                    res.status(400).send(`That userId is not associated with a user document.`);
+                    res.status(204).send(`That userId is not associated with a user document.`);
                 } else {
                     res.status(200).send(user)
                 }
