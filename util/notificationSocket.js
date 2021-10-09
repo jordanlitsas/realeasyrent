@@ -1,3 +1,4 @@
+const { eventNames } = require('process');
 const io = require('socket.io');
 
 //toast notifications
@@ -55,20 +56,30 @@ document.addEventListener('DOMContentLoaded', ()=> Toast.init());
 const socket = io();
 
 //receiving message from Jordans end
-socket.on('recieveMessage', (msg)=>{
-    io.to(console.log).emit('message', msg);
-   });
+io.on('connection', function (socket) {
+    messages.forEach(function (data) {
+      socket.emit('message', data);
+    });
+    socket.on('message', function (msg) {
+      var text = String(msg || '');
+
+      if (!text)
+        return;
+        broadcast('message', data);
+        messages.push(data);
+      });
+    });
 
 // Message from server
 socket.on('message', (message) => {
-  console.log(message);
-  outputMessage(message);
-});
-
+    console.log(message);
+    outputMessage(message);
+  });
+  
 
 
 module.exports = {
-    recieveMessage,
+    socket,
 };
 
 

@@ -36,6 +36,12 @@ const io = serverIO;
     io.to(user.room).emit('message', formatMessage(user.username, msg));
    });
 
+   io.on("connection", (socket) => {
+    socket.on("hello", (arg) => {
+      console.log(arg); // world
+    });
+  });
+
     //This runs when client disconnects
     socket.on('disconnect', ()=>{
         const user = userLeave(socket.id);
