@@ -105,6 +105,8 @@ const getUser = async (req, res) => {
             })
         break;        
     }
+
+    res.status(400).send('User query was not called - improper operator string.')
 }
 
 
