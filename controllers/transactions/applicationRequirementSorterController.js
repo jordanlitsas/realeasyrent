@@ -25,11 +25,13 @@ const screenRenterProfile = async (req, res) => {
         criteria = property.applicantCriteria.nonFlexible;
     } else if (applicationCriteriaType == "flexible"){
         criteria = property.applicantCriteria.flexible;
+
     } else {
         res.send(400);
     }
 
   
+
 
     //Gets the values from renterProfile for their associated key pair in criteria.
     let renterProfileCriteriaValues = await Services.applicationRequirementSortingService.extractCriterionValuesFromRenterProfile(renterProfile, criteria);
@@ -37,10 +39,10 @@ const screenRenterProfile = async (req, res) => {
     //Compares the values from renterProfile and criteria
     let report = comparer.compareRenterValuesToBenchmarkValues(renterProfileCriteriaValues);
 
+   
     //iterates through each boolean in report, and returns a final decision according to whether the criteria type was flexible or nonFlexible
     let outcome = Services.applicationRequirementSortingService.evaluateReport(report, applicationCriteriaType);
 
-    
 
     if (res == null){
         return outcome;

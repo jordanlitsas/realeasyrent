@@ -33,4 +33,5 @@ const updateApplication = async (appUpdate) => {
     return flag;
 }
 
+
  module.exports = {createApplication, removeApplicant, getApplications, removeProperty, updateApplication}

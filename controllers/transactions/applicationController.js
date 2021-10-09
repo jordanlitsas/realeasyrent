@@ -15,7 +15,6 @@ const createApplication = async (req, res) => {
     //Validate that property does not have existing applications 
     //this method is to create the initial applications. Properties aren't stored in this doc until they have 1 application
     await Services.applicationService.getApplications(propertyId).then(applications => {
-        console.log(applications)
         if (applications != null){
             errorMessage += "There are current applications for that property - update active_applications instead.\n";
             flag = false;
@@ -54,10 +53,9 @@ const createApplication = async (req, res) => {
         };
 
 
-        Services.applicationService.createApplication(application).then(insertionSuccess => {
-            if (insertionSuccess){
-
-                Services.applicationService.initAutomaticAppProcessing(userId, propertyId);
+        Services.applicationService.createApplication(application).then(activeApplicationList => {
+            if (activeApplicationList){
+                initiateApplicationProcessing(userId, propertyId, activeApplicationList);
                 res.status(200).send();
             }
             else {
@@ -82,7 +80,7 @@ const deleteApplication = async (req, res) => {
     await Services.applicationService.getApplications(propertyId).then(existingApplications => {
         activeApplications = existingApplications;
         if (existingApplications == null){
-            errorMessage += "There are no current applications for this property.\n";
+            errorMessage += "There are is current active application for this property.\n";
             flag = false;
         }
 
@@ -116,11 +114,11 @@ const deleteApplication = async (req, res) => {
 
             //Confirm the user has applied for this application
             
-            await Services.applicationService.removeApplicant(query, propertyId).then(deletionSuccess => {
+            await Services.applicationService.removeApplicant(query, propertyId).then(async deletionSuccess => {
 
                 //No documents are allowed without an active application
                 if (deletionSuccess.applicants.length == 0){
-                    Services.applicationService.removeProperty(query.propertyId);
+                   await Services.applicationService.removeProperty(propertyId);
                 }
 
                 if (deletionSuccess){
@@ -131,7 +129,7 @@ const deleteApplication = async (req, res) => {
                 }  
             });
         } else if (operator == "property"){
-            Services.applicationService.removeProperty(query.propertyId).then(deletionSuccess => {
+           await Services.applicationService.removeProperty(propertyId).then(deletionSuccess => {
                 if (deletionSuccess){
                     res.status(200).send();
                 } else {
@@ -185,90 +183,169 @@ const updateApplication = async (req, res) => {
         }
     })
 
+    let activeApplicationList = await Services.applicationService.getApplications(propertyId);
+    if (activeApplicationList == null){
+        errorMessage += 'propertyId was not associated with an active_application document. POST instead.'
+        flag = false;
+    }
 
     if (flag){
-        if (appUpdate == "add"){
 
 
-            let applicationPosting = await Services.applicationService.getApplications(propertyId);
-
-            applicationPosting.applicants.forEach(existingApplicant => {
-                if (existingApplicant.userId == userId){
-                    errorMessage += "This userId is already associated with an active application.";
-                    flag = false;
-                }
-            })
-
-
-            if (flag){
-                appUpdate = {
-                    userId: userId,
-                    dateApplicationMade: new Date(),
-                    status: "processing"
-                };
-
-                applicationPosting.applicants.push(appUpdate);
-
-                let updateSuccess = await Services.applicationService.updateApplication(applicationPosting);
-
-
-                if (updateSuccess){
-                    let applicationScreeningRequest = {
-                        body:{
-                            "userId": userId,
-                            "propertyId": propertyId,
-                            "applicationCriteriaType": "nonFlexible"
-                        }
-                    }
-                    let outcome = await appReqSorterController.screenRenterProfile(applicationScreeningRequest)
-                    // applicationRequirementSortingService.screenRenterProfile(applicationScreeningReq)
-                    
-                    applicationPosting = await applicationService.getApplications(propertyId);
-                    
-                    applicationPosting.applicants.forEach( async application => {
-                        if (application.userId == userId){
-                            application.report.nonFlexibleViolations = outcome;
-
-                            if (!outcome){
-                                application.status = "denied";
-                            }
-
-                            let success = await Services.applicationService.updateApplication(applicationPosting);
-
-                            if (success){
-                                //call notification receiver and pass notification to front end
-                                if (!outcome){
-                                    let property = await Services.propertyService.getPropertyWithPropertyId(propertyId);
-                                    let notification = `Your application for ${property.addressNumber} ${property.addressName}, ${property.postcode} was unsuccessful.`;
-                                    console.log(notification);
-                                } else {
-                                    let property = await Services.propertyService.getPropertyWithPropertyId(propertyId);
-                                    let notification = `Your application for ${property.addressNumber} ${property.addressName}, ${property.postcode} has passed pre-screening.`;
-                                    console.log(notification);
-                                }
-                               
-                            }
-                           
-                        }
-                    })
-
-                    res.status(200).send();
-                } else{
-                    res.status(400).send(errorMessage);
-                }
-                
-
-            
-            } else {
-                res.status(400).send(errorMessage);
+        //Validate the user hasn't already applied.
+        activeApplicationList.applicants.forEach(existingApplicant => {
+            if (existingApplicant.userId == userId){
+                errorMessage += "This userId is already associated with an active application.";
+                flag = false;
             }
+        })
+
+        //create new applicant data
+        if (flag){
+            appUpdate = {
+                userId: userId,
+                dateApplicationMade: new Date(),
+                status: "processing"
+            };
+
+            //add new applicant data to active_application document state
+            activeApplicationList.applicants.push(appUpdate);
+
+            //update new doc
+            activeApplicationList = await Services.applicationService.updateApplication(activeApplicationList);
+
+
+            //initiate process for nonFlexible requirements to deny inelligible applicants, and nonFlexible requirement sorting to rank shortlisted applicants
+            await initiateApplicationProcessing(userId, propertyId, activeApplicationList);
+        
+            res.status(200).send();
+            
         } else {
             res.status(400).send(errorMessage);
         }
+      
+        
     } else {
         res.status(400).send(errorMessage);
     }
 }
+
+/*
+1. outcome: true if no nonFlexibleViolations were recorded, false if any were
+*/
+const initiateApplicationProcessing = async (userId, propertyId, activeApplicationList) => {
+    if (activeApplicationList){
+
+        //request body to call screenRenterProfile in applicationRequirementSorterController
+        let applicationScreeningRequest = {
+            body:{
+                "userId": userId,
+                "propertyId": propertyId,
+                "applicationCriteriaType": "nonFlexible"
+            }
+        }
+
+
+        let outcome = await appReqSorterController.screenRenterProfile(applicationScreeningRequest)
+        
+
+
+        
+
+
+        activeApplicationList.applicants.forEach( async application => {
+            if (application.userId == userId){
+
+                //Set the outcome of the requirement screening to the nonFlexibleViolations value
+                //!outcome as we want it to say true if there was violations
+                application.report.nonFlexibleViolations = !outcome;
+
+                if (!outcome){
+                    application.status = "denied";
+                }
+
+                let updatedApplication = await Services.applicationService.updateApplication(activeApplicationList);
+
+                if (outcome){
+                    applicationScreeningRequest = {
+                        body:{
+                            "userId": userId,
+                            "propertyId": propertyId,
+                            "applicationCriteriaType": "flexible"
+                        }
+                    }
+
+                    let flexibleScreening = await appReqSorterController.screenRenterProfile(applicationScreeningRequest);
+
+                    updatedApplication.applicants.forEach(applicant => {
+                        if (applicant.userId == userId){
+                            applicant.report.flexibleViolations = flexibleScreening;
+                        }
+                    });
+                    
+                    rankApplications(updatedApplication);
+
+                    
+                }
+            }
+        })
+    }
+}
+const rankApplications = async (updatedApplication) => {
+
+    let shortList = [];
+
+
+    updatedApplication.applicants.forEach(applicant => {
+        if (applicant.status == "processing"){
+            shortList.push(applicant);
+        }
+    })
+
+    updatedApplication.shortList.forEach(shortListedApplicant => {
+        shortList.push(shortListedApplicant);
+
+    })
+       
+    
+
+    let sortedApplicants = shortList.sort(function(a, b){
+       
+        return a.report.flexibleViolations - b.report.flexibleViolations;
+    })
+
+    updatedApplication.shortList = [];
+    let i = 0;
+
+    sortedApplicants.forEach(application => {
+        updatedApplication.shortList.push(application);
+
+        for (i; i <= updatedApplication.applicants.length; i++){
+            try{ 
+                if (application.userId == updatedApplication.applicants[i].userId){
+                updatedApplication.applicants.splice(i, 1);
+                }
+            }
+            catch{}
+           
+        }
+
+    });
+
+    await Services.applicationService.updateApplication(updatedApplication);
+
+
+}
+
+
+   
+
+
+       
+    
+   
+
+
 
 
 module.exports = {createApplication, deleteApplication, getApplications, updateApplication}

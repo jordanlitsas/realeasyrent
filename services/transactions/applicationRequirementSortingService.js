@@ -7,7 +7,6 @@ const extractCriterionValuesFromRenterProfile = (renterProfile, criteria) => {
 
     let report = [];
 
-    
     criteria.forEach(criterion => {
         
         let category = criterion.category;
@@ -18,7 +17,6 @@ const extractCriterionValuesFromRenterProfile = (renterProfile, criteria) => {
         //atributes deeper than layer 1 (which cannot be accessed by objectLayerReferenceerencing the highest level object) are stored in array 
         if (typeof(category) == 'object'){ 
             renterCategoryValue = comparer.handleMultiLayerObject(category, renterProfile);
-            // console.log(renterCategoryValue)
 
             category = renterCategoryValue.name;
             renterCategoryValue = renterCategoryValue.value;
@@ -43,18 +41,17 @@ const evaluateReport = (report, applicationCriteriaType) => {
 
         report.forEach(criterion => {
             
-            if (!criterion){
+            if (!criterion.outcome){
                 flag = false;
             }
         })
-
-        return flag;
+        return flag; 
     } 
     
     else if (applicationCriteriaType == "flexible"){
         let criterionViolated = 0;
         report.forEach(criterion => {
-            if (!criterion){
+            if (!criterion.outcome){
                 criterionViolated++;
             }
         })

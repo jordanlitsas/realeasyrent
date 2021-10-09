@@ -27,8 +27,11 @@ const createRenterProfile = async (req, res) => {
 
     if (flag){
         Services.renterProfileService.createRenterProfile(renterProfileData).then(newRenterProfile => {
+            console.log(newRenterProfile)
             if (newRenterProfile.userId){
                 res.status(200).send();
+            } else {
+                res.status(400).send(errorMessage)
             }
         })
     } else {
