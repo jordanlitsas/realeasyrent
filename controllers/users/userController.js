@@ -73,12 +73,14 @@ const getUser = async (req, res) => {
 
     let operator = req.body.operator;
     let query = req.body.query;
+    
     switch(operator){
         case "userId":
         //returns a single user with a given userId (equal to that user's document's objectid)
             Service.userService.getUserWithUserId(query).then(user => {
+                console.log(user)
                 if (user == null){
-                    res.status(204).send(`That userId is not associated with a user document.`);
+                    res.status(204).send();
                 } else {
                     res.status(200).send(user)
                 }
@@ -104,9 +106,12 @@ const getUser = async (req, res) => {
                 res.status(200).send(userArray);
             })
         break;        
+
+        default: res.status(400).send('User query was not called - improper operator string.')
+
+
     }
 
-    res.status(400).send('User query was not called - improper operator string.')
 }
 
 
