@@ -56,6 +56,17 @@
 				var randomId = document.getElementById("randomNum")
 				randomId.innerHTML = Math.floor((Math.random() * 50000) + 10000);
 		  	}
+
+			  
+			  var socket = io();
+			  socket.on('notification', function (message) { 
+
+
+				console.log(message);
+			});
 		</script>
+
+<script src="/socket.io/socket.io.js"></script>
+
 	</body>
 </html>

@@ -1,7 +1,9 @@
 const { application } = require('express');
 const { applicationRequirementSortingService, applicationService } = require('../../services');
-let Services = require('../../services');
-let appReqSorterController  = require("./applicationRequirementSorterController");
+const Services = require('../../services');
+const appReqSorterController  = require("./applicationRequirementSorterController");
+const notification = require('../../util/notificationSocket');
+
 // let notification = require('../../util/notificationSocket');
 
 
@@ -262,10 +264,12 @@ const initiateApplicationProcessing = async (userId, propertyId, activeApplicati
 
                 if (!outcome){
                     application.status = "denied";
+                    notification.receiver("Hello Nathan");
                 }
 
                 let updatedApplication = await Services.applicationService.updateApplication(activeApplicationList);
 
+                //add return for else
                 if (outcome){
                     applicationScreeningRequest = {
                         body:{
