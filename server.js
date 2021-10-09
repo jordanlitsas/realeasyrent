@@ -129,10 +129,53 @@ app.post('/test/:api', async (req, res) => {
         Controller.createUser(req, res);
       break;
     }
-    
+});
 
+
+app.get('/test/:api', async (req, res) => {
+  let Controller; 
+  let api = req.params.api;
+  switch(api){
     
-  });
+    case 'user1':
+      Controller = require('./controllers/users/userController');
+      req.body = {
+        operator: "",
+        query:""
+      };
+
+      Controller.getUser(req, res);
+    break;
+
+    case 'user2':
+      Controller = require('./controllers/users/userController');
+      req.body = {
+        operator: "userId",
+        query:"false id"
+      };
+
+      Controller.getUser(req, res);
+    break;
+
+    case 'user3':
+      Controller = require('./controllers/users/userController');
+      let Service = require('./services/users/userService');
+
+      await Service.de
+      let userId = await Service.createUser({firstName: "Lisa", lastName: "Simpson", postcode: 1000, email: "lisa@simpson.com"});
+
+      req.body = {
+        operator: "userId",
+        query: userId
+      };
+
+      Controller.getUser(req, res);
+    break;
+
+     
+    }
+});
+
 
 http.listen(port,()=>{
   console.log("Listening on port ", port);

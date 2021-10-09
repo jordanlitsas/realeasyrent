@@ -78,7 +78,6 @@ const getUser = async (req, res) => {
         case "userId":
         //returns a single user with a given userId (equal to that user's document's objectid)
             Service.userService.getUserWithUserId(query).then(user => {
-                console.log(user)
                 if (user == null){
                     res.status(204).send();
                 } else {
@@ -150,5 +149,7 @@ const updateUser = (req, res) => {
         }
     });
 }
+
+
 
 module.exports = {createUser, deleteUser, getUser, updateUser}

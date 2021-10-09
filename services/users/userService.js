@@ -1,5 +1,4 @@
 let database = require('../database/userDocConnection');
-var mongoose = require('mongoose');
 
 
 //Receives form data, creates object mirroring database schema, 
@@ -38,7 +37,15 @@ const getUserWithUserId = async (userId) => {
   
 }
 
-
+const deleteUserWithUserId = async (userId) => {
+    try {
+        let flag = await database.deleteUserWithUserId(userId);
+        return flag;
+    }
+    catch{
+        return null;
+    }
+} 
 
 
 const updateUser = async (userUpdate) => {
@@ -52,4 +59,4 @@ const updateUser = async (userUpdate) => {
 }
 
 
-module.exports = {createUser, getUserWithUserId, updateUser, getUserWithPersonalInfoQuery, getMultipleUsersWithPersonalInfoQuery}
+module.exports = {deleteUserWithUserId, createUser, getUserWithUserId, updateUser, getUserWithPersonalInfoQuery, getMultipleUsersWithPersonalInfoQuery}

@@ -39,8 +39,11 @@ const updateUser = async (userUpdate) => {
     } else {
         return false;
     }
-
-
 }
 
-module.exports = {insertUser, getUserWithId, getUserWithPersonalInfoQuery, getMultipleUsersWithPersonalInfoQuery, updateUser}
+const deleteUserWithUserId = async (userId) => {
+    let success = await userModel.findByIdAndDelete(userId);
+    return success;
+}
+
+module.exports = {deleteUserWithUserId, insertUser, getUserWithId, getUserWithPersonalInfoQuery, getMultipleUsersWithPersonalInfoQuery, updateUser}

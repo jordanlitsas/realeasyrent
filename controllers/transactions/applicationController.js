@@ -2,7 +2,7 @@ const { application } = require('express');
 const { applicationRequirementSortingService, applicationService } = require('../../services');
 const Services = require('../../services');
 const appReqSorterController  = require("./applicationRequirementSorterController");
-const notification = require('../../util/notificationSocket');
+
 
 // let notification = require('../../util/notificationSocket');
 
