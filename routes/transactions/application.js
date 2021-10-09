@@ -15,6 +15,10 @@ router.get('/', (req, res) => {
     Controller.getApplications(req, res);
 });
 
+router.put('/', (req, res) => {
+    Controller.updateApplication(req, res);
+});
+
 module.exports = router;
 
  

@@ -4,30 +4,16 @@ const activeApplicationModel = mongoose.model('active_applications', schemas.act
 
 
 
-const insertInitialApplication = async (appUserId, appPropertyId) => { 
-    let existingApplicationList = await activeApplicationModel.findOne({propertyId: appPropertyId});
-    if (existingApplicationList != null){
-        return false;
-    }
+const insertInitialApplication = async (application) => { 
+    
 
-    if(!appPropertyId || !appUserId){
-        return false;
-    }
-    let applicationModel = {
-        propertyId: appPropertyId,
-        applicants: []
-    }
 
-    applicationModel.applicants.push(appUserId);
+    let newApplication = new activeApplicationModel( application );
+    let success = await newApplication.save();
+    return success;
 
-    let propertyApplicationList = new activeApplicationModel( applicationModel );
 
-    let savedApplicationList = await propertyApplicationList.save();
-    if (savedApplicationList != null){
-        return true;
-    } else {
-        return false;
-    }
+    
 
 }
 
@@ -59,36 +45,22 @@ const addApplication = async (appUserId, appPropertyId) => {
 
 const getApplications = async (appPropertyId) => {
 
-  let applicantUserIds = await activeApplicationModel.find({propertyId: appPropertyId});
-  applicantUserIds = applicantUserIds[0].applicants
-  return applicantUserIds;
+  let applications = await activeApplicationModel.findOne({propertyId: appPropertyId});
+  return applications;
 }
 
 const removeApplicant = async (appUserId, appPropertyId) => {
 
-    let query = {propertyId: appPropertyId};
-
-
-
-    let applicationList =  await activeApplicationModel.findOne(query);
-    if (!applicationList){
-        return false;
-    } else if (applicationList.applicants.length == 0){
-        return false;
-    } 
-
-
+    let applicationList =  await activeApplicationModel.findOne({propertyId: appPropertyId});
 
     let i = 0;
     for (i; i < applicationList.applicants.length; i++){
-        if (applicationList.applicants[i] == appUserId){
+        if (applicationList.applicants[i].userId == appUserId){
             applicationList.applicants.splice(i, 1);
         }
     }
 
-
-    let success = await activeApplicationModel.findOneAndUpdate(query, applicationList, {new: true}); 
-
+    let success = await activeApplicationModel.findOneAndUpdate({propertyId: appPropertyId}, applicationList, {new: true}); 
     return success;
 }
 
@@ -97,5 +69,10 @@ const removeProperty = async (appPropertyId) => {
     return success;
 }
 
+const updateApplication = async (appUpdate) => {
+    let success = await activeApplicationModel.findOneAndUpdate({propertyId: appUpdate.propertyId}, appUpdate, {new: true});
+    return success;
+}
 
-module.exports = {insertInitialApplication, removeApplicant, removeProperty, getApplications, addApplication}
+
+module.exports = {insertInitialApplication, removeApplicant, removeProperty, getApplications, addApplication, updateApplication}

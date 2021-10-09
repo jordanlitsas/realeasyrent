@@ -6,47 +6,28 @@ const renterProfileModel = mongoose.model('renter_profile', schemas.renterProfil
 
 
 const insertRenterProfile = async (renterProfileData)=>{
-    if(!renterProfileData){
-        return false;
-    }
+   
+    let renterProfile = new renterProfileModel(renterProfileData);
+    let savedRenterProfile = await renterProfile.save();
 
-    let existingUser = await renterProfileModel.findOne({userId: renterProfileData.userId});
-    if (existingUser == null){
-
-        const renterProfile = new renterProfileModel(renterProfileData);
-        let savedRenterProfile = await renterProfile.save();
-        if (savedRenterProfile == renterProfile){
-            return renterProfileData;
-        }
-        else {
-            return false;
-        }
-        
-    } 
-    else {
-        return false;
-    }    
-  
+    return savedRenterProfile;
 
 }
 
 const getRenterProfileWithUserId = async (id) => {
+
     let renterProfile = await renterProfileModel.findOne({userId: id});
     return renterProfile;
 }
 
 const updateRenterProfile = async (updatedRenterProfileData) => {
-    let success = await renterProfileModel.findOneAndUpdate({userId: updatedRenterProfileData.userId}, updatedRenterProfileData, {new: true});
-    if (success) {
-        return true;
-    } else {
-        return false;
-    }
+    let flag = await renterProfileModel.findOneAndUpdate({userId: updatedRenterProfileData.userId}, updatedRenterProfileData, {new: true});
+    return flag;
 }
 
-const getRenterProfilesMatchingCriteria = async (query) => {
+const getRenterProfilesMatchingCriteria = async (criteria) => {
    
-    let renterProfiles = await renterProfileModel.find(query);
+    let renterProfiles = await renterProfileModel.find(criteria);
     return renterProfiles;
 }
 

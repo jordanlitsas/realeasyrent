@@ -1,20 +1,37 @@
 var database = require('../../database/propertyDocConnection')
 
-
-const createProperty = async (req) => {
-    
-    let property = req.body.property;
-    propertyId = await database.insertProperty(property);
-
-    return propertyId;
-
+const getPropertiesWithUserId = async (ownersUserId) => {
+    try{
+        let properties = await database.getPropertiesWithUserId(ownersUserId);
+        return properties;
     }
+    catch{
+        return null;
+    }
+    
+}
+
+
+const getPropertyWithPropertyId = async (propertyId) => {
+    try{
+        let property = await database.getPropertyWithPropertyId(propertyId);
+        return property;
+    }
+    catch{
+        return null;
+    }
+    
+}
+
+const createProperty = async (propertyData) => {
+    let propertyId = await database.insertProperty(propertyData);
+    return propertyId;
+}
   
 
 
-const deleteProperty = async (req) => {
+const deleteProperty = async (propertyId) => {
     try { 
-        let propertyId = req.body.propertyId;
         let flag = await database.deleteProperty(propertyId);      
         return flag;
 
@@ -26,37 +43,24 @@ const deleteProperty = async (req) => {
 
 
 
-const getProperty = async (filter) => {
-    let operator = filter.operator;
-    let query = filter.query;
-
-    switch(operator){
-        case "userId":
-            let ownersUserId = query.userId;
-            let propertyFromUserId = await database.getPropertyWithUserId(ownersUserId);
-            return propertyFromUserId;
-        
-        case "propertyId":
-            let ownersPropertyId = query.propertyId;
-            let propertyFromPropertyId = await database.getPropertyWithPropertyId(ownersPropertyId);
-            return propertyFromPropertyId
-
-        case "criteria":
-            let propertyCriteria = query;
-            let propertyFromCriteria = await database.getPropertiesWithCriteria(propertyCriteria);
-            return propertyFromCriteria;
-        }
-
+const getPropertiesWithCriteria = async (propertyCriteria) => {
+    let property = await database.getPropertiesWithCriteria(propertyCriteria);
+    return property;
 
 }
 
 
 
-const updateProperty = async (req) => {
-    let propertyUpdate = req.body.property;
-    let success = await database.updateProperty(propertyUpdate);
-    return success;
+const updateProperty = async (propertyUpdate) => {
+    try {
+        let success = await database.updateProperty(propertyUpdate);
+        return success;
+    }
+    catch{
+        return false;
+    }
+    
 }
 
 
-module.exports = {createProperty, deleteProperty, getProperty, updateProperty}
+module.exports = {createProperty, deleteProperty, getPropertiesWithCriteria, updateProperty, getPropertiesWithUserId, getPropertyWithPropertyId}

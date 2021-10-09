@@ -1,4 +1,4 @@
-let Service = require('../../services/index');
+let Service = require('../../services');
 
 /*
     This page is responsible for managing CRUD operations for the user collection. Each document represents a unique system user.
@@ -61,53 +61,47 @@ const createUser = async (req, res) => {
 
 
 const getUser = async (req, res) => {
-    try{
-        
+
+    let operator = req.body.operator;
+    let query = req.body.query;
+    switch(operator){
+        case "userId":
         //returns a single user with a given userId (equal to that user's document's objectid)
-        if (req.body.userId){
-            let userId = req.body.userId;
-            
-            Service.userService.getUserWithUserId(userId).then(user => {
+            Service.userService.getUserWithUserId(query).then(user => {
                 if (user == null){
                     res.status(400).send(`That userId is not associated with a user document.`);
                 } else {
                     res.status(200).send(user)
                 }
             })
-        } 
+            
+        break;
         
-        else if (req.body.personalInfoQuery){
-            let query = req.body.personalInfoQuery;
+        case "personalInfoQuery":
             Service.userService.getUserWithPersonalInfoQuery(query).then(user => {
-                console.log(user)
                 if (user == null){
-                    res.status(400).send('User could not be retrieved with that information.')
+                    res.status(204).send()
                 } else {
                     res.status(200).send(user)
                 }
             })
-           
+        break;
 
-        } 
-        
-        else if (req.body.getMultipleUsers){
-            let query = req.body.getMultipleUsers;
+        case "multipleUsers":
             Service.userService.getMultipleUsersWithPersonalInfoQuery(query).then(userArray => {
                 if (userArray.length == 0){
-                    res.status(400).send(`No users could be retrieved with that information.`);
+                    res.status(204).send();
                 }
                 res.status(200).send(userArray);
             })
-        }
-        
+        break;        
     }
-    catch {
-        res.status(400).send('Something went wrong - catch blocked was called.');
-    }
+}
+
 
     
    
-}
+
 
 //users can only be deleted with userId.
 const deleteUser = (req, res) => { 

@@ -1,3 +1,4 @@
+const { deflateSync } = require("zlib");
 
 
 const handleMultiLayerObject = (category, renterProfile) => {
@@ -36,11 +37,22 @@ const compareRenterValuesToBenchmarkValues = (renterProfileCriteria) => {
             case "preferredMoveInDate":
                 let renterDate = new Date(criterion.rentersValue);
                 let requiredDate = new Date(criterion.benchmark);
-                if (criterion.classification == "gt"){
+
+
+                
+
+                if (criterion.classification == "equal"){
+                    result = equal(renterDate, requiredDate);
+                } 
+                else if (criterion.classification == "after"){
                     result = gt(renterDate, requiredDate);
-                } else {
+
+                } 
+                else if (criterion.classification == "before"){
                     result = lt (renterDate, requiredDate);
                 }
+                screeningOutcome.push({category: criterion.classification, outcome: result});
+
                 flag = true;
             break;
 
@@ -72,7 +84,7 @@ const compareRenterValuesToBenchmarkValues = (renterProfileCriteria) => {
 
             case "children":
                 if (typeof(criterion.benchmark) == "number"){
-                    criterion.rentersValue = criterion.rentersValue.length;
+                    criterion.rentersValue = criterion.rentersValue;
                 }
             break;
 
@@ -90,7 +102,7 @@ const compareRenterValuesToBenchmarkValues = (renterProfileCriteria) => {
         if (!flag){
             result = sortClassification(criterion.rentersValue, criterion.benchmark, criterion.classification);
             screeningOutcome.push({category: criterion.category, outcome: result});
-        }
+        } 
 
     }
     
@@ -132,6 +144,7 @@ const boolean = (val, req) => {
     }
     return false;
 }
+
 
 const not = (val, req) => {
     if (val != req){
