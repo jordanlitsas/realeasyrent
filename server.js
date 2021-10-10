@@ -192,18 +192,8 @@ app.post('/test/:api', async (req, res) => {
         Controller.getUser(req, res);
       break;
   
+      
       case 'user8':
-        Controller = require('./controllers/users/userController');
-  
-        req.body = {
-          operator: "multipleUsers",
-          query: {firstName: "Moe"}
-        };
-  
-        Controller.getUser(req, res);
-      break;
-  
-      case 'user9':
         Controller = require('./controllers/users/userController');
   
         req.body = {
@@ -218,15 +208,34 @@ app.post('/test/:api', async (req, res) => {
       }
   });
   
-  app.delete('localhost:3000/test/:api', (req, res) => {
+  app.delete('/test/:api', async (req, res) => {
     let Controller; 
     let api = req.params.api;
-    let userId = "";
   
     switch(api){
       case "user1":
         Controller = require('./controllers/users/userController');
-        req.body = {};
+        req.body = {userId: 'a bad id'};
+        Controller.deleteUser(req, res);
+      break;
+
+      case "user2":
+        Controller = require('./controllers/users/userController');
+        let db = require('./services/database/userDocConnection');
+
+        let temp = await db.insertUser({
+          firstName: "Moe",
+          lastName: "Sizlak",
+          postcode: 3150,
+          email: "moest@vaern.com"
+        });
+
+        req.body = {userId: temp._id};
+        Controller.deleteUser(req, res);
+      break;
+
+      case "user3": 
+        Controller = require('./controllers/users/userController');
         Controller.deleteUser(req, res);
       break;
     }
