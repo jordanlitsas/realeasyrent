@@ -34,11 +34,7 @@ const insertUser = async (userData)=>{
 
 const updateUser = async (userUpdate) => {
     let updatedUser = await userModel.findOneAndUpdate({_id: userUpdate._id}, userUpdate, {new: true});
-    if (updatedUser) {
-        return true;
-    } else {
-        return false;
-    }
+    return updatedUser;
 }
 
 const deleteUserWithUserId = async (userId) => {

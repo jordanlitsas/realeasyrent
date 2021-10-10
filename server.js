@@ -242,6 +242,40 @@ app.post('/test/:api', async (req, res) => {
   
   });
 
+app.put('/test/:api', async (req, res) => {
+  let Controller, Service;
+  let api = req.params.api;
+
+  switch(api){
+    case "user1":
+      Controller = require('./controllers/users/userController')
+      req.body = {
+        userUpdated: {
+        _id: "a bad id",
+        firstName: "Homer"
+        }
+      };
+      Controller.updateUser(req, res);
+    break;
+
+    case "user2":
+      Controller = require('./controllers/users/userController');
+      Service = require('./services/users/userService')
+      
+      let bartsUserId = await Service.getUserWithPersonalInfoQuery({firstName: "Bart", lastName: "Simpson"});
+      bartsUserId = bartsUserId._id.toString();
+
+      req.body = {
+        userUpdate: {
+        _id: bartsUserId,
+        firstName: "Evil Bart"
+        }
+      };
+      Controller.updateUser(req, res);
+    break;
+  }
+})
+
 http.listen(port,()=>{
   console.log("Listening on port ", port);
 });

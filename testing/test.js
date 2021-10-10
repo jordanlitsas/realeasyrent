@@ -135,7 +135,7 @@ describe('get user(s)', () => {
         });
     });
 
-    it('Returns 204 status for searching all user docs for a non-existant value',  function(done) { 
+    it('Returns a 204 status for searching all user docs for a non-existant value',  function(done) { 
         chai.request(`localhost:3000/test/user7`)
         .get('/')
         .end(function(err, res) {
@@ -144,7 +144,7 @@ describe('get user(s)', () => {
         });
     });
     
-    it('Returns 200 status and array of users for empty multiple user query',  function(done) { 
+    it('Returns a 200 status and array of users for empty multiple user query',  function(done) { 
         chai.request(`localhost:3000/test/user8`)
         .get('/')
         .end(function(err, res) {
@@ -157,7 +157,7 @@ describe('get user(s)', () => {
 
 describe('delete user', () => {
 
-    it('Returns 400 status and specific error message when an incorrect userId is passed',  function(done) { 
+    it('Returns a 400 status and specific error message when an incorrect userId is passed',  function(done) { 
         chai.request(`localhost:3000/test/user1`)
         .delete('/')
         .end(function(err, res) {
@@ -167,7 +167,7 @@ describe('delete user', () => {
         });
     });
 
-    it('Returns 200 status  when a correct userId is used to delete a user',  function(done) { 
+    it('Returns a 200 status when a correct userId is used to delete a user',  function(done) { 
         chai.request(`localhost:3000/test/user2`)
         .delete('/')
         .end(function(err, res) {
@@ -176,7 +176,7 @@ describe('delete user', () => {
         });
     });
 
-    it('Returns 400 status  when a bad userId is used to delete a user',  function(done) { 
+    it('Returns a 400 status when a bad userId is used to delete a user',  function(done) { 
         chai.request(`localhost:3000/test/user3`)
         .delete('/')
         .end(function(err, res) {
@@ -184,8 +184,27 @@ describe('delete user', () => {
             done();                               
         });
     });
-
-
 });
+
+describe('update user', () => {
+    it('Returns a 400 status and specific message when an update fails', function(done) {
+        chai.request('localhost:3000/test/user1')
+        .put('/')
+        .end(function(err, res) {
+            expect(res).to.have.status(400);
+            expect(res.error.text).to.equal('The user was not updated.');
+            done();
+        })
+    })
+
+    it('Returns a 200 status when an update is successful', function(done) {
+        chai.request('localhost:3000/test/user2')
+        .put('/')
+        .end(function(err, res) {
+            expect(res).to.have.status(200);
+            done();
+        })
+    })
+})
 
 
