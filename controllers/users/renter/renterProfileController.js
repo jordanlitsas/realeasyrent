@@ -91,16 +91,21 @@ const getRenterProfile = (req, res) => {
 const updateRenterProfile = (req, res) => { 
     let updatedRenterProfileData = req.body.updatedRenterProfileData;
 
+   
+    if (updatedRenterProfileData == undefined){       
+        res.status(400).send('Incorrect query structure.')
+    } else {
+        Services.renterProfileService.updateRenterProfile(updatedRenterProfileData).then(updateSuccess => {
+            if (updateSuccess){
+                res.status(200).send();
     
-    Services.renterProfileService.updateRenterProfile(updatedRenterProfileData).then(updateSuccess => {
-        if (updateSuccess){
-            res.status(200).send();
-
-        } else {
-            res.status(400).send();
-
-        }
-    });
+            } else {
+                res.status(400).send('userId not associated with a renter profile.');
+    
+            }
+        });
+    }
+    
 }
 
 

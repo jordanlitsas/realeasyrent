@@ -308,7 +308,36 @@ describe('GET /renter_profile', () => {
     });
 })
 
+describe('PUT /renter_profile', () => {
+    it ('Returns a 400 status and a specific error message when using an incorrect query structure', function(done){
+        chai.request('localhost:3000/test/rp1')
+        .put('/')
+        .end(function(err, res){
+            expect(res.status).to.equal(400);
+            expect(res.text).to.equal('Incorrect query structure.');
+            done();
+        })
+    })
 
+    it ('Returns a 400 status and a specific error message when the query querying with a bad userId', function(done){
+        chai.request('localhost:3000/test/rp2')
+        .put('/')
+        .end(function(err, res){
+            expect(res.status).to.equal(400);
+            expect(res.text).to.equal('userId not associated with a renter profile.');
+            done();
+        })
+    })
+
+    it ('Returns a 200 status when the update is successful', function(done){
+        chai.request('localhost:3000/test/rp3')
+        .put('/')
+        .end(function(err, res){
+            expect(res.status).to.equal(200);
+            done();
+        })
+    })
+})
 
 
 

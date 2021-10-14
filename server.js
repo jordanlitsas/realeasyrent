@@ -383,16 +383,6 @@ app.get('/test/:api', async (req, res) => {
       break;
 
     case 'rp4':
-
-      userId = await Service.userService.getUserWithPersonalInfoQuery({email: "lisa@live.com"});
-      
-      let renterProfileData = await Service.renterProfileService.getRenterProfilesMatchingCriteria({});
-
-      // console.log(renterProfileData)
-      // renterProfileData.userId = userId;
-      // await Service.renterProfileService.createRenterProfile(renterProfileData);
-
-      // console.log(await Service.renterProfileService.getRenterProfilesMatchingCriteria({}))
         req.body = {
           operator: 'criteria',
           query: {children: 2}
@@ -472,6 +462,33 @@ app.put('/test/:api', async (req, res) => {
         }
       };
       Controller.userController.updateUser(req, res);
+    break;
+  
+    case 'rp1': 
+      req.body = {incorrectQueryStructure: {}};
+      Controller.renterProfileController.updateRenterProfile(req, res);
+    break;
+
+    case 'rp2':
+      req.body = {
+          updatedRenterProfileData: {
+            userId: 'a bad userId',
+            monthlyIncome: 0
+          }
+      };
+      Controller.renterProfileController.updateRenterProfile(req, res);
+    break;
+
+    case 'rp3':
+      userId = await Service.userService.getUserWithPersonalInfoQuery({email: "evilbart@live.com"});
+      let someUserId = userId._id.toString();
+      req.body = {
+          updatedRenterProfileData: {
+            userId: someUserId,
+            employment: {monthlyIncome: 1000000}
+          }
+      };
+      Controller.renterProfileController.updateRenterProfile(req, res);
     break;
   }
 })
