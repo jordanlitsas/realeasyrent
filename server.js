@@ -6,9 +6,6 @@ var app = express();
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-
-// let dbConnection = require('./dbConnection.js');
-
 let http = require('http').createServer(app);
 let io = require('socket.io')(http);
 
@@ -37,12 +34,12 @@ app.use('/application', applicationRoute)
 app.use('/filter/application_requirements', applicationRequirementSorter);
 
 
+let Service = require('./services')
+let Controller = require('./controllers')
+let db = require('./services/database')
 
 const test = () => {
-  
-  Service = require('./services');
-  db = require('./services/database')
-  try {
+    try {
     Service.userService.getMultipleUsersWithPersonalInfoQuery({}).then( async users => {
       users.forEach (async user => {
           let id = user._id.toString();          
@@ -68,387 +65,402 @@ const test = () => {
 }
 
 app.post('/test/:api', async (req, res) => {
-    let Controller, Service, db;
     let api = req.params.api;
+
     switch(api){
+
       case "cleanDB":
         await test();
         res.send('Complete');
       break;
+
       case 'user1':
-          Controller = require('./controllers/users/userController');
           req.body = {
             firstName: "",
             lastName: "Simpson",
             email: "eatmy@shorts.com",
             postcode: 3000
           };
-  
-          Controller.createUser(req, res);
+          
+          Controller.userController.createUser(req, res);
         break;
-  
-        case 'user2':
-          Controller = require('./controllers/users/userController');
-          req.body = {
-            firstName: "Bart",
-            lastName: "",
-            email: "eatmy@shorts.com",
-            postcode: 3000
-          };
-  
-          Controller.createUser(req, res);
-        break;
-  
-        case 'user3':
-          Controller = require('./controllers/users/userController');
-          req.body = {
-            firstName: "Bart",
-            lastName: "Simpson",
-            email: "eatmy@shorts.com",
-            postcode: ""
-          };
-  
-          Controller.createUser(req, res);
-        break;
-  
-        case 'user4':
-          Controller = require('./controllers/users/userController');
-          req.body = {
-            firstName: "Bart",
-            lastName: "Simpson",
-            email: "",
-            postcode: 3000
-          };
-  
-          Controller.createUser(req, res);
-        break;
-  
-        case 'user5':
-          Controller = require('./controllers/users/userController');
-          Service = require('./services/users/userService');
-
-         
-          req.body = {
-            firstName: "Bart",
-            lastName: "Simpson",
-            email: "eatmy@shorts.com",
-            postcode: 3000
-          };
-  
-          Controller.createUser(req, res);
-        break;
-
-        case 'user6':
-          Controller = require('./controllers/users/userController');
-         
-
-          req.body = {
-            firstName: "Bart",
-            lastName: "Simpson",
-            email: "eatmy@shorts.com",
-            postcode: 3000
-          };
-  
-          Controller.createUser(req, res);
-        break;
-
-        case 'rp1':
-          Controller = require('./controllers/users/renter/renterProfileController');
-          req.body = {
-            "renterProfileData": {
-             "userId": "a bad user id",
-             "employment": {
-                 "employer": "self-employed",
-                 "lengthOfEmployment": "2 months",
-                 "position": "", 
-                 "monthlyIncome": 1000
-             },
-             "personalReferences": [
-                 {
-                     "name": "Alma Forsyth",
-                     "contactNumber": 10000000,
-                     "email": "y@hoo.com",
-                     "relationship": "Cocaine Dealer"
-                 }
-             ],
-             "professionalReferences": [
-                 {
-                     "name": "Pablo Escobar",
-                     "contactNumber": 1800000000,
-                     "email": "stickylover@live.com.au",
-                     "relationship": "Confidant"
-                 }
-             ],
-             "pets": [
-                 {
-                     "species": "dog",
-                     "breed": "spoodle",
-                     "size": "medium",
-                     "age": 8
-                 },
-                 {
-                     "species": "dog",
-                     "breed": "pound special",
-                     "size": "medium",
-                     "age": 10
-                 }
-             ], 
-             "children": 2,
-             "rentalHistory": [
-                 {
-                     "address": "90 the avenue, parkville 3052",
-                     "landlordName": "Jessica Alba",
-                     "landlordEmail": "Parasite420@gmail.com",
-                     "landlordContactNumber": 666,
-                     "lengthOfTenancy": 1,
-                     "bondConditions": {"bondReturned": true, "reasonBondWitheld": "", "amountWitheld": 0},
-                     "evicted": false,
-                     "rentalAgreementBroken": false
-                 }
-             ],
-             "smoker": false,
-             "preferredMoveInDate": "2022.02.02",
-             "committedOfCrime": false}
-         }
-
-         Controller.createRenterProfile(req, res)
-
-
-        break;
-
-        case 'rp2':
-          Controller = require('./controllers/users/renter/renterProfileController');
-          Service = require('./services/users/userService');
-          let userId = await Service.getUserWithPersonalInfoQuery({email: "evilbart@live.com"});
-          userId = userId._id;
-          req.body = {
-            "renterProfileData": {
-             "userId": userId,
-             "employment": {
-                 "employer": "self-employed",
-                 "lengthOfEmployment": "2 months",
-                 "position": "", 
-                 "monthlyIncome": 1000
-             },
-             "personalReferences": [
-                 {
-                     "name": "Alma Forsyth",
-                     "contactNumber": 10000000,
-                     "email": "y@hoo.com",
-                     "relationship": "Cocaine Dealer"
-                 }
-             ],
-             "professionalReferences": [
-                 {
-                     "name": "Pablo Escobar",
-                     "contactNumber": 1800000000,
-                     "email": "stickylover@live.com.au",
-                     "relationship": "Confidant"
-                 }
-             ],
-             "pets": [
-                 {
-                     "species": "dog",
-                     "breed": "spoodle",
-                     "size": "medium",
-                     "age": 8
-                 },
-                 {
-                     "species": "dog",
-                     "breed": "pound special",
-                     "size": "medium",
-                     "age": 10
-                 }
-             ], 
-             "children": 2,
-             "rentalHistory": [
-                 {
-                     "address": "90 the avenue, parkville 3052",
-                     "landlordName": "Jessica Alba",
-                     "landlordEmail": "Parasite420@gmail.com",
-                     "landlordContactNumber": 666,
-                     "lengthOfTenancy": 1,
-                     "bondConditions": {"bondReturned": true, "reasonBondWitheld": "", "amountWitheld": 0},
-                     "evicted": false,
-                     "rentalAgreementBroken": false
-                 }
-             ],
-             "smoker": false,
-             "preferredMoveInDate": "2022.02.02",
-             "committedOfCrime": false}
-         }
-
-         Controller.createRenterProfile(req, res)
-
-
-        break;
-
-        
-      }
-  });
-  
-  
-  app.get('/test/:api', async (req, res) => {
-    let Controller; 
-    let api = req.params.api;
-    let userId = "";
-    switch(api){
-      
-      case 'user1':
-        Controller = require('./controllers/users/userController');
-        req.body = {
-          operator: "",
-          query:""
-        };
-  
-        Controller.getUser(req, res);
-      break;
   
       case 'user2':
-        Controller = require('./controllers/users/userController');
         req.body = {
-          operator: "userId",
-          query:"false id"
+          firstName: "Bart",
+          lastName: "",
+          email: "eatmy@shorts.com",
+          postcode: 3000
         };
-  
-        Controller.getUser(req, res);
+
+        Controller.userController.createUser(req, res);
       break;
-  
+
       case 'user3':
-        Controller = require('./controllers/users/userController');
-        let Service = require('./services/users/userService');
-  
-        // try {
-        //   let lisa = await (Service.getUserWithPersonalInfoQuery({firstName: "Lisa"}));
-        //   await Service.deleteUserWithUserId(lisa._id);
-        // } catch{
+        req.body = {
+          firstName: "Bart",
+          lastName: "Simpson",
+          email: "eatmy@shorts.com",
+          postcode: ""
+        };
 
-        // }
-        userId = await Service.createUser({firstName: "Lisa", lastName: "Simpson", postcode: 1000, email: "lisa's email"});
-
-        req.body = {
-          operator: "userId",
-          query: userId
-        };
-  
-        Controller.getUser(req, res);
+        Controller.userController.createUser(req, res);
       break;
-  
-      case 'user4':
-        Controller = require('./controllers/users/userController');
-  
-        req.body = {
-          operator: "userId",
-          query: "a bad userId"
-        };
-  
-        Controller.getUser(req, res);
-      break;
-  
-      case 'user5':
-        Controller = require('./controllers/users/userController');
-  
-        req.body = {
-          operator: "personalInfoQuery",
-          query: {firstName: "Lisa"}
-        };
-  
-        Controller.getUser(req, res);
-      break;
-  
-      case 'user6':
-        Controller = require('./controllers/users/userController');
-  
-        req.body = {
-          operator: "personalInfoQuery",
-          query: {firstName: "Moe"}
-        };
-  
-        Controller.getUser(req, res);
-      break;
-  
-      case 'user7':
-        Controller = require('./controllers/users/userController');
-  
-        req.body = {
-          operator: "multipleUsers",
-          query: {firstName: "Moe"}
-        };
-  
-        Controller.getUser(req, res);
-      break;
-  
       
-      case 'user8':
-        Controller = require('./controllers/users/userController');
-  
+      case 'user4':
         req.body = {
-          operator: "multipleUsers",
-          query: {}
+          firstName: "Bart",
+          lastName: "Simpson",
+          email: "",
+          postcode: 3000
         };
-  
-        Controller.getUser(req, res);
-      break;
-  
-       
-      }
-  });
-  
-  app.delete('/test/:api', async (req, res) => {
-    let Controller; 
-    let api = req.params.api;
-  
-    switch(api){
-      case "user1":
-        Controller = require('./controllers/users/userController');
-        req.body = {userId: 'a bad id'};
-        Controller.deleteUser(req, res);
+
+        Controller.userController.createUser(req, res);
       break;
 
-      case "user2":
-        Controller = require('./controllers/users/userController');
-        let db = require('./services/database/userDocConnection');
-
-        let temp = await db.insertUser({
-          firstName: "Moe",
-          lastName: "Sizlak",
-          postcode: 3150,
-          email: "moest@vaern.com"
-        });
-
-        req.body = {userId: temp._id};
-        Controller.deleteUser(req, res);
+      case 'user5':
+        req.body = {
+          firstName: "Bart",
+          lastName: "Simpson",
+          email: "eatmy@shorts.com",
+          postcode: 3000
+        };
+        Controller.userController.createUser(req, res);
       break;
 
-      case "user3": 
-        Controller = require('./controllers/users/userController');
-        Controller.deleteUser(req, res);
+      case 'user6':
+        req.body = {
+          firstName: "Bart",
+          lastName: "Simpson",
+          email: "eatmy@shorts.com",
+          postcode: 3000
+        };
+
+        Controller.userController.createUser(req, res);
+      break;
+
+      case 'rp1':
+        req.body = {
+          "renterProfileData": {
+            "userId": "a bad user id",
+            "employment": {
+                "employer": "self-employed",
+                "lengthOfEmployment": "2 months",
+                "position": "", 
+                "monthlyIncome": 1000
+            },
+            "personalReferences": [
+                {
+                    "name": "Alma Forsyth",
+                    "contactNumber": 10000000,
+                    "email": "y@hoo.com",
+                    "relationship": "Cocaine Dealer"
+                }
+            ],
+            "professionalReferences": [
+                {
+                    "name": "Pablo Escobar",
+                    "contactNumber": 1800000000,
+                    "email": "stickylover@live.com.au",
+                    "relationship": "Confidant"
+                }
+            ],
+            "pets": [
+                {
+                    "species": "dog",
+                    "breed": "spoodle",
+                    "size": "medium",
+                    "age": 8
+                },
+                {
+                    "species": "dog",
+                    "breed": "pound special",
+                    "size": "medium",
+                    "age": 10
+                }
+            ], 
+            "children": 2,
+            "rentalHistory": [
+                {
+                    "address": "90 the avenue, parkville 3052",
+                    "landlordName": "Jessica Alba",
+                    "landlordEmail": "Parasite420@gmail.com",
+                    "landlordContactNumber": 666,
+                    "lengthOfTenancy": 1,
+                    "bondConditions": {"bondReturned": true, "reasonBondWitheld": "", "amountWitheld": 0},
+                    "evicted": false,
+                    "rentalAgreementBroken": false
+                }
+            ],
+            "smoker": false,
+            "preferredMoveInDate": "2022.02.02",
+            "committedOfCrime": false}
+        }
+
+        Controller.renterProfileController.createRenterProfile(req, res)
+
+
+      break;
+
+      case 'rp2':
+        userId = await Service.userService.getUserWithPersonalInfoQuery({email: "evilbart@live.com"});
+        userId = userId._id.toString();
+        req.body = {
+          "renterProfileData": {
+            "userId": userId,
+            "employment": {
+                "employer": "self-employed",
+                "lengthOfEmployment": "2 months",
+                "position": "", 
+                "monthlyIncome": 1000
+            },
+            "personalReferences": [
+                {
+                    "name": "Alma Forsyth",
+                    "contactNumber": 10000000,
+                    "email": "y@hoo.com",
+                    "relationship": "Cocaine Dealer"
+                }
+            ],
+            "professionalReferences": [
+                {
+                    "name": "Pablo Escobar",
+                    "contactNumber": 1800000000,
+                    "email": "stickylover@live.com.au",
+                    "relationship": "Confidant"
+                }
+            ],
+            "pets": [
+                {
+                    "species": "dog",
+                    "breed": "spoodle",
+                    "size": "medium",
+                    "age": 8
+                },
+                {
+                    "species": "dog",
+                    "breed": "pound special",
+                    "size": "medium",
+                    "age": 10
+                }
+            ], 
+            "children": 2,
+            "rentalHistory": [
+                {
+                    "address": "90 the avenue, parkville 3052",
+                    "landlordName": "Jessica Alba",
+                    "landlordEmail": "Parasite420@gmail.com",
+                    "landlordContactNumber": 666,
+                    "lengthOfTenancy": 1,
+                    "bondConditions": {"bondReturned": true, "reasonBondWitheld": "", "amountWitheld": 0},
+                    "evicted": false,
+                    "rentalAgreementBroken": false
+                }
+            ],
+            "smoker": false,
+            "preferredMoveInDate": "2022.02.02",
+            "committedOfCrime": false}
+        }
+        Controller.renterProfileController.createRenterProfile(req, res);
+      break;
+
+      case 'rp3':
+        userId = await Service.userService.getUserWithPersonalInfoQuery({email: "evilbart@live.com"});
+        userId = userId._id;
+        req.body = {
+          "wrong query key": { "userId": userId }
+        };
+        Controller.renterProfileController.createRenterProfile(req, res)
       break;
     }
+});
   
-  });
+  
+app.get('/test/:api', async (req, res) => {
+  let api = req.params.api;
+  switch(api){
+    
+    case 'user1':
+      req.body = {
+        operator: "",
+        query:""
+      };
 
-app.put('/test/:api', async (req, res) => {
-  let Controller, Service;
+      Controller.userController.getUser(req, res);
+    break;
+
+    case 'user2':
+      req.body = {
+        operator: "userId",
+        query:"false id"
+      };
+
+      Controller.userController.getUser(req, res);
+    break;
+
+    case 'user3':
+      userId = await Service.userService.createUser({firstName: "Lisa", lastName: "Simpson", postcode: 1000, email: "lisa@live.com"});
+      
+      req.body = {
+        operator: "userId",
+        query: userId
+      };
+
+      Controller.userController.getUser(req, res);
+    break;
+
+    case 'user4':  
+      req.body = {
+        operator: "userId",
+        query: "a bad userId"
+      };
+
+      Controller.userController.getUser(req, res);
+    break;
+
+    case 'user5':  
+      req.body = {
+        operator: "personalInfoQuery",
+        query: {firstName: "Lisa"}
+      };
+
+      Controller.userController.getUser(req, res);
+    break;
+
+    case 'user6':  
+      req.body = {
+        operator: "personalInfoQuery",
+        query: {firstName: "Moe"}
+      };
+
+      Controller.userController.getUser(req, res);
+    break;
+
+    case 'user7':  
+      req.body = {
+        operator: "multipleUsers",
+        query: {firstName: "Moe"}
+      };
+
+      Controller.userController.getUser(req, res);
+    break;
+
+    
+    case 'user8':  
+      req.body = {
+        operator: "multipleUsers",
+        query: {}
+      };
+
+      Controller.userController.getUser(req, res);
+    break;
+
+    case 'rp1':
+      req.body = {
+        operator: "wrong operator",
+        query: "wrong query"
+      };
+      
+      Controller.renterProfileController.getRenterProfile(req, res);
+      break;
+
+    case 'rp2':
+      req.body = {
+        operator: 'userId',
+        query: 'a bad userId'
+      };
+
+      Controller.renterProfileController.getRenterProfile(req, res);
+      break;
+      
+    case 'rp3':
+      req.body = {
+        operator: 'criteria',
+        query: {children: -1000}
+      };
+
+      Controller.renterProfileController.getRenterProfile(req, res);
+      break;
+
+    case 'rp4':
+
+      userId = await Service.userService.getUserWithPersonalInfoQuery({email: "lisa@live.com"});
+      
+      let renterProfileData = await Service.renterProfileService.getRenterProfilesMatchingCriteria({});
+
+      // console.log(renterProfileData)
+      // renterProfileData.userId = userId;
+      // await Service.renterProfileService.createRenterProfile(renterProfileData);
+
+      // console.log(await Service.renterProfileService.getRenterProfilesMatchingCriteria({}))
+        req.body = {
+          operator: 'criteria',
+          query: {children: 2}
+        };
+
+        Controller.renterProfileController.getRenterProfile(req, res);
+      break;
+    
+
+    case 'rp5':
+      userId = await Service.userService.getUserWithPersonalInfoQuery({email: "evilbart@live.com"});
+      userId = userId._id.toString();
+      req.body = {
+        operator: 'userId',
+        query: userId
+      };
+
+      Controller.renterProfileController.getRenterProfile(req, res);
+    break;   
+        
+
+    }
+});
+
+app.delete('/test/:api', async (req, res) => {
   let api = req.params.api;
 
   switch(api){
     case "user1":
-      Controller = require('./controllers/users/userController')
+      req.body = {userId: 'a bad id'};
+      Controller.userController.deleteUser(req, res);
+    break;
+
+    case "user2":
+      let temp = await db.userDocConnection.insertUser({
+        firstName: "Moe",
+        lastName: "Sizlak",
+        postcode: 3150,
+        email: "moest@vaern.com"
+      });
+      req.body = {userId: temp._id};
+      Controller.userController.deleteUser(req, res);
+    break;
+
+    case "user3": 
+      Controller.userController.deleteUser(req, res);
+    break;
+  }
+
+});
+
+app.put('/test/:api', async (req, res) => {
+  let api = req.params.api;
+
+  switch(api){
+    case "user1":
       req.body = {
         userUpdated: {
         _id: "a bad id",
         firstName: "Homer"
         }
       };
-      Controller.updateUser(req, res);
+      Controller.userController.updateUser(req, res);
     break;
 
     case "user2":
-      Controller = require('./controllers/users/userController');
-      Service = require('./services/users/userService')
-      
-      let bartsUserId = await Service.getUserWithPersonalInfoQuery({firstName: "Bart", lastName: "Simpson"});
+
+      let bartsUserId = await Service.userService.getUserWithPersonalInfoQuery({firstName: "Bart", lastName: "Simpson"});
       bartsUserId = bartsUserId._id.toString();
 
       req.body = {
@@ -459,7 +471,7 @@ app.put('/test/:api', async (req, res) => {
 
         }
       };
-      Controller.updateUser(req, res);
+      Controller.userController.updateUser(req, res);
     break;
   }
 })

@@ -13,7 +13,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "mocha ./testing/test.js",
+    "test": "mocha ./test.js",
     "start": "node server.js"
   },
   "repository": {

@@ -2,7 +2,7 @@ const { executionAsyncId } = require('async_hooks');
 
 var chai = require('chai'), chaiHttp = require('chai-http'), expect = chai.expect;
 chai.use(chaiHttp);
-let Service = require('../services');
+let Service = require('./services');
 
 
 
@@ -71,7 +71,6 @@ describe('POST /user', () => {
     });
 });
 
-
 describe('GET /user', () => {
 
     it('returns a 400 status and specific error message when the wrong operator string is used in the request body', function(done) { 
@@ -101,7 +100,7 @@ describe('GET /user', () => {
             let doc = JSON.parse(res.text);
             expect(doc.firstName).to.equal("Lisa");
             expect(doc.lastName).to.equal("Simpson");
-            expect(doc.email).to.equal("lisa's email");
+            expect(doc.email).to.equal("lisa@live.com");
             expect(doc.postcode).to.equal(1000);
             done();                               
         });
@@ -115,7 +114,7 @@ describe('GET /user', () => {
                 firstName: 'Lisa',
                 lastName: 'Simpson',
                 postcode: 1000,
-                email: "lisa's email",
+                email: "lisa@live.com",
                 __v: 0
               };
 
@@ -219,7 +218,7 @@ describe('POST /renter_profile', () => {
         .post('/')
         .end(function(err, res) {
             expect(res).to.have.status(400);
-            expect(res.error.text).to.equal('Could not create renter profile\nuserId is not associated with a user document.');
+            expect(res.error.text).to.equal('Could not create renter profile\nuserId is not associated with a user document.\n');
             done()
         })
     })
@@ -233,17 +232,81 @@ describe('POST /renter_profile', () => {
         })
     })
 
-    it ('Returns a 400 status when attempting to create a renterProfile with a userId already associated with a renterProfile', function(done){
+    it ('Returns a 400 status and specific error message when attempting to create a renterProfile with a userId already associated with a renterProfile', function(done){
         chai.request('localhost:3000/test/rp2')
         .post('/')
         .end(function(err, res) {
-            expect(res.text).to.equal('Could not create renter profile\nuserId is associated with a renter profile');
+            expect(res.text).to.equal('Could not create renter profile\nuserId is associated with a renter profile.\n');
+            expect(res).to.have.status(400);
+            done()
+        })
+    })
+
+    it ('Returns a 400 status and specific error message when attempting to create a renterProfile with an incorrectly structured query', function(done){
+        chai.request('localhost:3000/test/rp3')
+        .post('/')
+        .end(function(err, res) {
             expect(res).to.have.status(400);
             done()
         })
     })
 })
 
+describe('GET /renter_profile', () => {
+    it ('Returns a 400 status and specific error message when making an incorrectly structured query.', function(done){
+        chai.request('localhost:3000/test/rp1')
+        .get('/')
+        .end(function(err, res) {
+            expect(res).to.have.status(400);
+            expect(JSON.parse(res.error.text).error).to.equal('Incorrect query structure.');
+            done()
+        })
+    });
+
+    it ('Returns a 400 status and specific error message when querying with a bad userId.', function(done){
+        chai.request('localhost:3000/test/rp2')
+        .get('/')
+        .end(function(err, res) {
+            expect(res).to.have.status(400);
+            expect(res.error.text).to.equal('usedId not associated with a renter profile.');
+            done()
+        })
+    });
+    
+    it ('Returns a 204 status when querying with criteria that matches no renter profile document.', function(done){
+        chai.request('localhost:3000/test/rp3')
+        .get('/')
+        .end(function(err, res) {
+            expect(res).to.have.status(204);
+            done()
+        })
+    });
+
+    it ('Returns a 200 status and array of renter profile(s) when using a correct criteria query.', function(done){
+        chai.request('localhost:3000/test/rp4')
+        .get('/')
+        .end(function(err, res) {
+            expect(res).to.have.status(200);
+            let result = JSON.parse(res.text);
+            expect(result.length).to.be.greaterThan(0);
+            expect(result instanceof Array).to.equal(true);
+            done()
+        })
+    });
+
+
+    it ('Returns a 200 status and single renter profile object when querying with correct userId.', function(done){
+        chai.request('localhost:3000/test/rp5')
+        .get('/')
+        .end(function(err, res) {
+            expect(res).to.have.status(200);
+            let result = JSON.parse(res.text);
+            expect(Object.keys(result).length).to.be.greaterThan(0);
+            expect(typeof(result)).to.equal('object');
+            done()
+        })
+    });
+})
 
 
 
