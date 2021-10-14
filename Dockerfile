@@ -1,4 +1,4 @@
-FROM node:10-alpine
+FROM node
 
 WORKDIR /app
 
@@ -8,4 +8,4 @@ EXPOSE 8080
 
 RUN npm install
 
-CMD ["node", "server.js"]
+CMD ["npm", "start"]
