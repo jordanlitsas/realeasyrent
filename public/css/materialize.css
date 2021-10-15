@@ -12,7 +12,9 @@
 }
 .light-blue {
   background-color: #98c1d9 !important;
-  color: #39464e !important;
+}
+.light-blue-light {
+  background-color: #98c1d9 !important;
 }
 
 .grey {
