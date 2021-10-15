@@ -13,7 +13,6 @@ const insertProperty = async (newProperty) => {
         postcode: {$eq: newProperty.postcode} 
     });
 
-    console.log(existingListing)
     if (existingListing.length == 0){
 
         const property = new propertyModel(newProperty);

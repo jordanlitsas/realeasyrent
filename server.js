@@ -40,13 +40,13 @@ let db = require('./services/database')
 
 const test = () => {
     try {
-    Service.userService.getMultipleUsersWithPersonalInfoQuery({}).then( async users => {
-      users.forEach (async user => {
-          let id = user._id.toString();          
-          await Service.userService.deleteUserWithUserId(id);
+      Service.userService.getMultipleUsersWithPersonalInfoQuery({}).then( async users => {
+        users.forEach (async user => {
+            let id = user._id.toString();          
+            await Service.userService.deleteUserWithUserId(id);
+        })
       })
-    })
-  } 
+   } 
   catch{}
 
   try{
@@ -54,6 +54,17 @@ const test = () => {
       rps.forEach(async rp => {
         let id = rp._id.toString();
         await db.renterProfileDocConnection.deleteRenterProfileWithId(id);
+      })
+    })
+  
+  }
+  catch{}
+
+  try{
+    Service.propertyService.getPropertiesWithCriteria({}).then( async properties => {
+      properties.forEach(async prop => {
+        let id = prop._id.toString();
+        await db.propertyDocConnection.deleteProperty(id);
       })
     })
   
@@ -272,6 +283,61 @@ app.post('/test/:api', async (req, res) => {
         };
         Controller.renterProfileController.createRenterProfile(req, res)
       break;
+    
+      case 'property1':
+        Controller.propertyController.createProperty(req, res);
+      break;
+
+      case 'property2':
+        req.body = {property: {userId: 'a bad userId'}};
+        Controller.propertyController.createProperty(req, res);
+      break;
+
+      case 'property3':
+        let someUserId = await Service.userService.getUserWithPersonalInfoQuery({email: "lisa@live.com"});
+        someUserId = someUserId._id.toString();
+
+       
+        req.body = {
+          "property": {
+             "userId": someUserId,
+             "applicantCriteria": 
+                 [
+                     {"nonFlexible": {}},
+                     {"flexible": {}}
+     
+                 ],
+             "availabledate": "2022.01.01", 
+             "bathrooms": 3,
+             "bedrooms": 4,
+             "commuteProfile": {
+                 "drive": 7,
+                 "publicTransport": 7,
+                 "walk": 3
+             },
+             "demographics": "Cis white toxic racist homophobic possum hating men",
+             "energyLevels": 6,
+             "hvac": "Internal heating and 3 airconditioners",
+             "housingType": "apartment",
+             "indoorFeatures": "hardwood floors",
+             "keywords": "luxury",
+             "location": "Melbourne",
+             "marketValue": 670000,
+             "nbn": "FTTP",
+             "outdoorFeatures": "balcony",
+             "parking": "underground",
+             "petsAllowed": false,
+             "streetNumberAndName": "1/250 Nicholson Street",
+             "postcode": 4810,
+             "stateOrTerritory": "Vic",
+             "rentAmount": 710,
+             "rentFrequency": "week"
+          }
+     };
+
+     Controller.propertyController.createProperty(req, res);
+    break;
+    
     }
 });
   

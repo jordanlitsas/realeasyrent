@@ -340,6 +340,49 @@ describe('PUT /renter_profile', () => {
 })
 
 
+//PROPERTY
+describe('POST /property', () => {
+    it ('Returns a 400 status and specific error message when making an incorrectly structured query', function(done){
+        chai.request('localhost:3000/test/property1')
+        .post('/')
+        .end(function(err, res) {
+            expect(res).to.have.status(400);
+            expect(res.error.text).to.equal('Property was not created\nIncorrect query structure.\n');
+            done()
+        })
+    })
+
+    it ('Returns a 400 status and specific error message when querying with a bad userId', function(done){
+        chai.request('localhost:3000/test/property2')
+        .post('/')
+        .end(function(err, res) {
+            expect(res).to.have.status(400);
+            expect(res.error.text).to.equal('Property was not created\nuserId was not associated with any user document.\n');
+            done();
+        })
+    })
+
+    it ('Returns a 200 status and propertyId when successfully creating a property', function(done){
+        chai.request('localhost:3000/test/property3')
+        .post('/')
+        .end(function(err, res) {
+            expect(res.text.length).to.equal(24);
+            expect(res).to.have.status(200);
+            done();
+        })
+    })
+    
+    it ('Returns a 400 status and specific error message when property has existing addressNumber, addressName, and postcode combination', function(done){
+        chai.request('localhost:3000/test/property3')
+        .post('/')
+        .end(function(err, res) {
+            expect(res.error.text).to.equal('Property was not created\nAn existing property has this address number, name and postcode combination.\n');
+            expect(res).to.have.status(400);
+            done();
+        })
+    })
+})
+
 
 
 
