@@ -67,8 +67,9 @@ const getProperty = (req, res) => {
 
     switch(operator){
         case "userId":
-            Service.propertyService.getPropertiesWithUserId(query.userId).then(properties => {
-                if (properties > 0){
+            Service.propertyService.getPropertiesWithUserId(query).then(properties => {
+                
+                if (properties.length > 0){
                     res.status(200).send(properties);
                 } else {
                     res.status(204).send();
@@ -77,7 +78,7 @@ const getProperty = (req, res) => {
         break;
         
         case "propertyId":
-            Service.propertyService.getPropertyWithPropertyId(query.propertyId).then(property => {
+            Service.propertyService.getPropertyWithPropertyId(query).then(property => {
                 if (property != null){
                     res.status(200).send(property);
                 } else {
@@ -87,15 +88,27 @@ const getProperty = (req, res) => {
         break;
 
         case "criteria":
-            Service.propertyService.getPropertiesWithCriteria(query).then(propertyList => {
-                if (propertyList.length > 0){
-                    res.status(200).send(propertyList);
-                } else {
-                    res.status(204).send();
-                }
-            })
+            if (typeof(query) == 'object'){
+                Service.propertyService.getPropertiesWithCriteria(query).then(propertyList => {
+                    if (propertyList.length > 0){
+                        res.status(200).send(propertyList);
+                    } else {
+                        res.status(204).send();
+                    }
+                })
+            }
+            else {
+                res.status(400).send('Search by criteria must pass an object query.')
+            }
+            
             break;
+
+        default: 
+            res.status(400).send('Incorrectly structured query.'); 
+        break;
+
         }
+
    
     }
 
