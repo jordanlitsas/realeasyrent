@@ -43,7 +43,7 @@
 :root {
   --dark-color-a: #667aff;
   --dark-color-b: #7386ff;
-  --light-color: #e6e9ff;
+  --light-color: #ffffff;
   --success-color: #5cb85c;
   --error-color: #d9534f;
 }
@@ -85,7 +85,7 @@ a {
   font-weight: bold;
   font-size: larger;
   padding: 20px;
-  background: #faa301;
+  background: #98c1d9;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
