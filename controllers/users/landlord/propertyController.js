@@ -134,7 +134,7 @@ const deleteProperty = (req, res) => {
             res.status(200).send();
         }
         else {
-            res.status(404).send();
+            res.status(400).send();
         }   
     })
    
@@ -144,7 +144,7 @@ const deleteProperty = (req, res) => {
             res.status(200).send();
             }
             else {
-                res.status(404).send();
+                res.status(400).send();
             }   
         })
     }
