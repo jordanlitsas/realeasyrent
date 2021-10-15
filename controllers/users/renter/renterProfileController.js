@@ -8,21 +8,28 @@ const createRenterProfile = async (req, res) => {
     let errorMessage = "Could not create renter profile\n";
     let flag = true;
 
-    //make sure the user is already in the system
-    await Services.userService.getUserWithUserId(renterProfileData.userId).then(existingUser => {
-        if (existingUser == null){
-            errorMessage += "userId is not associated with a user document."
-            flag = false;
-        }
-    })
+    if (!renterProfileData){
+        errorMessage += "Your query was not structured property.\n";
+        flag = false;
+        res.status(400).send(errorMessage)
+    } else {
+        //make sure the user is already in the system
+        await Services.userService.getUserWithUserId(renterProfileData.userId).then(existingUser => {
+            if (existingUser == null){
+                errorMessage += "userId is not associated with a user document.\n"
+                flag = false;
+            }
+        })
 
-    //make sure that user doesn't already have a renter profile, in which case they should be updating and not creating
-    await Services.renterProfileService.getRenterProfileWithUserId(renterProfileData.userId).then(existingRenterProfile => {
-        if (existingRenterProfile != null){
-            errorMessage += "userId is associated with a renter profile";
-            flag = false;
-        }
-    })
+        //make sure that user doesn't already have a renter profile, in which case they should be updating and not creating
+        await Services.renterProfileService.getRenterProfileWithUserId(renterProfileData.userId).then(existingRenterProfile => {
+            if (existingRenterProfile != null){
+                errorMessage += "userId is associated with a renter profile.\n";
+                flag = false;
+            }
+        })
+    }
+    
 
 
     if (flag){
@@ -52,7 +59,7 @@ const getRenterProfile = (req, res) => {
                     res.status(200).send(renterProfile);
                 }
                 else {
-                    res.status(400).send();
+                    res.status(400).send('usedId not associated with a renter profile.');
                 } 
             })
         break;
@@ -71,6 +78,9 @@ const getRenterProfile = (req, res) => {
                 } 
             })
         break;
+
+        default: 
+        res.status(400).send({error: 'Incorrect query structure.'})
     }
    
     
