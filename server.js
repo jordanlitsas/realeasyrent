@@ -630,7 +630,9 @@ app.delete('/test/:api', async (req, res) => {
 
 app.put('/test/:api', async (req, res) => {
   let api = req.params.api;
-  let tempUserId = "";
+  let tempUserId = "",
+      tempPropertyId = "", 
+      temp;
   switch(api){
     case "user1":
       req.body = {
@@ -684,6 +686,61 @@ app.put('/test/:api', async (req, res) => {
       };
       Controller.renterProfileController.updateRenterProfile(req, res);
     break;
+  
+    case "property1":
+      req.body = {badPropertyUpdateQueryStructure: {postcode: 40}}
+      Controller.propertyController.updateProperty(req, res);
+    break;  
+
+    case "property2":
+      tempUserId = await Service.userService.getUserWithPersonalInfoQuery({email: "lisa@live.com"});
+      tempUserId = tempUserId._id.toString();
+
+     
+      temp = {
+        "property": {
+           "userId": tempUserId,
+           "applicantCriteria": 
+               [
+                   {"nonFlexible": {}},
+                   {"flexible": {}}
+   
+               ],
+           "availabledate": "2022.01.01", 
+           "bathrooms": 3,
+           "bedrooms": 4,
+           "commuteProfile": {
+               "drive": 7,
+               "publicTransport": 7,
+               "walk": 3
+           },
+           "demographics": "Cis white toxic racist homophobic possum hating men",
+           "energyLevels": 6,
+           "hvac": "Internal heating and 3 airconditioners",
+           "housingType": "apartment",
+           "indoorFeatures": "hardwood floors",
+           "keywords": "luxury",
+           "location": "Melbourne",
+           "marketValue": 670000,
+           "nbn": "FTTP",
+           "outdoorFeatures": "balcony",
+           "parking": "underground",
+           "petsAllowed": false,
+           "streetNumberAndName": "1/250 Nicholson Street",
+           "postcode": 4810,
+           "stateOrTerritory": "Vic",
+           "rentAmount": 710,
+           "rentFrequency": "week"
+        }
+      };
+
+      tempPropertyId = await Service.propertyService.createProperty(temp);
+
+      
+      req.body = {propertyUpdate: {_id: tempPropertyId, postcode: 40}}
+      Controller.propertyController.updateProperty(req, res);
+    break;  
+
   }
 })
 

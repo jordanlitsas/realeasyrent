@@ -507,6 +507,27 @@ describe('DELETE /property', () => {
     });
 
 })
+
+describe('PUT /property', () => {
+    it ('Returns a 400 status and a specific error message when using an incorrect query structure', function(done){
+        chai.request('localhost:3000/test/property1')
+        .put('/')
+        .end(function(err, res){
+            expect(res.status).to.equal(400);
+            expect(res.text).to.equal('Incorrect query structure');
+            done();
+        })
+    })
+
+    it ('Returns a 200 status when successfuly updating property', function(done){
+        chai.request('localhost:3000/test/property2')
+        .put('/')
+        .end(function(err, res){
+            expect(res.status).to.equal(200);
+            done();
+        })
+    })
+})
 describe('Database Cleaning', () => {
 
     it('Cleans the database for the next round of testing', function(done){
