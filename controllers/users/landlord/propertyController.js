@@ -125,29 +125,25 @@ const getProperty = (req, res) => {
 
 
 //Using propertyId is the only way to delete a property document.
-const deleteProperty = (req, res) => {
+const deleteProperty = async (req, res) => {
+
     let propertyId = req.body.propertyId;
-    let flag = false;
-    Service.propertyService.deleteProperty(propertyId).then(deletionSuccess => {
-        if (deletionSuccess){
-            flag = true;
-            res.status(200).send();
+    let deletedProperty = await Service.propertyService.deleteProperty(propertyId);
+
+    if (!deletedProperty){
+        res.status(400).send({propertyDeleted: false, applicationDeleted: false});
+    } else {
+    
+        let appListingDeletionSuccess = await Service.applicationService.removeProperty(propertyId);
+
+        if (appListingDeletionSuccess != null){
+            res.status(200).send( {propertyDeleted: true, applicationDeleted: true} );
         }
         else {
-            res.status(400).send();
-        }   
-    })
-   
-    if (flag){
-        Service.applicationService.removeProperty(propertyId).then(appListingDeletionSuccess => {
-            if (appListingDeletionSuccess){
-            res.status(200).send();
-            }
-            else {
-                res.status(400).send();
-            }   
-        })
-    }
+            res.status(200).send( {propertyDeleted: true, applicationDeleted: false} );
+        }  
+    
+    }              
 }
 
 
