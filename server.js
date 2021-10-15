@@ -77,7 +77,7 @@ const test = () => {
 
 app.post('/test/:api', async (req, res) => {
     let api = req.params.api;
-
+    let someUserId = "";
     switch(api){
 
       case "cleanDB":
@@ -294,7 +294,7 @@ app.post('/test/:api', async (req, res) => {
       break;
 
       case 'property3':
-        let someUserId = await Service.userService.getUserWithPersonalInfoQuery({email: "lisa@live.com"});
+        someUserId = await Service.userService.getUserWithPersonalInfoQuery({email: "lisa@live.com"});
         someUserId = someUserId._id.toString();
 
        
@@ -344,6 +344,7 @@ app.post('/test/:api', async (req, res) => {
   
 app.get('/test/:api', async (req, res) => {
   let api = req.params.api;
+  let someUserId = "", somePropertyId = "";
   switch(api){
     
     case 'user1':
@@ -411,7 +412,6 @@ app.get('/test/:api', async (req, res) => {
       Controller.userController.getUser(req, res);
     break;
 
-    
     case 'user8':  
       req.body = {
         operator: "multipleUsers",
@@ -457,7 +457,6 @@ app.get('/test/:api', async (req, res) => {
         Controller.renterProfileController.getRenterProfile(req, res);
       break;
     
-
     case 'rp5':
       userId = await Service.userService.getUserWithPersonalInfoQuery({email: "evilbart@live.com"});
       userId = userId._id.toString();
@@ -468,7 +467,51 @@ app.get('/test/:api', async (req, res) => {
 
       Controller.renterProfileController.getRenterProfile(req, res);
     break;   
-        
+    
+    case 'property1':
+      req.body = {operator: 'bad operator', query: 400};
+      Controller.propertyController.getProperty(req, res);
+    break;
+
+    case 'property2':
+      req.body = {operator: 'userId', query: 'a bad userId'};
+      Controller.propertyController.getProperty(req, res);
+    break;
+
+    case 'property3':
+      someUserId = await Service.userService.getUserWithPersonalInfoQuery({email: 'lisa@live.com'});
+      someUserId = someUserId._id.toString();
+      req.body = {operator: 'userId', query: someUserId};
+      Controller.propertyController.getProperty(req, res);
+    break;
+
+    case 'property4':
+      req.body = {operator: 'propertyId', query: 'a property userId'};
+      Controller.propertyController.getProperty(req, res);
+    break;
+
+    case 'property5':
+      somePropertyId = await Service.propertyService.getPropertiesWithCriteria({});
+      somePropertyId = somePropertyId[0]._id.toString();
+      req.body = {operator: 'propertyId', query: somePropertyId};
+      Controller.propertyController.getProperty(req, res);
+    break;
+
+    case 'property6':
+      req.body = {operator: 'criteria', query: 'a bad criteria query'};
+      Controller.propertyController.getProperty(req, res);
+    break;
+
+    case 'property7':
+      req.body = {operator: 'criteria', query: {energyLevels: -50}};
+      Controller.propertyController.getProperty(req, res);
+    break; 
+    
+    case 'property8':
+      req.body = {operator: 'criteria', query: {energyLevels: 6}};
+      Controller.propertyController.getProperty(req, res);
+    break;
+
 
     }
 });
@@ -502,7 +545,7 @@ app.delete('/test/:api', async (req, res) => {
 
 app.put('/test/:api', async (req, res) => {
   let api = req.params.api;
-
+  let someUserId = "";
   switch(api){
     case "user1":
       req.body = {
@@ -547,7 +590,7 @@ app.put('/test/:api', async (req, res) => {
 
     case 'rp3':
       userId = await Service.userService.getUserWithPersonalInfoQuery({email: "evilbart@live.com"});
-      let someUserId = userId._id.toString();
+      someUserId = userId._id.toString();
       req.body = {
           updatedRenterProfileData: {
             userId: someUserId,

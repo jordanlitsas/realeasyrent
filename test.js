@@ -383,6 +383,88 @@ describe('POST /property', () => {
     })
 })
 
+describe('GET /property', () => {
+
+    it('Returns a 400 status and specific error message when making an incorrectly structured query', function(done){
+        chai.request('localhost:3000/test/property1')
+        .get('/')
+        .end(function(err, res) {
+            expect(res.status).to.equal(400);
+            expect(res.text).to.equal('Incorrectly structured query.')
+            done();                               
+        });
+    })
+
+    it('Returns a 204 status when querying with a bad userId', function(done){
+        chai.request('localhost:3000/test/property2')
+        .get('/')
+        .end(function(err, res) {
+            expect(res.status).to.equal(204);
+            done();                               
+        });
+    })
+
+    it('Returns a 200 status and array of properties when querying with userId', function(done){
+        chai.request('localhost:3000/test/property3')
+        .get('/')
+        .end(function(err, res) {
+            let result = JSON.parse(res.text);
+            expect(result instanceof Array).to.equal(true);
+            expect(res.status).to.equal(200);
+            done();                               
+        });
+    })
+
+    it('Returns a 204 status when querying with a bad propertyId', function(done){
+        chai.request('localhost:3000/test/property4')
+        .get('/')
+        .end(function(err, res) {
+            expect(res.status).to.equal(204);
+            done();                               
+        });
+    })
+
+    it('Returns a 200 status and property object when querying with propertyId', function(done){
+        chai.request('localhost:3000/test/property5')
+        .get('/')
+        .end(function(err, res) {
+            expect(typeof(JSON.parse(res.text))).to.equal('object');
+            expect(res.status).to.equal(200);
+            done();                               
+        });
+    })
+
+    it('Returns a 400 status and specific error message when querying with a non-object argument', function(done){
+        chai.request('localhost:3000/test/property6')
+        .get('/')
+        .end(function(err, res) {
+            expect(res.status).to.equal(400);
+            expect(res.error.text).to.equal('Search by criteria must pass an object query.');
+            done();                               
+        });
+    })
+
+    it('Returns a 204 status when no properties are associated with a criteria query', function(done){
+        chai.request('localhost:3000/test/property7')
+        .get('/')
+        .end(function(err, res) {
+            expect(res.status).to.equal(204);
+            done();                               
+        });
+    })
+
+    
+    it('Returns a 200 status and array of properties with a criteria query', function(done){
+        chai.request('localhost:3000/test/property8')
+        .get('/')
+        .end(function(err, res) {
+            let result = JSON.parse(res.text);
+            expect(result instanceof Array).to.equal(true);
+            expect(res.status).to.equal(200);            
+            done();                               
+        });
+    })
+})
 
 
 
