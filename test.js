@@ -466,11 +466,47 @@ describe('GET /property', () => {
     })
 })
 
+describe('DELETE /property', () => {
+    it('Returns a 200 status if property only is deleted and returns {propertyDeleted: true, applicationDeleted: false}',  function(done) { 
+        chai.request(`localhost:3000/test/property1`)
+        .delete('/')
+        .end(function(err, res) {
+            let result = JSON.parse(res.text);
+            expect(res).to.have.status(200);
+            expect(result.propertyDeleted).to.equal(true);
+            expect(result.applicationDeleted).to.equal(false);
+            done();                               
+        });
+    });
 
+    
 
+    it('Returns a 200 status if property and application is deleted and returns {propertyDeleted: true, applicationDeleted: true}',  function(done) { 
+        chai.request(`localhost:3000/test/property2`)
+        .delete('/')
+        .end(function(err, res) {
+            let result = JSON.parse(res.text);
+            expect(res).to.have.status(200);
+            expect(result.propertyDeleted).to.equal(true);
+            expect(result.applicationDeleted).to.equal(true);
+            done();                               
+        });
+    });
 
+    it('Returns a 400 status if attempting to delete property with bad propertyId and returns {propertyDeleted: false, applicationDeleted: false}', function(done) { 
+        chai.request(`localhost:3000/test/property3`)
+        .delete('/')
+        .end(function(err, res) {
+            let result = JSON.parse(res.text);
 
+            expect(res).to.have.status(400);
+            expect(result.propertyDeleted).to.equal(false);
+            expect(result.applicationDeleted).to.equal(false);
+            done();                               
+        });
+    });
 
+})
 describe('Database Cleaning', () => {
 
     it('Cleans the database for the next round of testing', function(done){

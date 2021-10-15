@@ -77,7 +77,7 @@ const test = () => {
 
 app.post('/test/:api', async (req, res) => {
     let api = req.params.api;
-    let someUserId = "";
+    let tempUserId = "";
     switch(api){
 
       case "cleanDB":
@@ -294,13 +294,13 @@ app.post('/test/:api', async (req, res) => {
       break;
 
       case 'property3':
-        someUserId = await Service.userService.getUserWithPersonalInfoQuery({email: "lisa@live.com"});
-        someUserId = someUserId._id.toString();
+        tempUserId = await Service.userService.getUserWithPersonalInfoQuery({email: "lisa@live.com"});
+        tempUserId = tempUserId._id.toString();
 
        
         req.body = {
           "property": {
-             "userId": someUserId,
+             "userId": tempUserId,
              "applicantCriteria": 
                  [
                      {"nonFlexible": {}},
@@ -344,7 +344,7 @@ app.post('/test/:api', async (req, res) => {
   
 app.get('/test/:api', async (req, res) => {
   let api = req.params.api;
-  let someUserId = "", somePropertyId = "";
+  let tempUserId = "", tempPropertyId = "";
   switch(api){
     
     case 'user1':
@@ -479,9 +479,9 @@ app.get('/test/:api', async (req, res) => {
     break;
 
     case 'property3':
-      someUserId = await Service.userService.getUserWithPersonalInfoQuery({email: 'lisa@live.com'});
-      someUserId = someUserId._id.toString();
-      req.body = {operator: 'userId', query: someUserId};
+      tempUserId = await Service.userService.getUserWithPersonalInfoQuery({email: 'lisa@live.com'});
+      tempUserId = tempUserId._id.toString();
+      req.body = {operator: 'userId', query: tempUserId};
       Controller.propertyController.getProperty(req, res);
     break;
 
@@ -491,9 +491,9 @@ app.get('/test/:api', async (req, res) => {
     break;
 
     case 'property5':
-      somePropertyId = await Service.propertyService.getPropertiesWithCriteria({});
-      somePropertyId = somePropertyId[0]._id.toString();
-      req.body = {operator: 'propertyId', query: somePropertyId};
+      tempPropertyId = await Service.propertyService.getPropertiesWithCriteria({});
+      tempPropertyId = tempPropertyId[0]._id.toString();
+      req.body = {operator: 'propertyId', query: tempPropertyId};
       Controller.propertyController.getProperty(req, res);
     break;
 
@@ -518,6 +518,10 @@ app.get('/test/:api', async (req, res) => {
 
 app.delete('/test/:api', async (req, res) => {
   let api = req.params.api;
+  let tempPropertyId = ""; 
+  let tempUserId = ""; 
+  let application = "";
+  let temp = "";
 
   switch(api){
     case "user1":
@@ -526,7 +530,7 @@ app.delete('/test/:api', async (req, res) => {
     break;
 
     case "user2":
-      let temp = await db.userDocConnection.insertUser({
+      temp = await db.userDocConnection.insertUser({
         firstName: "Moe",
         lastName: "Sizlak",
         postcode: 3150,
@@ -539,13 +543,94 @@ app.delete('/test/:api', async (req, res) => {
     case "user3": 
       Controller.userController.deleteUser(req, res);
     break;
+  
+    case "property1":
+      
+      tempPropertyId = await Service.propertyService.getPropertiesWithCriteria({});
+      tempPropertyId = tempPropertyId[0]._id.toString();
+      req.body = {propertyId: tempPropertyId};
+      Controller.propertyController.deleteProperty(req, res);
+    break;   
+
+    case "property2":
+      tempUserId = await Service.userService.getUserWithPersonalInfoQuery({email: "lisa@live.com"});
+      tempUserId = tempUserId._id.toString();
+
+     
+      temp = {
+        "property": {
+           "userId": tempUserId,
+           "applicantCriteria": 
+               [
+                   {"nonFlexible": {}},
+                   {"flexible": {}}
+   
+               ],
+           "availabledate": "2022.01.01", 
+           "bathrooms": 3,
+           "bedrooms": 4,
+           "commuteProfile": {
+               "drive": 7,
+               "publicTransport": 7,
+               "walk": 3
+           },
+           "demographics": "Cis white toxic racist homophobic possum hating men",
+           "energyLevels": 6,
+           "hvac": "Internal heating and 3 airconditioners",
+           "housingType": "apartment",
+           "indoorFeatures": "hardwood floors",
+           "keywords": "luxury",
+           "location": "Melbourne",
+           "marketValue": 670000,
+           "nbn": "FTTP",
+           "outdoorFeatures": "balcony",
+           "parking": "underground",
+           "petsAllowed": false,
+           "streetNumberAndName": "1/250 Nicholson Street",
+           "postcode": 4810,
+           "stateOrTerritory": "Vic",
+           "rentAmount": 710,
+           "rentFrequency": "week"
+        }
+   };
+
+    await Service.propertyService.createProperty(temp);
+
+
+    tempPropertyId = await Service.propertyService.getPropertiesWithCriteria({});
+    tempPropertyId = tempPropertyId[0]._id.toString();
+
+
+    temp = {
+      firstName: "renter",
+      lastName: "renter",
+      postcode: 0101,
+      email: "renter@live.com"
+    };
+
+
+
+    tempUserId = await Service.userService.createUser(temp);
+    tempUserId = tempUserId._id.toString();
+
+    temp = {userId: tempUserId, propertyId: tempPropertyId};
+
+    await Service.applicationService.createApplication(temp);
+
+    req.body = {propertyId: tempPropertyId};
+    Controller.propertyController.deleteProperty(req, res);
+  break;
+
+    case "property3":
+      req.body = {propertyId: "a bad id"}
+      Controller.propertyController.deleteProperty(req, res);
   }
 
 });
 
 app.put('/test/:api', async (req, res) => {
   let api = req.params.api;
-  let someUserId = "";
+  let tempUserId = "";
   switch(api){
     case "user1":
       req.body = {
@@ -590,10 +675,10 @@ app.put('/test/:api', async (req, res) => {
 
     case 'rp3':
       userId = await Service.userService.getUserWithPersonalInfoQuery({email: "evilbart@live.com"});
-      someUserId = userId._id.toString();
+      tempUserId = userId._id.toString();
       req.body = {
           updatedRenterProfileData: {
-            userId: someUserId,
+            userId: tempUserId,
             employment: {monthlyIncome: 1000000}
           }
       };
