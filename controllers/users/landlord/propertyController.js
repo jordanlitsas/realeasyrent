@@ -13,44 +13,55 @@ const createProperty = async (req, res) => {
     let flag = true;
     let propertyData = req.body.property;
 
-    //Validate user's existence
-    await Service.userService.getUserWithUserId(propertyData.userId).then(existingUser => {
-
-        if (existingUser == null){
-            errorMessage += 'userId was not associated with any user document\n';
-            flag = false;
-        }
-
-    });
-
-
-    //Validate no existing property has that number, name, postcode combo.
-    await Service.propertyService.getPropertiesWithCriteria({
-        addressNumber: { $eq: propertyData.addressNumber }, 
-        addressName: { $eq: propertyData.addressName }, 
-        postcode: { $eq: propertyData.postcode }})
-    .then(existingProperty => {
-        if (existingProperty.length != 0){
-            errorMessage += 'An existing property has this address number, name and postcode combination.\n';
-            flag = false;
-        }
-    });
-
-
+  
+    if (typeof(propertyData) == 'undefined'){
+        errorMessage += 'Incorrect query structure.\n';
+        flag = false;
+    }
 
     if (flag){
-        Service.propertyService.createProperty(propertyData).then(propertyId => {
-            // console.log(propertyId);
-            if (propertyId){
-                res.status(200).send(propertyId);
+        //Validate user's existence
+        await Service.userService.getUserWithUserId(propertyData.userId).then(existingUser => {
+
+            if (existingUser == null){
+                errorMessage += 'userId was not associated with any user document.\n';
+                flag = false;
             }
-            else {
-                res.status(400).send('Property was not created - propertyId could not be captured.');
-            } 
+
         });
+
+
+        //Validate no existing property has that number, name, postcode combo.
+        await Service.propertyService.getPropertiesWithCriteria({
+            addressNumber: { $eq: propertyData.addressNumber }, 
+            addressName: { $eq: propertyData.addressName }, 
+            postcode: { $eq: propertyData.postcode }})
+        .then(existingProperty => {
+            if (existingProperty.length != 0){
+                errorMessage += 'An existing property has this address number, name and postcode combination.\n';
+                flag = false;
+            }
+        });
+
+
+
+        if (flag){
+            Service.propertyService.createProperty(propertyData).then(propertyId => {
+                // console.log(propertyId);
+                if (propertyId){
+                    res.status(200).send(propertyId);
+                }
+                else {
+                    res.status(400).send('Property was not created - propertyId could not be captured.');
+                } 
+            });
+        } else {
+            res.status(400).send(errorMessage);
+        }
     } else {
         res.status(400).send(errorMessage);
     }
+    
         
     
 
