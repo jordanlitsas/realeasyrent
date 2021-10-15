@@ -32,4 +32,4 @@ const getRenterProfilesMatchingCriteria = async (criteria) => {
 }
 
 
-module.exports = {deleteRenterProfileWithId,insertRenterProfile, getRenterProfileWithUserId, updateRenterProfile, getRenterProfilesMatchingCriteria} 
+module.exports = {insertRenterProfile, getRenterProfileWithUserId, updateRenterProfile, getRenterProfilesMatchingCriteria} 
