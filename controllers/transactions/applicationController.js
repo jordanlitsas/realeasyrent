@@ -22,11 +22,17 @@ const createApplication = async (req, res) => {
             flag = false;
         }
     })
-
     //Validate the userId 
     await Services.userService.getUserWithUserId(userId).then(existingUser => {
         if (existingUser == null){
             errorMessage += "userId is not associated with a user\n";
+            flag = false;
+        }
+    })
+
+    await Services.renterProfileService.getRenterProfileWithUserId(userId).then(usersRenterProfile => {
+        if (usersRenterProfile == null){
+            errorMessage += "userId is not associated with a renter profile\n";
             flag = false;
         }
     })
@@ -153,11 +159,10 @@ const getApplications = (req, res) => {
     Services.applicationService.getApplications(propertyId).then(applicationList => {
         if (applicationList != null){
             res.status(200).send(applicationList);
-        }
-        else {
-            res.status(400).send("There are no applications associated with this propertyId.");
+        } else {
+            res.status(204).send();
         }   
-    })
+    });
 }
 
 const updateApplication = async (req, res) => {
