@@ -1,14 +1,14 @@
 let mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const user = new mongoose.Schema({
+const user = new mongooseSchema({
     firstName: String,
     lastName: String,
     postcode: Number, 
     email: String
 }); 
 
-const renterProfile = new mongoose.Schema({
+const renterProfile = new mongooseSchema({
     userId: String,
     employment: {
         employer: String,
@@ -62,7 +62,7 @@ const renterProfile = new mongoose.Schema({
     committedOfCrime: Boolean
 })
 
-const activeApplication = new mongoose.Schema({
+const activeApplication = new mongooseSchema({
     propertyId: String,
     shortList: [Object],
     applicants: [{
@@ -79,23 +79,23 @@ const activeApplication = new mongoose.Schema({
     
 })
 
-const property = new mongoose.Schema({
+const property = new mongooseSchema({
     userId: String,
     applicantCriteria: 
     {  
         nonFlexible: 
             [
                 {
-                    category: Schema.Types.Mixed, 
-                    benchmark: Schema.Types.Mixed, 
+                    category: SchemaTypesMixed, 
+                    benchmark: SchemaTypesMixed, 
                     classification: String
                 }, 
             ],
         flexible: 
         [
             {
-                category: Schema.Types.Mixed, 
-                benchmark: Schema.Types.Mixed, 
+                category: SchemaTypesMixed, 
+                benchmark: SchemaTypesMixed, 
                 classification: String
             }, 
         ],
@@ -130,4 +130,4 @@ const property = new mongoose.Schema({
 })
 
 
-module.exports = {user, renterProfile, activeApplication, property}
+moduleexports = {user, renterProfile, activeApplication, property}
