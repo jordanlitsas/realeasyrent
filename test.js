@@ -614,6 +614,8 @@ describe('POST /active_application', () => {
 
 
 describe('GET /active_application', () => {
+
+
     it ('Returns a 204 status and specific error message when querying with a bad propertyId', function(done){
         chai.request('localhost:3000/test/app1')
         .get('/')
@@ -627,20 +629,88 @@ describe('GET /active_application', () => {
         chai.request('localhost:3000/test/app2')
         .get('/')
         .end(function(err, res) {
-            let result = JSON.parse(res.text);
-            console.log(result);
+            expect(res.text).to.not.equal(null);
             expect(res.status).to.equal(200);
             done();
         })
     })
 })
 
+describe('DELETE /active_application', () => {
+    it('Returns a 400 status and a specific error message when deleting whole doc with a propertyId not linked to an active_application doc', function(done) {
+        chai.request('localhost:3000/test/app1')
+        .delete('/')
+        .end(function(err, res) {
+            expect(res.text).to.equal('Could not delete application\nThere is no current active application for this property.\n');
+            expect(res.status).to.equal(400);
+            done();
+        })
+    })
 
+    
 
+    it('Returns a 400 status and a specific error message when deleting user applicant with a userId not linked to an active_application docs applicant array', function(done) {
+        chai.request('localhost:3000/test/app3')
+        .delete('/')
+        .end(function(err, res) {
+            expect(res.text).to.equal('Could not delete application\nThis user has not applied for this property.\n');
+            expect(res.status).to.equal(400);
+            done();
+        })
+    })
 
+    it('Returns a 200 status when deleting user applicant with a userId linked to an active_application docs applicant list', function(done) {
+        chai.request('localhost:3000/test/app4')
+        .delete('/')
+        .end(function(err, res) {
+            expect(res.status).to.equal(200);
+            done();
+        })
+    })
 
+    it('Returns a 200 status when deleting whole doc with a propertyId linked to an active_application doc', function(done) {
+        chai.request('localhost:3000/test/app2')
+        .delete('/')
+        .end(function(err, res) {
+            expect(res.status).to.equal(200);
+            done();
+        })
+    })
 
+    
+})
 
+describe('PUT /active_application', () => {
+    it('Returns a 400 status and specific error message when a bad userId is given', function(done) {
+        chai.request('localhost:3000/test/app1')
+        .put('/')
+        .end(function(err, res) {
+            expect(res.status).to.equal(400);
+            expect(res.text).to.equal('Application was not created\nuserId is not associated with a user\n');
+            done();
+        })
+    })
+
+    it('Returns a 400 status and specific error message when a bad propertyId is given', function(done) {
+        chai.request('localhost:3000/test/app2')
+        .put('/')
+        .end(function(err, res) {
+            expect(res.status).to.equal(400);
+            expect(res.text).to.equal('Application was not created\npropertyId is not associated with a property\npropertyId was not associated with an active_application document. POST instead.\n');
+            done();
+        })
+    })
+
+    it('Returns a 400 status and specific error message when a good propertyId that matches no active_application is given', function(done) {
+        chai.request('localhost:3000/test/app3')
+        .put('/')
+        .end(function(err, res) {
+            expect(res.status).to.equal(400);
+            expect(res.text).to.equal('Application was not created\npropertyId was not associated with an active_application document. POST instead.\n');
+            done();
+        })
+    })
+})
 
 
 

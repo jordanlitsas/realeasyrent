@@ -798,7 +798,51 @@ app.delete('/test/:api', async (req, res) => {
     case "property3":
       req.body = {propertyId: "a bad id"}
       Controller.propertyController.deleteProperty(req, res);
-  }
+    break;
+    
+    case 'app1':
+      tempPropertyId = await Service.propertyService.createProperty({});
+      req.body = {operator: "property", propertyId: tempPropertyId};
+
+      Controller.applicationController.deleteApplication(req, res);
+    break;
+
+    case 'app2':
+      tempPropertyId = await Service.propertyService.getPropertiesWithCriteria({});
+      tempPropertyId = tempPropertyId[0]._id.toString();
+      req.body = {operator: "property", propertyId: tempPropertyId};
+
+      Controller.applicationController.deleteApplication(req, res);
+    break;
+
+    case 'app3':
+      tempUserId = await Service.userService.createUser({email: 'temp'});
+      tempPropertyId = await Service.propertyService.getPropertiesWithCriteria({});
+      tempPropertyId = tempPropertyId[0]._id.toString();
+      req.body = {operator: "applicant", query: tempUserId, propertyId: tempPropertyId};
+
+      Controller.applicationController.deleteApplication(req, res);
+    break;
+
+    case 'app4':
+
+    
+      tempPropertyId = await Service.propertyService.getPropertiesWithCriteria({});
+      tempPropertyId = tempPropertyId[0]._id.toString();
+
+       tempUserId = await Service.userService.createUser({email: 'temp'});
+       temp = await Service.renterProfileService.createRenterProfile({userId: tempUserId});
+      await Service.applicationService.createApplication({userId: tempUserId, propertyId: tempPropertyId})
+
+
+      tempUserId = await Service.userService.getUserWithPersonalInfoQuery({email: 'bart@live.com'});
+      tempUserId = tempUserId._id.toString();
+
+      req.body = {operator: "applicant", query: tempUserId, propertyId: tempPropertyId};
+
+      Controller.applicationController.deleteApplication(req, res);
+    break;
+    }
 
 });
 
@@ -914,6 +958,36 @@ app.put('/test/:api', async (req, res) => {
       req.body = {propertyUpdate: {_id: tempPropertyId, postcode: 40}}
       Controller.propertyController.updateProperty(req, res);
     break;  
+
+    case 'app1':
+      tempUserId = await Service.userService.getUserWithPersonalInfoQuery({email: 'bart@live.com'});
+      tempUserId = tempUserId._id.toString();
+      tempPropertyId = await Service.propertyService.getPropertiesWithCriteria({});
+      tempPropertyId = tempPropertyId[0]._id.toString();
+
+      Service.applicationService.createApplication({userId: tempUserId, propertyId: tempPropertyId}); 
+   
+      req.body = {userId: '123', propertyId: tempPropertyId, appUpdate: ""};
+      Controller.applicationController.updateApplication(req, res);
+    break;
+
+    case 'app2': 
+      tempUserId = await Service.userService.getUserWithPersonalInfoQuery({email: 'bart@live.com'});
+      tempUserId = tempUserId._id.toString();
+      req.body = {userId: tempUserId, propertyId: 'a bad id', appUpdate: ""};
+      Controller.applicationController.updateApplication(req, res);
+    break;
+
+    case 'app3': 
+      tempUserId = await Service.userService.getUserWithPersonalInfoQuery({email: 'bart@live.com'});
+      tempUserId = tempUserId._id.toString();
+      tempPropertyId = await Service.propertyService.getPropertiesWithCriteria({});
+      tempPropertyId = tempPropertyId[0]._id.toString();
+
+      Service.applicationService.removeProperty(tempPropertyId);
+      req.body = {userId: tempUserId, propertyId: tempPropertyId, appUpdate: ""};
+      Controller.applicationController.updateApplication(req, res);
+    break;
 
   }
 })
