@@ -270,7 +270,7 @@ const initiateApplicationProcessing = async (userId, propertyId, activeApplicati
 
                 if (!outcome){
                     application.status = "denied";
-                    notification.receiver("Hello Nathan");
+
                 }
 
                 let updatedApplication = await Services.applicationService.updateApplication(activeApplicationList);

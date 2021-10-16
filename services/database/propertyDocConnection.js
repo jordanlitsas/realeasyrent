@@ -18,7 +18,6 @@ const insertProperty = async (newProperty) => {
         const property = new propertyModel(newProperty);
         let savedListing = await property.save();
         if (savedListing == property){
-            console.log(savedListing)
             let propertyId = property._id.toString();
             return propertyId;
         }

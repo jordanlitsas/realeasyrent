@@ -613,27 +613,27 @@ describe('POST /active_application', () => {
 });
 
 
-// describe('GET /active_application', () => {
-//     it ('Returns a 204 status and specific error message when querying with a bad propertyId', function(done){
-//         chai.request('localhost:3000/test/app1')
-//         .get('/')
-//         .end(function(err, res) {
-//             expect(res.status).to.equal(204);
-//             done();
-//         })
-//     })
+describe('GET /active_application', () => {
+    it ('Returns a 204 status and specific error message when querying with a bad propertyId', function(done){
+        chai.request('localhost:3000/test/app1')
+        .get('/')
+        .end(function(err, res) {
+            expect(res.status).to.equal(204);
+            done();
+        })
+    })
 
-//     it ('Returns a 202 status and s', function(done){
-//         chai.request('localhost:3000/test/app2')
-//         .get('/')
-//         .end(function(err, res) {
-//             let result = JSON.parse(res.text);
-//             console.log(result);
-//             expect(res.status).to.equal(200);
-//             done();
-//         })
-//     })
-// })
+    it ('Returns a 200 status and an application doc when querying with a userId', function(done){
+        chai.request('localhost:3000/test/app2')
+        .get('/')
+        .end(function(err, res) {
+            let result = JSON.parse(res.text);
+            console.log(result);
+            expect(res.status).to.equal(200);
+            done();
+        })
+    })
+})
 
 
 
