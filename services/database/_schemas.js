@@ -84,12 +84,21 @@ const property = new mongoose.Schema({
     applicantCriteria: 
     {  
         nonFlexible: 
+            [
+                {
+                    category: Schema.Types.Mixed, 
+                    benchmark: Schema.Types.Mixed, 
+                    classification: String
+                }, 
+            ],
+        flexible: 
         [
-            {category: Schema.Types.Mixed, 
+            {
+                category: Schema.Types.Mixed, 
                 benchmark: Schema.Types.Mixed, 
-                classification: String}, 
+                classification: String
+            }, 
         ],
-        flexible: {}
     },
     availabledate: String, 
     bathrooms: Number,
