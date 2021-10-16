@@ -1,14 +1,14 @@
 let mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const user = new mongooseSchema({
+const user = new mongoose.Schema({
     firstName: String,
     lastName: String,
     postcode: Number, 
     email: String
 }); 
 
-const renterProfile = new mongooseSchema({
+const renterProfile = new mongoose.Schema({
     userId: String,
     employment: {
         employer: String,
@@ -40,7 +40,7 @@ const renterProfile = new mongooseSchema({
             age: Number
         }
     ], 
-    children: Number,
+    children: [ ],
     rentalHistory: 
         {            
             property: {
@@ -62,9 +62,8 @@ const renterProfile = new mongooseSchema({
     committedOfCrime: Boolean
 })
 
-const activeApplication = new mongooseSchema({
+const activeApplication = new mongoose.Schema({
     propertyId: String,
-    shortList: [Object],
     applicants: [{
         userId: String,
         dateApplicationMade: String,
@@ -72,33 +71,24 @@ const activeApplication = new mongooseSchema({
         coApplicantUserId: [String],
         ranking: Number,
         report: {
-            flexibleViolations: Number,
+            flexibleViolations: [String],
             nonFlexibleViolations: Boolean
         }
     }], 
     
 })
 
-const property = new mongooseSchema({
+const property = new mongoose.Schema({
     userId: String,
     applicantCriteria: 
     {  
         nonFlexible: 
-            [
-                {
-                    category: SchemaTypesMixed, 
-                    benchmark: SchemaTypesMixed, 
-                    classification: String
-                }, 
-            ],
-        flexible: 
         [
-            {
-                category: SchemaTypesMixed, 
-                benchmark: SchemaTypesMixed, 
-                classification: String
-            }, 
+            {category: Schema.Types.Mixed, 
+                benchmark: Schema.Types.Mixed, 
+                classification: String}, 
         ],
+        flexible: {}
     },
     availabledate: String, 
     bathrooms: Number,
@@ -120,8 +110,7 @@ const property = new mongooseSchema({
     outdoorFeatures: String,
     parking: String,
     petsAllowed: Boolean,
-    addressNumber: String,
-    addressName: String,
+    streetNumberAndName: String,
     postcode: Number,
     stateOrTerritory: String,
     rentAmount: Number,
@@ -130,4 +119,4 @@ const property = new mongooseSchema({
 })
 
 
-moduleexports = {user, renterProfile, activeApplication, property}
+module.exports = {user, renterProfile, activeApplication, property}
