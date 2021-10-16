@@ -89,13 +89,13 @@ const deleteApplication = async (req, res) => {
     await Services.applicationService.getApplications(propertyId).then(existingApplications => {
         activeApplications = existingApplications;
         if (existingApplications == null){
-            errorMessage += "There are is current active application for this property.\n";
+            errorMessage += "There is no current active application for this property.\n";
             flag = false;
         }
 
 
         //Validate the user has applied for this property
-        if (operator == "applicant"){
+        if (operator == "applicant" && activeApplications != null){
             let existingApplication = false;
             activeApplications.applicants.forEach(applicant => {
                 
@@ -106,7 +106,7 @@ const deleteApplication = async (req, res) => {
             })
 
             if (!existingApplication && flag){
-                errorMessage += "This user has not applied for this application before.\n"
+                errorMessage += "This user has not applied for this property.\n"
                 flag = false;
             } 
         }
@@ -186,14 +186,14 @@ const updateApplication = async (req, res) => {
     //validate the propertyId
     await Services.propertyService.getPropertyWithPropertyId(propertyId).then(existingProperty => {
         if (existingProperty == null){
-            errorMessage += "propertyId is not associated with a property";
+            errorMessage += "propertyId is not associated with a property\n";
             flag = false;
         }
     })
 
     let activeApplicationList = await Services.applicationService.getApplications(propertyId);
     if (activeApplicationList == null){
-        errorMessage += 'propertyId was not associated with an active_application document. POST instead.'
+        errorMessage += 'propertyId was not associated with an active_application document. POST instead.\n'
         flag = false;
     }
 
@@ -259,7 +259,6 @@ const initiateApplicationProcessing = async (userId, propertyId, activeApplicati
 
 
         
-
 
         activeApplicationList.applicants.forEach( async application => {
             if (application.userId == userId){
