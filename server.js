@@ -22,6 +22,7 @@ app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 
 
+
 let userRoute = require('./routes/users/user');
 let propertyRoute = require('./routes/users/landlord/property');
 let renterProfileRoute = require('./routes/users/renter/renterProfile');
