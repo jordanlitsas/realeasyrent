@@ -150,14 +150,20 @@ const deleteProperty = async (req, res) => {
 //propertyUpdate is a subsection of the property document schema and will replace its stored mirror-key. It must hold propertyId to identify the doc.
 const updateProperty = (req, res) => {
     let propertyUpdate = req.body.propertyUpdate;
-    Service.propertyService.updateProperty(propertyUpdate).then(updateSuccess => {
-        if (updateSuccess){
-            res.status(200).send();
-        }
-        else {
-            res.status(404).send();
-        }  
-    })
+
+    if (typeof(propertyUpdate) == 'undefined'){
+        res.status(400).send('Incorrect query structure');
+    } else {
+        Service.propertyService.updateProperty(propertyUpdate).then(updateSuccess => {
+            if (updateSuccess != null){
+                res.status(200).send();
+            }
+            else {
+                res.status(400).send();
+            }  
+        })
+    }
+    
    
 }
 module.exports = {createProperty, deleteProperty, getProperty, updateProperty}
