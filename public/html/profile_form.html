@@ -250,7 +250,197 @@
                 </li>
                 <li>
                   <div class="collapsible-header black-text"><i class="material-icons black-text">place</i>Listing a Property</div>
-                  <div class="collapsible-body white"><span>Lorem ipsum dolor sit amet.</span></div>
+                  <div class="collapsible-body white">
+                    <span>
+                         <!-- Form for Property Listing  -->
+                        <div class="row black-text">
+                            <form class="col s12">
+                                <!-- Applicant Criteria  -->
+                                <h6 class="center black-text">Applicant Criteria</h6>
+                            <div class="row">
+                              <div class="row">
+                                <p class="center">
+                                  <label class="center">
+                                    <input type="checkbox" class="filled-in" id="criminalrecbox" />
+                                    <span for="criminalrecbox" class="black-text">Non-Flexible</span>
+                                  </label>
+                                  <label class="center">
+                                    <input type="checkbox" class="filled-in grey-text" id="filled-in-box" />
+                                    <span for="filled-in-box" class="black-text">Flexible</span>
+                                  </label>
+                                </p>
+                                <div class="input-field col s4">
+                                    <input id="Category" type="text" class="validate black-text">
+                                    <label for="Category">Category</label>
+                                </div>
+                                <div class="input-field col s4">
+                                    <input id="Benchmark" type="text" class="validate black-text">
+                                    <label for="Benchmark">Benchmark</label>
+                                </div>
+                                <div class="input-field col s4">
+                                    <input id="Classification" type="number" class="validate black-text">
+                                    <label for="Classification">Classification</label>
+                                </div>
+                                <!-- Property Details  -->
+                                <h6 class="center black-text">Personal Reference</h6>
+                                <div class="input-field col s6">
+                                    <input id="ref_name" type="text" class="validate black-text">
+                                    <label for="ref_name">Reference Name</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input id="phnumber" type="number" class="validate black-text">
+                                    <label for="phnumber">Contact Number</label>
+                                </div>
+                                <div class="input-field col s6">
+                                      <input id="ref_email" type="email" class="validate black-text">
+                                      <label for="ref_email">Reference Email</label>
+                                </div>
+                                <div class="input-field col s6">
+                                      <input id="personalrefrelationship" type="text" class="validate black-text">
+                                      <label for="personalrefrelationship">Relationship with Reference</label>
+                                </div>
+                                <!-- Professional reference  -->
+                                <h6 class="center black-text">Professional Reference</h6>
+                                <div class="input-field col s6">
+                                    <input id="pro_name" type="text" class="validate black-text" >
+                                    <label for="pro_name">Reference Name</label>
+                                </div>
+                                <div class="input-field col s6 black-text">
+                                    <input id="pro_phnumber" type="number" class="validate black-text" >
+                                    <label for="pro_phnumber">Contact Number</label>
+                                </div>
+                                <div class="input-field col s6 black-text">
+                                      <input id="pro_email" type="email" class="validate black-text" >
+                                      <label for="pro_email">Reference Email</label>
+                                </div>
+                                <div class="input-field col s6 black-text">
+                                      <input id="personalprorelationship" type="text" class="validate black-text" >
+                                      <label for="personalprorelationship">Relationship with Reference</label>
+                                </div>
+                                  <!-- Professional reference  -->
+                                <h6 class="center black-text">Professional Reference</h6>
+                                <div class="input-field col s6 black-text">
+                                    <input id="pro_name" type="text" class="validate black-text">
+                                    <label for="pro_name">Reference Name</label>
+                                </div>
+                                <div class="input-field col s6 black-text">
+                                    <input id="pro_phnumber" type="number" class="validate black-text">
+                                    <label for="pro_phnumber">Contact Number</label>
+                                </div>
+                                <div class="input-field col s6">
+                                      <input id="pro_email" type="email" class="validate black-text">
+                                      <label for="pro_email">Reference Email</label>
+                                </div>
+                                <div class="input-field col s6">
+                                      <input id="personalprorelationship" type="text" class="validate black-text">
+                                      <label for="personalprorelationship">Relationship with Reference</label>
+                                </div>
+                                  <!-- pets  -->
+                                <h6 class="center black-text">Pets</h6>
+                                <div class="input-field col s6">
+                                    <input id="pet_species" type="text" >
+                                    <label for="pet_species">Species</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input id="pet_breed" type="text" >
+                                    <label for="pet_breed">Breed</label>
+                                </div>
+                                <div class="input-field col s6">
+                                      <input id="pet_size" type="text" >
+                                      <label for="pet_size">Size</label>
+                                </div>
+                                <div class="input-field col s6">
+                                      <input id="pet_age" type="number" >
+                                      <label for="pet_age">Age</label>
+                                </div>
+                                <!-- rentalHistory  -->
+                                <h6 class="center black-text">Previous Rental History</h6>
+                                <div class="input-field col s6">
+                                    <input id="prev_address" type="text" class="validate black-text">
+                                    <label for="prev_address">Address</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input id="pro_phnumber" type="number" class="validate black-text">
+                                    <label for="pro_phnumber">Landlords Name</label>
+                                </div>
+                                <div class="input-field col s6">
+                                      <input id="pro_email" type="email" class="validate black-text">
+                                      <label for="pro_email">Landlords Email</label>
+                                </div>
+                                <div class="input-field col s6">
+                                      <input id="personalprorelationship" type="text" class="validate black-text">
+                                      <label for="personalprorelationship">Landlords contact number</label>
+                                </div>
+                                <div class="input-field col s6">
+                                  <input class="black-text" id="personalprorelationship" type="date" class="validate black-text">
+                                  <label  for="personalprorelationship">Length of tenancy - Start date</label>
+                                </div>
+                                <div class="input-field col s6">
+                                  <input class="black-text" id="personalprorelationship" type="date" class="validate black-text">
+                                  <label for="personalprorelationship">Length of tenancy - End date</label>
+                                </div>
+
+                                <div class="center"><label for="filled-in-box" class="center">Were you evicted from the property?</label></div>
+                                <p class="center">
+                                  <label class="center">
+                                    <input type="checkbox" class="filled-in " id="filled-in-box" />
+                                    <span for="filled-in-box" class="black-text">Yes</span>
+                                  </label>
+                                  <label class="center">
+                                    <input type="checkbox" class="filled-in" id="filled-in-box" />
+                                    <span for="filled-in-box" class="black-text">No</span>
+                                  </label>
+                                </p>
+                                <div class="center"><label for="broken" class="center">Was your rental agreement broken in anyway?</label></div>
+                                <p class="center">
+                                  <label class="center">
+                                    <input type="checkbox" class="filled-in" id="Broken" />
+                                    <span for="Broken" class="black-text">Yes</span>
+                                  </label>
+                                  <label class="center">
+                                    <input type="checkbox" class="filled-in" id="filled-in-box" />
+                                    <span for="filled-in-box" class="black-text">No</span>
+                                  </label>
+                                </p>
+                                <!-- Other Prerequisites-->
+                                <h6 class="center black-text">Other Prerequisites</h6>
+                                <div class="input-field col s6">
+                                    <input id="pet_species" type="text" >
+                                    <label for="pet_species">Dependants (Please also specify age)</label>
+                                </div>
+                                <div class="input-field col s6">
+                                  <input  class="black-text" id="moveindate" type="date" class="validate black-text"">
+                                  <label for="moveindate">Preferred date of move-in</label>
+                                </div>
+                                <div class="input-field col s6">
+                                      <input id="pet_size" type="text" >
+                                      <label for="pet_size">Size</label>
+                                </div>
+                                <div class="input-field col s6">
+                                      <input id="pet_age" type="number" >
+                                      <label for="pet_age">Age</label>
+                                </div>
+                                <div class="center"><label for="filled-in-box" class="center">Do you have a criminal record?</label></div>
+                                <p class="center">
+                                  <label class="center">
+                                    <input type="checkbox" class="filled-in" id="criminalrecbox" />
+                                    <span for="criminalrecbox" class="black-text">Yes</span>
+                                  </label>
+                                  <label class="center">
+                                    <input type="checkbox" class="filled-in grey-text" id="filled-in-box" />
+                                    <span for="filled-in-box" class="black-text">No</span>
+                                  </label>
+                                </p>
+                                <div class="center">
+                                  <button class="btn waves-effect waves-light dark-blue" type="submit" name="action">Submit
+                                    <i class="material-icons right">send</i>
+                                  </button>
+                                </div>
+                            </div>
+                            </form>
+                          </div>
+                    </span>
+                  </div>
                 </li>
 
               </ul>
