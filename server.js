@@ -6,6 +6,8 @@ var app = express();
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
+
+
 let http = require('http').createServer(app);
 let io = require('socket.io')(http);
 
@@ -17,7 +19,7 @@ sockets.connect(io);
 
 var port = process.env.PORT || 3000;
 app.use(express.json());
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public/html'));
 
 
 let userRoute = require('./routes/users/user');
@@ -37,7 +39,8 @@ app.use('/filter/application_requirements', applicationRequirementSorter);
 let Service = require('./services')
 let Controller = require('./controllers')
 let db = require('./services/database')
-
+let bartUserId;
+let lisaPropertyId;
 const test = () => {
     try {
       Service.userService.getMultipleUsersWithPersonalInfoQuery({}).then( async users => {
@@ -75,6 +78,7 @@ const test = () => {
 
 }
 
+
 app.post('/test/:api', async (req, res) => {
     let api = req.params.api;
     let tempUserId = "";
@@ -84,6 +88,72 @@ app.post('/test/:api', async (req, res) => {
         await test();
         res.send('Complete');
       break;
+
+      case "setupForApp":
+        
+
+        let lisa = {
+          firstName: "Lisa",
+          lastName: "Simpson", 
+          postcode: 4810,
+          email: "lisa@live.com"
+        };
+
+        let bart = {
+          firstName: "Bart",
+          lastName: "Simpson", 
+          postcode: 4811,
+          email: "bart@live.com"
+        }
+        //Set documents to allow for applications (requires active property (1) and user (2: landlord and renter))
+
+        let lisaUserId = await Service.userService.createUser(lisa);
+        bartUserId = await Service.userService.createUser(bart);
+        bartUserId = bartUserId._id.toString();
+        let property = {
+          "property": {
+            "userId": lisaUserId,
+            "applicantCriteria": 
+                [
+                    {"nonFlexible": {}},
+                    {"flexible": {}}
+
+                ],
+            "availabledate": "2022.01.01", 
+            "bathrooms": 3,
+            "bedrooms": 4,
+            "commuteProfile": {
+                "drive": 7,
+                "publicTransport": 7,
+                "walk": 3
+            },
+            "demographics": "Cis white toxic racist homophobic possum hating men",
+            "energyLevels": 6,
+            "hvac": "Internal heating and 3 airconditioners",
+            "housingType": "apartment",
+            "indoorFeatures": "hardwood floors",
+            "keywords": "luxury",
+            "location": "Melbourne",
+            "marketValue": 670000,
+            "nbn": "FTTP",
+            "outdoorFeatures": "balcony",
+            "parking": "underground",
+            "petsAllowed": false,
+            "streetNumberAndName": "1/250 Nicholson Street",
+            "postcode": 4810,
+            "stateOrTerritory": "Vic",
+            "rentAmount": 710,
+            "rentFrequency": "week"
+        }};
+        lisaPropertyId = await Service.propertyService.createProperty(property);
+      
+        if (bartUserId != null && lisaUserId != null && lisaPropertyId != null){
+          res.status(200).send('Complete')
+        } else {
+          res.status(400).send();
+        }
+      break;
+
 
       case 'user1':
           req.body = {
@@ -338,6 +408,26 @@ app.post('/test/:api', async (req, res) => {
      Controller.propertyController.createProperty(req, res);
     break;
     
+      case 'app1':
+        req.body = {propertyId: 'bad propertyId', userId: 'badUserId'};
+        Controller.applicationController.createApplication(req, res);
+      break;
+
+      case 'app2':
+        req.body = {propertyId: lisaPropertyId, userId: 'badUserId'};
+        Controller.applicationController.createApplication(req, res);
+      break;
+
+      case 'app3':
+        req.body = {propertyId: 'bad propertyId', userId: bartUserId};
+        Controller.applicationController.createApplication(req, res);
+      break;
+
+      case 'app4':
+        req.body = {propertyId: lisaPropertyId, userId: bartUserId};
+        console.log(req.body)
+        Controller.applicationController.createApplication(req, res);
+      break;
     }
 });
   
@@ -512,7 +602,15 @@ app.get('/test/:api', async (req, res) => {
       Controller.propertyController.getProperty(req, res);
     break;
 
+    case 'app1':
+      req.body = {propertyId: 'a bad propertyId'};
+      Controller.applicationController.getApplications(req, res);
+    break;
 
+    case 'app2':
+      req.body = {propertyId: lisaPropertyId};
+      Controller.applicationController.getApplications(req, res);
+    break;
     }
 });
 

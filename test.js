@@ -528,6 +528,137 @@ describe('PUT /property', () => {
         })
     })
 })
+
+
+//APPLICATION SETUP
+describe('Database Cleaning', () => {
+
+    it('Cleans the database for the next round of testing', function(done){
+        chai.request('localhost:3000/test/cleanDB')
+        .post('/')
+        .end(function(err, res) {
+            expect(res.text).to.equal('Complete')
+            done();                               
+        });
+    })
+});
+
+
+describe('Setup database for application testing', () => {
+    it('Creates docs to allow for applications (requires active property (1) and user (2: landlord and renter)) ', function(done){
+        chai.request('localhost:3000/test/setupForApp')
+        .post('/')
+        .end(function(err, res) {
+            expect(res.text).to.equal('Complete')
+            done();                               
+        });
+    })
+})
+
+
+
+
+//APPLICATION
+
+describe('POST /active_application', () => {
+    
+    it ('Returns a 400 status and specific error message when a bad userId and propertyId is given', function(done){
+        chai.request('localhost:3000/test/app1')
+        .post('/')
+        .end(function(err, res) {
+            expect(res.text).to.equal('Application was not created\nuserId is not associated with a user\npropertyId is not associated with a property');
+            expect(res.status).to.equal(400);
+            done();
+        })
+    })
+
+    it ('Returns a 400 status and specific error message when a bad userId is given', function(done){
+        chai.request('localhost:3000/test/app2')
+        .post('/')
+        .end(function(err, res) {
+            expect(res.text).to.equal('Application was not created\nuserId is not associated with a user\n');
+            expect(res.status).to.equal(400);
+            done();
+        })
+    })
+
+
+    it ('Returns a 400 status and specific error message when a bad propertyId is given', function(done){
+        chai.request('localhost:3000/test/app3')
+        .post('/')
+        .end(function(err, res) {
+            expect(res.text).to.equal('Application was not created\npropertyId is not associated with a property');
+            expect(res.status).to.equal(400);
+            done();
+        })
+    })
+    it ('Returns a 200 status when successfuly creating an application with good userId and propertyId', function(done){
+        chai.request('localhost:3000/test/app4')
+        .post('/')
+        .end(function(err, res) {
+            expect(res.status).to.equal(200);
+            done();
+        })
+    })
+
+    it ('Returns a 400 status and specific error message when creating an application that is already listed (use updated instead)', function(done){
+        chai.request('localhost:3000/test/app4')
+        .post('/')
+        .end(function(err, res) {
+            expect(res.text).to.equal('Application was not created\nThere are current applications for that property - update active_applications instead.\n');
+            expect(res.status).to.equal(400);
+            done();
+        })
+    })
+});
+
+
+describe('GET /active_application', () => {
+    it ('Returns a 204 status and specific error message when querying with a bad propertyId', function(done){
+        chai.request('localhost:3000/test/app1')
+        .get('/')
+        .end(function(err, res) {
+            expect(res.status).to.equal(204);
+            done();
+        })
+    })
+
+    it ('Returns a 202 status and s', function(done){
+        chai.request('localhost:3000/test/app2')
+        .get('/')
+        .end(function(err, res) {
+            let result = JSON.parse(res.text);
+            console.log(result);
+            expect(res.status).to.equal(200);
+            done();
+        })
+    })
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 describe('Database Cleaning', () => {
 
     it('Cleans the database for the next round of testing', function(done){
