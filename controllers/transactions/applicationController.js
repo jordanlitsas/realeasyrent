@@ -31,6 +31,7 @@ const createApplication = async (req, res) => {
     })
 
     await Services.renterProfileService.getRenterProfileWithUserId(userId).then(usersRenterProfile => {
+
         if (usersRenterProfile == null){
             errorMessage += "userId is not associated with a renter profile\n";
             flag = false;
