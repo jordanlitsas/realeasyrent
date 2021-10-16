@@ -41,6 +41,7 @@ let Controller = require('./controllers')
 let db = require('./services/database')
 let bartUserId;
 let lisaPropertyId;
+
 const test = () => {
     try {
       Service.userService.getMultipleUsersWithPersonalInfoQuery({}).then( async users => {
@@ -108,17 +109,90 @@ app.post('/test/:api', async (req, res) => {
         //Set documents to allow for applications (requires active property (1) and user (2: landlord and renter))
 
         let lisaUserId = await Service.userService.createUser(lisa);
+        lisaUserId = lisaUserId._id.toString();
         bartUserId = await Service.userService.createUser(bart);
         bartUserId = bartUserId._id.toString();
+
+        let bartsRenterProfile = {
+            "userId": bartUserId,
+            "employment": {
+                "employer": "self-employed",
+                "lengthOfEmployment": "2 months",
+                "position": "", 
+                "monthlyIncome": 1000
+            },
+            "personalReferences": [
+                {
+                    "name": "Alma Forsyth",
+                    "contactNumber": 10000000,
+                    "email": "y@hoo.com",
+                    "relationship": "Cocaine Dealer"
+                }
+            ],
+            "professionalReferences": [
+                {
+                    "name": "Pablo Escobar",
+                    "contactNumber": 1800000000,
+                    "email": "stickylover@live.com.au",
+                    "relationship": "Confidant"
+                }
+            ],
+            "pets": [
+                {
+                    "species": "dog",
+                    "breed": "spoodle",
+                    "size": "medium",
+                    "age": 8
+                },
+                {
+                    "species": "dog",
+                    "breed": "pound special",
+                    "size": "medium",
+                    "age": 10
+                }
+            ], 
+            "children": 2,
+            "rentalHistory": [
+                {
+                    "address": "90 the avenue, parkville 3052",
+                    "landlordName": "Jessica Alba",
+                    "landlordEmail": "Parasite420@gmail.com",
+                    "landlordContactNumber": 666,
+                    "lengthOfTenancy": 1,
+                    "bondConditions": {"bondReturned": true, "reasonBondWitheld": "", "amountWitheld": 0},
+                    "evicted": false,
+                    "rentalAgreementBroken": false
+                }
+            ],
+            "smoker": false,
+            "preferredMoveInDate": "2022.02.02",
+            "committedOfCrime": false
+          };
+        
+        bartsRenterProfile = await Service.renterProfileService.createRenterProfile(bartsRenterProfile);
+
         let property = {
-          "property": {
             "userId": lisaUserId,
             "applicantCriteria": 
-                [
-                    {"nonFlexible": {}},
-                    {"flexible": {}}
-
-                ],
+                    { 
+                      "nonFlexible": 
+                        [
+                          {
+                            "category": [ "employment", "monthlyIncome" ],
+                            "benchmark": 7500,
+                            "classification": "gt"
+                          }
+                        ]
+                    ,
+                     "flexible": 
+                        [
+                          {
+                              "category": "children",
+                              "benchmark": 0,
+                              "classification": "equal"
+                          }
+                        ]
+                    },                   
             "availabledate": "2022.01.01", 
             "bathrooms": 3,
             "bedrooms": 4,
@@ -144,10 +218,11 @@ app.post('/test/:api', async (req, res) => {
             "stateOrTerritory": "Vic",
             "rentAmount": 710,
             "rentFrequency": "week"
-        }};
+        };
+
         lisaPropertyId = await Service.propertyService.createProperty(property);
       
-        if (bartUserId != null && lisaUserId != null && lisaPropertyId != null){
+        if (bartUserId != null && lisaUserId != null && lisaPropertyId != null && bartsRenterProfile != null){
           res.status(200).send('Complete')
         } else {
           res.status(400).send();
@@ -155,7 +230,7 @@ app.post('/test/:api', async (req, res) => {
       break;
 
 
-      case 'user1':
+        case 'user1':
           req.body = {
             firstName: "",
             lastName: "Simpson",
@@ -416,6 +491,7 @@ app.post('/test/:api', async (req, res) => {
       case 'app2':
         req.body = {propertyId: lisaPropertyId, userId: 'badUserId'};
         Controller.applicationController.createApplication(req, res);
+        
       break;
 
       case 'app3':
@@ -425,7 +501,7 @@ app.post('/test/:api', async (req, res) => {
 
       case 'app4':
         req.body = {propertyId: lisaPropertyId, userId: bartUserId};
-        console.log(req.body)
+        let prop = await Service.propertyService.getPropertyWithPropertyId(lisaPropertyId);
         Controller.applicationController.createApplication(req, res);
       break;
     }
