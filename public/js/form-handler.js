@@ -39,7 +39,7 @@ const createUser = () => {
                 switch(xmlHttp.status){
                     case 200:
                         setUserId(xmlHttp.responseText);
-                        top.location.href = '../html/rp-prop.html'
+                        top.location.href = '../html/home.html'
                 }
               }, 
               error: function(result){

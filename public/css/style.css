@@ -66,7 +66,7 @@ main {
 }
 
 
-/* .input-field input[type="date"]:focus + label,
+.input-field input[type="date"]:focus + label,
 .input-field input[type="text"]:focus + label,
 .input-field input[type="email"]:focus + label,
 .input-field input[type="password"]:focus + label {
@@ -79,7 +79,7 @@ main {
 .input-field input[type="password"]:focus {
   border-bottom: 2px solid #e91e63;
   box-shadow: none;
-} */
+}
 
 button#profile-form-submit-btn{
   width:100%;
