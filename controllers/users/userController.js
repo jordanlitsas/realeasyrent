@@ -25,6 +25,7 @@ const createUser = async (req, res) => {
             lastName: data.lastName,
             email: data.email,
             postcode: data.postcode,
+            password: data.password
         };
 
         //validation - make sure all required user information is not empty or null

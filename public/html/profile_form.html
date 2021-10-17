@@ -8,6 +8,8 @@
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="../css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
   <link href="../css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 <body>
@@ -34,41 +36,57 @@
     <main class="container light-blue">
         <h3 class="center "><b>Please fill out the form to complete your R.E.R profile.</b></h1>
         <div class="container dark-blue">
+
+
         <div class="row">
+          <div class = "row">
+            <div class = "col s12">
+              <span id = "form-error" class = "white-text"></span>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <form class="col s12" id = "user-form">
               <div class="row">
+              
                 <div class="input-field col s12">
-                  <input id="first_name" type="text" class="validate white-text">
+                
+                  <input id="first_name" type="text" class="validate white-text" required="" aria-required="true">
                   <label for="first_name">First Name</label>
                 </div>
-              </div>
-                <div class="row">
+              <!-- </div> -->
+                <!-- <div class="row"> -->
                   <div class="input-field col s12">
-                    <input id="last_name" type="text" class="validate white-text">
+                    <input id="last_name" type="text" class="validate white-text" required="" aria-required="true">
                     <label for="last_name">Last Name</label>
                   </div>
-                </div>
-                <div class="row">
+                <!-- </div> -->
+                <!-- <div class="row"> -->
                   <div class="input-field col s12">
-                    <input id="Postcode" type="number" class="validate white-text">
-                    <label for="Postcode">Postcode</label>
+                    <input id="postcode" type="number" class="validate white-text" required="" aria-required="true">
+                    <label for="postcode">Postcode</label>
                   </div>
-                </div>
-              <div class="row">
+                <!-- </div> -->
+              <!-- <div class="row"> -->
                 <div class="input-field col s6">
-                  <input id="email" type="email" class="validate white-text">
+                  <input id="email" type="email" class="validate white-text" required="" aria-required="true">
                   <label for="email">Email</label>
                 </div>
                 <div class="input-field col s6">
-                  <input id="password" type="password" class="validate white-text">
+                  <input id="password" type="password" class="validate white-text" required="" aria-required="true">
                   <label for="password">Password</label>
                 </div>
-              </div>
-              <div class = "row">
-                <div class = "col s12">
-                  <button type = "submit" class = "waves-effect waves-light btn " id ="profile-form-submit-btn">Submit</button>
+              <!-- </div> -->
+             
+              <!-- <div class = "row"> -->
+                <div class = "col s12 input-field">
+                  <button type = "submit"  name = "action" class = "waves-effect waves-light btn " id ="profile-form-submit-btn">Submit</button>
                 </div>
-              </div>   
-          </div>   
+              <!-- </div>  -->
+          </div>  
+          </form> 
+          </div>
             
       </div>
     </main>
@@ -84,8 +102,11 @@
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="../js/materialize.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
   <script src="../js/init.js"></script>
   <script src="../js/collapse_form.js"></script>
+  <script type = "module" src="../js/form-handler.js"></script>
 
   </body>
 </html>

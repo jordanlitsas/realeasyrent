@@ -5,7 +5,8 @@ const user = new mongoose.Schema({
     firstName: String,
     lastName: String,
     postcode: Number, 
-    email: String
+    email: String,
+    password: String
 }); 
 
 const renterProfile = new mongoose.Schema({
