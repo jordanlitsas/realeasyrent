@@ -94,3 +94,13 @@ span#form-error {
   background-color: #98c1d9 !important;
   color: #39464e !important;
 }
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
