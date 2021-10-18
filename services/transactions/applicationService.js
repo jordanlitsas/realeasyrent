@@ -1,8 +1,5 @@
 var database = require('../database/applicationDocConnection')
 
-
-
-
 const createApplication = async (application) => {
 
     let flag = await database.insertInitialApplication(application);

@@ -4,14 +4,27 @@ body{
 
 .contact-img{
     padding: 0px 0px;
-    height: 2vh;
+    height: 2.5vh;
     width:auto;
-  }
+}
 
+
+div.icon-row{
+    padding-top: 15px !important;
+ 
+}
+
+.apply-btn{
+    /* margin-bottom: 25px !important; */
+}
 .compact{
-    padding: 0px;
-    border: 0px;
-    margin: 0px;
+    padding: 0px !important;
+    border: 0px !important;
+    margin: 0px !important;
+}
+
+div.card-action{
+    padding: 10px 10px !important;
 }
 
 p.compact{
@@ -20,5 +33,5 @@ p.compact{
 
 img.compact{
     padding-left: 0px !important;
-  
+    padding-bottom : 0px !important;
 }

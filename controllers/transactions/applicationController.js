@@ -159,7 +159,6 @@ const newUserApplicationDoc = async () => {
     Service.applicationService.newUserApplicationDoc();
 }
 
-const up
 const getApplications = (req, res) => {
     let operator = req.query.operator;
     let query = req.query.query;

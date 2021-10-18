@@ -309,13 +309,13 @@
 
 const propertyCard = () => {
   let firstDiv = document.createElement('div');
-  firstDiv.classList = 'col s12 m3 14 ';
+  firstDiv.classList = 'col s12 m3 14 compact';
 
   let secondDiv = document.createElement('div');
-  secondDiv.classList = 'card grey-blue';
+  secondDiv.classList = 'card grey-blue compact';
 
   let thirdDiv = document.createElement('div');
-  thirdDiv.classList = 'card-image waves-effect waves-block waves-light';
+  thirdDiv.classList = 'card-image waves-effect waves-block waves-light compact';
 
   let aTag = document.createElement('a');
 
@@ -330,7 +330,7 @@ const propertyCard = () => {
   titleSpan.classList = 'card-title home';
 
   let descriptionDiv = document.createElement('div');
-  descriptionDiv.classList = 'card-action';
+  descriptionDiv.classList = 'card-action compact';
   
 
   aTag.appendChild(img);

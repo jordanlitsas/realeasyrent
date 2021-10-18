@@ -4,10 +4,12 @@ let Services = require('../../../services');
 
 const createRenterProfile = async (req, res) => { 
 
-    let renterProfileData = req.query.renterProfileData;
+    let renterProfileData = req.body.renterProfileData;
     let errorMessage = "Could not create renter profile\n";
     let flag = true;
 
+
+   
     if (!renterProfileData){
         errorMessage += "Your query was not structured property.\n";
         flag = false;

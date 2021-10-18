@@ -44,22 +44,17 @@ const fillPropertyCards = (properties) => {
         cardDescription.innerHTML = `
 
                 <div class = "row compact">
-                <div class = "col s6 compact">
+                <div class = "col s12 compact">
                     <div class = "row compact">
-                        <p class = "compact">${properties[i].suburb}</p>
+                        <p class = "compact">${properties[i].suburb}, ${properties[i].postcode}</p>
+                        </p>
                     </div>
                 </div>
-                <div class = "col s4 compact" >
-                    <div class = "row compact">
-                    <p class = "compact">${properties[i].postcode}</p>
-
-                    </div>
-                </div>
-                <div class = "col s2 compact"></div>
+               
             </div>
 
 
-            <div class = "row compact">
+            <div class = "row compact icon-row">
                 <div class = "col s4 compact">
                     <div class = "row compact">
                         <img src = "../resources/iconSvg/bathroom-icon.svg" class = "contact-img col s6 compact">
@@ -72,7 +67,9 @@ const fillPropertyCards = (properties) => {
                         <label class = "col s6 compact">${properties[i].bedrooms}</label>
                     </div>
                 </div>
-                <div class = "col s2 compact"></div>
+                <div class = "col s4 compact">
+                    <button type = "button" class = "btn  apply-btn compacts">Apply</button>
+                </div>
             </div>
 
           

@@ -8,19 +8,15 @@ const usersApplicationsModel = mongoose.model('users_Applications', schemas.user
 const insertInitialApplication = async (application) => { 
     let newApplication = new activeApplicationModel( application );
     let success = await newApplication.save();
+
+    let newDoc = new usersApplicationsModel({userId: userId});
+    newDoc.save();
+
+
     return success;
 }
 
-const newUserApplicationDoc = async (userId) => {
-    let newDoc = new usersApplicationsModel({userId: userId});
-    newDoc.save();
-}
 
-const newUserApplicationDoc = async (userId, propertyId) => {
-    let usersApplications = await usersApplicationsModel.findOne({userId: userId});
-    usersApplications.propertiesAppliedFor.push(propertyId);
-    await usersApplicationsModel.findOneAndUpdate({userId: userId}, usersApplications);
-}
 
 const addApplication = async (appUserId, appPropertyId) => {
 
