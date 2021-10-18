@@ -43,50 +43,75 @@
     </nav>
 
     <div class="section"></div>
-    <div class="section"></div>
-    <div class="section"></div>
-
-		<main class="container light-blue">
-        `<div>
-    <form class="col s12" id = "form">
-        <!-- employment  -->
-        <h6 class="center ">Employment Details</h6>
+    
+    <div>
+        
+        <main class="container center grey-blue">
+            <h4>Please fill out the following form.</h3>
+            <h6>This will be used to compare renter profiles to your property so the system can sort out the best applicants for your property.</h2>
+            <div class="section"></div>     
+        </main>
+        
+    </div>
+    <div class="section"></div>  
+	<main class="container grey-blue">
+    
+    <form class="container col s12" id = "form">
+    <h6 class="center "><b>Applicant Income</b></h6>
     <div class="row">
-      <div class="row">
-        <div class="input-field col s12 ">
-          <input id="employer_name" type="text" class="validate " >
-          <label for="employer_name">Employer</label>
-        </div>
-        <div class="input-field col s6">
-            <input id="lengthofemployment" type="text" class="validate " >
-            <label for="lengthofemployment">How long have you been employed with them? (months)</label>
-        </div>
-        <div class="input-field col s6">
-            <input id="position" type="text" class="validate " >
-            <label for="position">My position</label>
-        </div>
-        <div class="input-field col s12">
-            <input id="monthly_income" type="number" class="validate " >
-            <label for="monthly_income">Monthly Income</label>
-        </div>
-        <!-- Personal reference  -->
-        <h6 class="center ">Personal Reference</h6>
-        <div class="input-field col s6">
-            <input id="ref_name" type="text" class="validate " >
-            <label for="ref_name">Reference Name</label>
-        </div>
-        <div class="input-field col s6">
-            <input id="phnumber" type="number" class="validate " >
-            <label for="phnumber">Contact Number</label>
-        </div>
-        <div class="input-field col s6">
-              <input id="ref_email" type="email" class="validate " >
-              <label for="ref_email">Reference Email</label>
-        </div>
-        <div class="input-field col s6">
-              <input id="personalrefrelationship" type="text" class="validate " >
-              <label for="personalrefrelationship">Relationship with Reference</label>
-        </div>
+      <div class="row center">
+        <div class="switch">
+
+            <label>
+        
+              flexible requirements
+        
+              <input type="checkbox">
+        
+              <span class="lever"></span>
+        
+              non-flexible requirements
+        
+            </label>
+          </div>
+          <div class="section"></div>  
+        
+          <label>Average income per month best suited for my property</label>
+            <select class="browser-default light-blue">
+                <option value="" disabled selected>Choose your option</option>
+                <option value="1">Less than $2,500pm</option>
+                <option value="2">Equal to $5,000pm</option>
+                <option value="3">Greater than $5,000pm</option>
+            </select>
+        
+    <h6 class="center"><b>Pets</b></h6>
+        <div class="row">
+            <div class="row center">
+                <div class="switch">
+        
+                    <label>
+                
+                      flexible requirements
+                
+                      <input type="checkbox">
+                
+                      <span class="lever"></span>
+                
+                      non-flexible requirements
+                
+                    </label>
+                  </div>
+                  <div class="section"></div>  
+                
+                  <div class="input-field col s12">
+                    <select multiple>
+                      <option value="" disabled selected>Choose your option</option>
+                      <option value="1">Option 1</option>
+                      <option value="2">Option 2</option>
+                      <option value="3">Option 3</option>
+                    </select>
+                    <label>Materialize Multiple Select</label>
+                  </div>
         
           <!-- Professional reference  -->
         <h6 class="center ">Professional Reference</h6>
