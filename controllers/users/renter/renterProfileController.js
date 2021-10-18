@@ -4,7 +4,7 @@ let Services = require('../../../services');
 
 const createRenterProfile = async (req, res) => { 
 
-    let renterProfileData = req.body.renterProfileData;
+    let renterProfileData = req.query.renterProfileData;
     let errorMessage = "Could not create renter profile\n";
     let flag = true;
 

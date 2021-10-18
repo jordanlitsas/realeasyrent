@@ -122,9 +122,18 @@ const property = new mongoose.Schema({
     addressNumber: String,
     addressName: String,
     postcode: Number,
+    suburb: String,
     stateOrTerritory: String,
     rentAmount: Number,
-    rentFrequency: String
+    rentFrequency: String,
+    image: Schema.Types.Mixed
+    // images: [{
+    //     path: String
+        // img: {
+        //     data: Buffer,
+        //     contentType: String
+        // }
+    // }]
 
 })
 

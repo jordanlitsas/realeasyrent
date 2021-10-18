@@ -2,6 +2,7 @@
 var dbConnection = require('./services/database/dbConnection')
 var express = require("express");
 var app = express();
+require('dotenv').config();
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
@@ -28,13 +29,14 @@ let propertyRoute = require('./routes/users/landlord/property');
 let renterProfileRoute = require('./routes/users/renter/renterProfile');
 let applicationRoute = require('./routes/transactions/application');
 let applicationRequirementSorter = require ('./routes/transactions/applicationRequirementSorter');
-
+let propertyImageUpload = require('./routes/users/landlord/propertyImage');
 
 app.use('/user', userRoute);
 app.use('/property', propertyRoute);
 app.use('/renter_profile', renterProfileRoute);
 app.use('/application', applicationRoute)
 app.use('/filter/application_requirements', applicationRequirementSorter);
+app.use('/propertyImageUpload', propertyImageUpload);
 
 
 

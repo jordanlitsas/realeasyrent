@@ -54,44 +54,54 @@
           <hr>
            
           <div class = "row">
-            <div class = "col s3"></div>
-            <div class = "col s6">
+            <div class = "col s3">
               <div class = "row">
-                <div class = "col s3">first name:</div>
-                <div class = "col s6" id = "first-name"></div>
-              </div>
-
-              <div class = "row">
-                <div class = "col s3">last name:</div>
-                <div class = "col s6" id = "last-name"></div>
-              </div>
-
-              <div class = "row">
-                <div class = "col s3">postcode</div>
-                <div class = "col s6" id = "postcode"></div>
-              </div>
-
-              <div class = "row">
-                <div class = "col s3">email:</div>
-                <div class = "col s6" id = "email"></div>
-                <div class = "col s3">
-                  <button type = "button" class = 'btn waves-effect' id = "update-user">Edit</button>
+                <div class = " btn-switch-container">
+                  <button type = "button" class = 'btn' id = "create-property-btn">list a property</button>
                 </div>
+              </div>
+              <div class = "row">
+                <div class = "btn-switch-container">
+                  <button type = "button" class = 'btn' id = "create-rp-btn">create renter profile</button>
+                </div>
+              </div> 
+              
+              <div class = "row">
+                <div class = "btn-switch-container">
+                  <button type = "button" class = 'btn' id = "update-user-btn">Edit personal information</button>
+                </div>
+              </div>
+              
+              
+            </div>
+            <div class = "col s1"></div>
+            <div class = "col s5">
+              <div class = "row">
+                <div class = "col s3 input-field">first name:</div>
+                <div class = "col s6 input-field" id = "first-name"></div>
+              </div>
+
+              <div class = "row">
+                <div class = "col s3 input-field">last name:</div>
+                <div class = "col s6 input-field" id = "last-name"></div>
+              </div>
+
+              <div class = "row">
+                <div class = "col s3 input-field">postcode</div>
+                <div class = "col s6 input-field"  id = "postcode"></div>
+              </div>
+
+              <div class = "row">
+                <div class = "col s3 input-field">email:</div>
+                <div class = "col s6 input-field" id = "email"></div>
+               <div class = "col s3" id = "update-user-submit-btn-container"></div>
               </div>
             </div>
           </div>
 
           <hr>
 
-          <div class = "row">
-                <div class = "col s3"></div>
-                <div class = "col s3 btn-switch-container">
-                  <button type = "button" class = 'btn' id = "create-rp-btn">create renter profile</button>
-                </div>
-                <div class = "col s3 btn-switch-container">
-                  <button type = "button" class = 'btn' id = "create-property-btn">list a property</button>
-                </div>
-          </div>
+         
   
          <div class = "row">
            <div class = "col s12" id = "form-container"></div>

@@ -1,4 +1,4 @@
-export const renterProfileForm = () => {
+ const renterProfileForm = () => {
     return `<div>
     <form class="col s12" id = "form">
         <!-- employment  -->
@@ -11,7 +11,7 @@ export const renterProfileForm = () => {
         </div>
         <div class="input-field col s6">
             <input id="lengthofemployment" type="text" class="validate " >
-            <label for="lengthofemployment">How long have you been employed with them?</label>
+            <label for="lengthofemployment">How long have you been employed with them? (months)</label>
         </div>
         <div class="input-field col s6">
             <input id="position" type="text" class="validate " >
@@ -83,7 +83,7 @@ export const renterProfileForm = () => {
             <label for="prev_address">Address</label>
         </div>
         <div class="input-field col s6">
-            <input id="prev_landlord_name" type="number" class="validate " >
+            <input id="prev_landlord_name" type="text" class="validate " >
             <label for="prev_landlord_name">Landlords Name</label>
         </div>
         <div class="input-field col s6">
@@ -95,16 +95,10 @@ export const renterProfileForm = () => {
               <label for="prev_landlord_phone">Landlords contact number</label>
         </div>
         <div class="input-field col s6">
-          <input class="" id="prev_lease_start" type="date" class="validate " >
-          <label  for="prev_lease_start">Length of tenancy - Start date</label>
+          <input class="" id="prev_lease_length" type="number" class="validate " >
+          <label  for="prev_lease_length">Length of tenancy (months)</label>
         </div>
-        <div class="input-field col s6">
-          <input class="" id="prev_lease_end" type="date" class="validate " >
-          <label for="prev_lease_end">Length of tenancy - End date</label>
-        </div>
-
-        <div class = "row">
-          <div class = "col s4">
+        <div class = "col s3">
             <p>
               <label>
                 <input type="checkbox" id = "prev_lease_broken"/>
@@ -112,7 +106,7 @@ export const renterProfileForm = () => {
               </label>
             </p>
           </div>
-          <div class = "col s4">
+          <div class = "col s3">
             <p>
               <label>
                 <input type="checkbox" id = "prev_lease_evicted"/>
@@ -120,7 +114,13 @@ export const renterProfileForm = () => {
               </label>
             </p>
           </div>
-          <div class = "col s4">    
+      </div>
+        
+
+        <div class = "row">
+         
+        
+          <div class = "col s3">    
           <p>
             <label>
               <input type="checkbox" id = "criminal_record"/>
@@ -128,15 +128,29 @@ export const renterProfileForm = () => {
             </label>
           </p>
           </div>
+          <div class = "col s3">    
+            <input type="number" id = "children" placeholder = "Number of dependents that live with you"/>
+          </div>
+          <div class = "col s3">
+            <p>
+              <label>
+                <input type="checkbox" id = "smoker"/>
+                <span>Do you smoke?</span>
+              </label>
+            </p>
+          </div>
+          <div class="input-field col s3">
+            <input  class="" id="moveindate" type="date" class="validate " ">
+            <label for="moveindate">Preferred date of move-in</label>
+          </div>
         </div>
+        
+      </div>
 
        
       
         
-        <div class="input-field col s6">
-          <input  class="" id="moveindate" type="date" class="validate " ">
-          <label for="moveindate">Preferred date of move-in</label>
-        </div>
+        
        
        
 
@@ -150,127 +164,125 @@ export const renterProfileForm = () => {
     </div>`;
 }
 
-export const propertyForm = () => {
+ const propertyForm = () => {
     return `
           
                    <!-- Form for Property Listing  -->
                   <div class="row ">
-                      <form class="col s12 form">
-                          <!-- Applicant Criteria  -->
-                          <h6 class="center ">Applicant Criteria</h6>
-                      <div class="row">
-                        <div class="row">
-                          <p class="center">
-                            <label class="center">
-                              <input type="checkbox" class="filled-in" id="criminalrecbox" />
-                              <span for="criminalrecbox" class="">Non-Flexible</span>
-                            </label>
-                            <label class="center">
-                              <input type="checkbox" class="filled-in grey-text" id="filled-in-box" />
-                              <span for="filled-in-box" class="">Flexible</span>
-                            </label>
-                          </p>
-                          <div class="input-field col s4">
-                              <input id="Category" type="text" class="validate " >
-                              <label for="Category">Category</label>
-                          </div>
-                          <div class="input-field col s4">
-                              <input id="Benchmark" type="text" class="validate " >
-                              <label for="Benchmark">Benchmark</label>
-                          </div>
-                          <div class="input-field col s4">
-                              <input id="Classification" type="number" class="validate " >
-                              <label for="Classification">Classification</label>
-                          </div>
+                  <form id = "form" class = "col s12" enctype="multipart/form-data">
                           <!-- Property Details  -->
                           <h6 class="center ">Property Details</h6>
                           <div class="input-field col s6">
-                              <input id="AddressNumber" type="number" class="validate " >
-                              <label for="AddressNumber">Address Number</label>
+                              <input id="address_number" type="text" class="validate " >
+                              <label for="address_number">Address Number</label>
                           </div>
                           <div class="input-field col s6">
-                              <input id="phnumber" type="number" class="validate " >
-                              <label for="phnumber">Address Name</label>
+                              <input id="address_name" type="text" class="validate " >
+                              <label for="address_name">Address Name</label>
                           </div>
                           <div class="input-field col s6">
-                                <input id="Suburb" type="text" class="validate " >
-                                <label for="Suburb">Suburb</label>
+                                <input id="suburb" type="text" class="validate " >
+                                <label for="suburb">Suburb</label>
                           </div>
                           <div class="input-field col s6">
-                                <input id="Postcode" type="number" class="validate " >
-                                <label for="Postcode">Postcode</label>
+                                <input id="prop_postcode" type="number" class="validate " >
+                                <label for="postcode">Postcode</label>
                           </div>
                           <div class="input-field col s6">
-                              <input id="State" type="text" class="validate "  >
-                              <label for="State">State</label>
+                              <input id="state" type="text" class="validate "  >
+                              <label for="state">State</label>
                           </div>
                           <div class="input-field col s6">
-                            <input id="PropertyType" type="text" class="validate "  >
-                            <label for="PropertyType">Property Type</label>
+                            <input id="property_type" type="text" class="validate "  >
+                            <label for="property_type">Property Type</label>
                           </div>
                           <div class="input-field col s6">
-                            <input id="Date Available" type="date" class="validate "  >
-                            <label for="Date Available">Date Available</label>
+                            <input id="date_available" type="date" class="validate "  >
+                            <label for="date_available">Date Available</label>
                           </div>
                           <div class="input-field col s6 ">
-                              <input id="RentAmount" type="number" class="validate "  >
-                              <label for="RentAmount">Rent Amount</label>
+                              <input id="rent_amount" type="number" class="validate "  >
+                              <label for="rent_amount">Rent Amount</label>
                           </div>
                           <div class="input-field col s6 ">
-                                <input id="Frequency" type="text" class="validate "  >
-                                <label for="Frequency">Rent Frequency</label>
+                                <input id="rent_frequency" type="text" class="validate "  >
+                                <label for="rent_frequency">Rent Frequency</label>
                           </div>
                           <div class="input-field col s6 ">
-                            <input id="MarketValue" type="number" class="validate "  >
-                            <label for="MarketValue">Market Value of Property</label>
+                            <input id="market_value" type="number" class="validate "  >
+                            <label for="market_value">Market Value of Property</label>
                           </div>
                           <div class="input-field col s6 ">
-                                <input id="Bathrooms" type="number" class="validate "  >
-                                <label for="Bathrooms">Bathrooms</label>
+                                <input id="bathrooms" type="number" class="validate "  >
+                                <label for="bathrooms">Bathrooms</label>
                           </div>
                           <div class="input-field col s6 ">
-                            <input id="Bedrooms" type="number" class="validate "  >
-                            <label for="Bedrooms">Bedrooms</label>
+                            <input id="bedrooms" type="number" class="validate "  >
+                            <label for=bedrooms">Bedrooms</label>
                           </div>
                           <div class="input-field col s6 ">
-                            <input id="Indoor" type="text" class="validate "  >
-                            <label for="Indoor">Indoor Features</label>
+                            <input id="indoor_features" type="text" class="validate "  >
+                            <label for="indoor_features">Indoor Features</label>
                           </div>
                           <div class="input-field col s6 ">
-                            <input id="Outdoor" type="text" class="validate "  >
-                            <label for="Outdoor">Outdoor Features</label>
+                            <input id="outdoor_features" type="text" class="validate "  >
+                            <label for="outdoor_features">Outdoor Features</label>
                           </div>
                           <div class="input-field col s6 ">
-                            <input id="HVAC" type="text" class="validate "  >
-                            <label for="HVAC">HVAC</label>
+                            <input id="hvac" type="text" class="validate "  >
+                            <label for="hvac">HVAC</label>
                           </div>
                           <div class="input-field col s6 ">
-                            <input id="EnergyLevels" type="text" class="validate "  >
-                            <label for="EnergyLevels">Energy Levels</label>
+                            <input id="energy_levels" type="number" class="validate "  >
+                            <label for="energy_levels">Energy Levels</label>
                           </div>
                           <div class="input-field col s6 ">
-                            <input id="Parking" type="text" class="validate "  >
-                            <label for="Parking">Parking</label>
+                            <input id="parking" type="text" class="validate "  >
+                            <label for="parking">Parking</label>
+                          </div>
+                         
+                          <div class="input-field col s6 ">
+                            <input id="nbn" type="text" class="validate "  >
+                            <label for="nbn">NBN Available</label>
                           </div>
                           <div class="input-field col s6 ">
-                            <input id="PetsAllowed" type="text" class="validate "  >
-                            <label for="PetsAllowed">Pets Allowed</label>
+                            <input id="walking_commute_profile" type="text" class="validate "  >
+                            <label for="walking_commute_profile">Walking rating</label>
                           </div>
                           <div class="input-field col s6 ">
-                            <input id="NBN" type="text" class="validate "  >
-                            <label for="NBN">NBN Available</label>
+                            <input id="driving_commute_profile" type="text" class="validate "  >
+                            <label for="driving_commute_profile">Driving Rating</label>
                           </div>
                           <div class="input-field col s6 ">
-                            <input id="Commute" type="text" class="validate "  >
-                            <label for="Commute">Commute Profile</label>
+                            <input id="pt_commute_profile" type="text" class="validate "  >
+                            <label for="pt_commute_profile">Public Transport Rating</label>
                           </div>
                           <div class="input-field col s6 ">
-                            <input id="Demographics" type="text" class="validate "  >
-                            <label for="Demographics">Demographics</label>
+                            <input id="demographics" type="text" class="validate "  >
+                            <label for="demographics">Demographics</label>
                           </div>
-                          <div class="center">
-                            <button class="btn waves-effect waves-light dark-blue" type="submit" name="action">Submit
-                              <i class="material-icons right">send</i>
+                          <div class="input-field col s2 ">
+                          <p>
+                          <label>
+                            <input type="checkbox" id = "pets_allowed"/>
+                            <span>Are pets allowed?</span>
+                          </label>
+                        </p>
+                          </div>
+                          <div class="input-field col s4 ">
+                          <input id="keywords" type="text" class="validate "  >
+                          <label for="keywords">Keywords</label>
+                        </div>
+                        <div class = "col s3 input-field">
+                          <input id="image_name" type="text" class="validate">
+                          <label for = "image_name">Image Name</label>
+                        </div>
+                        <div class = "col s3 input-field">
+                          <input type = "file" id = "image_file" class = "validate" name = "file">
+                          <label for = "image_file" style = "padding-top: 12px" >Upload Main Image</label>
+                        </div>
+                          <div class="col s12">
+                            <button class="btn dark-blue" type="button" name="action" id = "property-submit-btn">Submit
                             </button>
                           </div>
                       </div>
@@ -280,3 +292,77 @@ export const propertyForm = () => {
             </div>
        `
 }
+
+
+const propertyCard = () => {
+  let firstDiv = document.createElement('div');
+  firstDiv.classList = 'col s12 m3 14';
+
+  let secondDiv = document.createElement('div');
+  secondDiv.classList = 'card';
+
+  let thirdDiv = document.createElement('div');
+  thirdDiv.classList = 'card-image waves-effect waves-block waves-light';
+
+  let aTag = document.createElement('a');
+
+  let img = document.createElement('img');
+  img.width = 305;
+  img.height = 229;
+  img.classList = 'responsive-img wp-post-image';
+  img.loading = 'lazy';
+  img.sizes = "(max-width: 305px) 100vw, 305px";
+
+  let titleSpan = document.createElement('span');
+  titleSpan.classList = 'card-title home';
+
+  aTag.appendChild(img);
+  aTag.appendChild(titleSpan);
+
+  thirdDiv.appendChild(aTag);
+  secondDiv.appendChild(thirdDiv);
+  firstDiv.appendChild(secondDiv);
+  return firstDiv;
+//   return `<div class="col s12 m6 l4">
+//   <div class="card">
+//     <div class="card-image waves-effect waves-block waves-light">
+//       <a href="#">
+//         <img width="305" height="229" src="" class="responsive-img wp-post-image"  loading="lazy" sizes="(max-width: 305px) 100vw, 305px">    
+//         <span class="card-title home">Title</span>
+//       </a>
+//     </div>
+//   </div>
+// </div>`;
+}
+
+export{renterProfileForm, propertyForm, propertyCard}
+
+
+
+ // <form class="col s12 form">
+                      //     <!-- Applicant Criteria  -->
+                      //     // <h6 class="center ">Applicant Criteria</h6>
+                      // <div class="row">
+                      //   <div class="row">
+                      //     <p class="center">
+                      //       <label class="center">
+                      //         <input type="checkbox" class="filled-in" id="criminalrecbox" />
+                      //         <span for="criminalrecbox" class="">Non-Flexible</span>
+                      //       </label>
+                      //       <label class="center">
+                      //         <input type="checkbox" class="filled-in grey-text" id="filled-in-box" />
+                      //         <span for="filled-in-box" class="">Flexible</span>
+                      //       </label>
+                      //     </p>
+                      //     <div class="input-field col s4">
+                      //         <input id="Category" type="text" class="validate " >
+                      //         <label for="Category">Category</label>
+                      //     </div>
+                      //     <div class="input-field col s4">
+                      //         <input id="Benchmark" type="text" class="validate " >
+                      //         <label for="Benchmark">Benchmark</label>
+                      //     </div>
+                      //     <div class="input-field col s4">
+                      //         <input id="Classification" type="number" class="validate " >
+                      //         <label for="Classification">Classification</label>
+                      //     </div>

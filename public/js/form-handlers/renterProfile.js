@@ -24,13 +24,86 @@ const createRenterProfile = async () => {
     let previousLandlordName = $('#prev_landlord_name').val();
     let previousLandlordEmail = $('#previous_landlord_email').val();
     let previousLandlordPhone = $('#prev_landlord_phone').val();
-    let previousLeaseStartDate = $('#prev_lease_start').val();
-    let previousLeaseEndDate = $('#prev_lease_end').val();
-    let previousRentalEvicted = $('#prev_lease_evicted').val();
-    let previousLeaseBroken = $('#prev_lease_broken').val();
+    let previousLeaseLength = $('#prev_lease_length').val();
+    let previousRentalEvicted = $('#prev_lease_evicted').is(':checked');
+    let previousLeaseBroken = $('#prev_lease_broken').is(':checked');
     
-    let criminalRecord = $('#criminal_record').val();
+    let criminalRecord = $('#criminal_record').is(':checked');
     let preferredMoveInDate = $('#moveindate').val();
+    let children = $('#children').val();
+    let smoker = $('#smoker').is(':checked');
+
+    let renterProfile = {renterProfileData: {
+                            userId: sessionStorage.getItem('userId'),
+                            employment: {
+                                employer: employer,
+                                lengthOfEmployment: lengthofemployment,
+                                position: position, 
+                                monthlyIncome: monthlyIncome
+                            },
+                            personalReferences: [
+                                {
+                                    name: personalRefName,
+                                    contactNumber: personalRefPhone,
+                                    email: personalRefEmail,
+                                    relationship: personalRefRelationship
+                                }
+                            ],
+                            professionalReferences: [
+                                {
+                                    name: professionalReferenceName,
+                                    contactNumber: professionalRefPhone,
+                                    email: professionalRefEmail,
+                                    relationship: professionalRefRelationship
+                                }
+                            ],
+                            pets: [
+                                {
+                                    species: petSpecies,
+                                    breed: pedBreed,
+                                    size: petSize,
+                                    age: petAge
+                                }
+                            ], 
+                            children: children,
+                            rentalHistory: 
+                                {            
+                                    property: {
+                                    address: previousRentalAddress,
+                                    landlordName: previousLandlordName,
+                                    landlordEmail: previousLandlordEmail,
+                                    landlordContactNumber: previousLandlordPhone,
+                                    lengthOfTenancy: previousLeaseLength,
+                                    evicted: previousRentalEvicted,
+                                    rentalAgreementBroken: previousLeaseBroken
+                                }
+                                    
+                                }
+                            ,
+                            smoker: smoker,
+                            preferredMoveInDate: preferredMoveInDate,
+                            committedOfCrime: criminalRecord
+                            }
+    }
+    
+    console.log(renterProfile);
+
+
+    $.ajax({
+        url: '/renter_profile',
+          contentType: 'application/json',
+          data: JSON.stringify(renterProfile), 
+          type: 'POST',
+          complete: function(xmlHttp){
+            console.log(xmlHttp)
+            if (xmlHttp.status == 200){
+                top.location.href = './home.html'
+            }
+          }, 
+          error: function(result){
+            
+          }
+      })
 
 
 }

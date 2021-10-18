@@ -2,6 +2,10 @@ var express = require('express');
 var router = express.Router();
 var Controller = require ("../../../controllers/users/landlord/propertyController");
 
+
+
+
+
 router.post('/', (req, res) => {
     Controller.createProperty(req, res);
 });
