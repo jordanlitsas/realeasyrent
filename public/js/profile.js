@@ -10,7 +10,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     document.getElementById('update-user-btn').onclick = showUpdateUserForm;
     document.getElementById('create-rp-btn').onclick = showRpForm;
     document.getElementById('create-property-btn').onclick = showPropertyForm;
-  
+    
     
 
 });

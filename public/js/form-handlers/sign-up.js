@@ -40,7 +40,7 @@ const createUser = () => {
                 switch(xmlHttp.status){
                     case 200:
                         setUserId(xmlHttp.responseText);
-                        top.location.href = '../html/home.html'
+                        top.location.href = '../html/accountconfirmation.html'
                 }
               }, 
               error: function(result){
