@@ -42,21 +42,40 @@ const fillPropertyCards = (properties) => {
 
         console.log(properties[i])
         cardDescription.innerHTML = `
-            <div class = "row">
-                <div class = "col s4">
-                    <div class = "row">
-                        <img src = "../resources/iconSvg/bathroom-icon.svg" class = "contact-img col s6">
-                        <label class = "col s6" style = "padding-left: 0px">${properties[i].bathrooms}</label>
+
+                <div class = "row compact">
+                <div class = "col s6 compact">
+                    <div class = "row compact">
+                        <p class = "compact">${properties[i].suburb}</p>
                     </div>
                 </div>
-                <div class = "col s4" style = "padding-left:0px; border-left:0px; margin-left:0px;">
-                    <div class = "row">
-                        <img src = "../resources/iconSvg/bedroom-icon.svg" class = "contact-img col s6">
-                        <label class = "col s6" style = "padding-left: 0px">${properties[i].bedrooms}</label>
+                <div class = "col s4 compact" >
+                    <div class = "row compact">
+                    <p class = "compact">${properties[i].postcode}</p>
+
                     </div>
                 </div>
-                <div class = "col s2"></div>
+                <div class = "col s2 compact"></div>
             </div>
+
+
+            <div class = "row compact">
+                <div class = "col s4 compact">
+                    <div class = "row compact">
+                        <img src = "../resources/iconSvg/bathroom-icon.svg" class = "contact-img col s6 compact">
+                        <label class = "col s6 compact" s>${properties[i].bathrooms}</label>
+                    </div>
+                </div>
+                <div class = "col s4 compact" >
+                    <div class = "row compact">
+                        <img src = "../resources/iconSvg/bedroom-icon.svg" class = "contact-img col s6 compact">
+                        <label class = "col s6 compact">${properties[i].bedrooms}</label>
+                    </div>
+                </div>
+                <div class = "col s2 compact"></div>
+            </div>
+
+          
         `
         // cardDescription.appendChild(bathroomSVG)
 

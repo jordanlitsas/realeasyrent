@@ -7,3 +7,18 @@ body{
     height: 2vh;
     width:auto;
   }
+
+.compact{
+    padding: 0px;
+    border: 0px;
+    margin: 0px;
+}
+
+p.compact{
+    padding-bottom: 10px;
+}
+
+img.compact{
+    padding-left: 0px !important;
+  
+}
