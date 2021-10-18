@@ -79,6 +79,8 @@ const activeApplication = new mongoose.Schema({
     
 })
 
+
+
 const property = new mongoose.Schema({
     userId: String,
     applicantCriteria: 

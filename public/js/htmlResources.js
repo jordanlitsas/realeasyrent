@@ -1,3 +1,8 @@
+ const applicationTableRow = () => {
+   
+ } 
+ 
+ 
  const renterProfileForm = () => {
     return `<div>
     <form class="col s12" id = "form">
