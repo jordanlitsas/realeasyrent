@@ -8,18 +8,6 @@
   let submitted_on = document.createElement('td');
   let current_status = document.createElement('td');
 
-
-            
-  /*
-  
-    CLASS
-    elementName.classList.add('class name');
-
-    ID
-    elementName.id = "elementId";
-
-  */
-
  } 
  
  
