@@ -1,12 +1,16 @@
  const applicationTableRow = (rowNumber) => {
 
   let tr = document.createElement('tr');
-  let address_number = document.createElement('td');
-  let address_name = document.createElement('td');
-  let suburb = document.createElement('td');
-  let postcode = document.createElement('td');
+  let address = document.createElement('td');
   let submitted_on = document.createElement('td');
   let current_status = document.createElement('td');
+
+  tr.appendChild(address);
+
+  tr.appendChild(submitted_on);
+  tr.appendChild(current_status);
+  
+  return tr;
 
  } 
  
@@ -341,19 +345,9 @@ const propertyCard = () => {
   secondDiv.appendChild(descriptionDiv);
   firstDiv.appendChild(secondDiv);
   return firstDiv;
-//   return `<div class="col s12 m6 l4">
-//   <div class="card">
-//     <div class="card-image waves-effect waves-block waves-light">
-//       <a href="#">
-//         <img width="305" height="229" src="" class="responsive-img wp-post-image"  loading="lazy" sizes="(max-width: 305px) 100vw, 305px">    
-//         <span class="card-title home">Title</span>
-//       </a>
-//     </div>
-//   </div>
-// </div>`;
 }
 
-export{renterProfileForm, propertyForm, propertyCard}
+export{renterProfileForm, propertyForm, propertyCard, applicationTableRow}
 
 
 

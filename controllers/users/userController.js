@@ -40,7 +40,7 @@ const createUser = async (req, res) => {
 
         if (flag){
             Service.userService.getUserWithPersonalInfoQuery({email: userData.email}).then(existingUser => {
-
+                console.log(existingUser)
                 if (existingUser == null){
                     //create the new user
                     Service.userService.createUser(userData).then(user => { 
@@ -52,7 +52,6 @@ const createUser = async (req, res) => {
                             res.status(400).send(`User was not created - user document objectId was null.`);
                         } else {
 
-                            Service.applicationService.newUserApplicationDoc(newId);
                             //return new user's id for user's logged in instance.
                             res.status(200).send(newId);
                         } 

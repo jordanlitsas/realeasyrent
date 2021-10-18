@@ -30,6 +30,7 @@ const createUser = () => {
             password: password
         };
     
+        console.log(userInstance)
         $.ajax({
             url: '/user',
               contentType: 'application/json',

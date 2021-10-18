@@ -13,9 +13,14 @@ const getApplications = async (propertyId) => {
     
 }
 
-const newUserApplicationDoc = async (userId) => {
-    database.newUserApplicationDoc(userId);
+const getApplicationsByCriteria = async (query) => {
+ 
+    let applications = await database.getApplicationsByCriteria(query);
+    return applications;
+    
 }
+
+
 
 const removeApplicant = async (userId, propertyId) => {
     let flag = await database.removeApplicant(userId, propertyId);
@@ -34,4 +39,4 @@ const updateApplication = async (appUpdate) => {
 }
 
 
- module.exports = {createApplication, removeApplicant, getApplications, removeProperty, updateApplication}
+ module.exports = {createApplication, removeApplicant, getApplications, removeProperty, updateApplication, getApplicationsByCriteria}

@@ -11,6 +11,8 @@ const createApplication = async (req, res) => {
     let userId = req.body.userId;
     let propertyId = req.body.propertyId;
 
+    console.log(userId)
+    console.log(propertyId)
     let flag = true;
     let errorMessage = "Application was not created\n";
 
@@ -19,6 +21,7 @@ const createApplication = async (req, res) => {
     await Services.applicationService.getApplications(propertyId).then(applications => {
         if (applications != null){
             errorMessage += "There are current applications for that property - update active_applications instead.\n";
+            updateApplication(req, res);
             flag = false;
         }
     })
@@ -63,6 +66,7 @@ const createApplication = async (req, res) => {
 
 
         Services.applicationService.createApplication(application).then(activeApplicationList => {
+            console.log(activeApplicationList)
             if (activeApplicationList){
                 initiateApplicationProcessing(userId, propertyId, activeApplicationList);
                 res.status(200).send();
@@ -155,25 +159,28 @@ const deleteApplication = async (req, res) => {
    
 }
 
-const newUserApplicationDoc = async () => {
-    Service.applicationService.newUserApplicationDoc();
-}
 
 const getApplications = (req, res) => {
     let operator = req.query.operator;
     let query = req.query.query;
 
     if (operator == "propertyId"){
-        Services.applicationService.getApplications(propertyId).then(applicationList => {
+        Services.applicationService.getApplications(query).then(applicationList => {
             if (applicationList != null){
                 res.status(200).send(applicationList);
             } else {
                 res.status(204).send();
             }   
         });
-    } else if (query == "userId"){
-        // This is really really bad. Please fix this before anyone sees it.
-        Services.applicationService.getApplications()
+    } else if (operator == "criteria"){
+     
+        Services.applicationService.getApplicationsByCriteria(query).then(applicationList => {
+            if (applicationList != null){
+                res.status(200).send(applicationList);
+            } else {
+                res.status(204).send();
+            } 
+        })
     }
     
 }
@@ -181,7 +188,7 @@ const getApplications = (req, res) => {
 const updateApplication = async (req, res) => {
     let userId = req.body.userId;
     let propertyId = req.body.propertyId;
-    let appUpdate = req.body.appUpdate;
+    let appUpdate;
 
     let flag = true;
     let errorMessage = "Application was not created\n";

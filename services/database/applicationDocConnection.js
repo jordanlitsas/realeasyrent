@@ -1,7 +1,6 @@
 var schemas = require('./_schemas');
 var mongoose = require('mongoose')
 const activeApplicationModel = mongoose.model('active_applications', schemas.activeApplication);
-const usersApplicationsModel = mongoose.model('users_Applications', schemas.usersApplications);
 
 
 
@@ -9,13 +8,15 @@ const insertInitialApplication = async (application) => {
     let newApplication = new activeApplicationModel( application );
     let success = await newApplication.save();
 
-    let newDoc = new usersApplicationsModel({userId: userId});
-    newDoc.save();
+   
 
-
-    return success;
+    return true;
 }
 
+const getApplicationsByCriteria = async (query) => {
+    let applicationList = await activeApplicationModel.find({query});
+    return applicationList;
+}
 
 
 const addApplication = async (appUserId, appPropertyId) => {
@@ -47,6 +48,7 @@ const addApplication = async (appUserId, appPropertyId) => {
     }
 }
 
+// const getApplicationsByUserId
 const getApplications = async (appPropertyId) => {
 
   let applications = await activeApplicationModel.findOne({propertyId: appPropertyId});
@@ -79,4 +81,4 @@ const updateApplication = async (appUpdate) => {
 }
 
 
-module.exports = {insertInitialApplication, removeApplicant, removeProperty, getApplications, addApplication, updateApplication}
+module.exports = {insertInitialApplication, removeApplicant, removeProperty, getApplications, addApplication, updateApplication, getApplicationsByCriteria}
