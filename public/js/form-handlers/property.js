@@ -83,3 +83,4 @@ const createProperty = async () => {
 
 }
 export{createProperty};
+

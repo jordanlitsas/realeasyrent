@@ -155,15 +155,28 @@ const deleteApplication = async (req, res) => {
    
 }
 
+const newUserApplicationDoc = async () => {
+    Service.applicationService.newUserApplicationDoc();
+}
+
+const up
 const getApplications = (req, res) => {
-    let propertyId = req.body.propertyId;
-    Services.applicationService.getApplications(propertyId).then(applicationList => {
-        if (applicationList != null){
-            res.status(200).send(applicationList);
-        } else {
-            res.status(204).send();
-        }   
-    });
+    let operator = req.query.operator;
+    let query = req.query.query;
+
+    if (operator == "propertyId"){
+        Services.applicationService.getApplications(propertyId).then(applicationList => {
+            if (applicationList != null){
+                res.status(200).send(applicationList);
+            } else {
+                res.status(204).send();
+            }   
+        });
+    } else if (query == "userId"){
+        // This is really really bad. Please fix this before anyone sees it.
+        Services.applicationService.getApplications()
+    }
+    
 }
 
 const updateApplication = async (req, res) => {

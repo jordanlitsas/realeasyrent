@@ -63,6 +63,11 @@ const renterProfile = new mongoose.Schema({
     committedOfCrime: Boolean
 })
 
+const usersApplications = new mongoose.Schema({
+    userId: String,
+    propertiesAppliedFor: [String]
+});
+
 const activeApplication = new mongoose.Schema({
     propertyId: String,
     applicants: [{
@@ -129,15 +134,7 @@ const property = new mongoose.Schema({
     rentAmount: Number,
     rentFrequency: String,
     image: Schema.Types.Mixed
-    // images: [{
-    //     path: String
-        // img: {
-        //     data: Buffer,
-        //     contentType: String
-        // }
-    // }]
-
 })
 
 
-module.exports = {user, renterProfile, activeApplication, property}
+module.exports = {user, renterProfile, activeApplication, property, usersApplications}

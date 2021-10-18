@@ -1,20 +1,25 @@
 var schemas = require('./_schemas');
 var mongoose = require('mongoose')
 const activeApplicationModel = mongoose.model('active_applications', schemas.activeApplication);
+const usersApplicationsModel = mongoose.model('users_Applications', schemas.usersApplications);
 
 
 
 const insertInitialApplication = async (application) => { 
-    
-
-
     let newApplication = new activeApplicationModel( application );
     let success = await newApplication.save();
     return success;
+}
 
+const newUserApplicationDoc = async (userId) => {
+    let newDoc = new usersApplicationsModel({userId: userId});
+    newDoc.save();
+}
 
-    
-
+const newUserApplicationDoc = async (userId, propertyId) => {
+    let usersApplications = await usersApplicationsModel.findOne({userId: userId});
+    usersApplications.propertiesAppliedFor.push(propertyId);
+    await usersApplicationsModel.findOneAndUpdate({userId: userId}, usersApplications);
 }
 
 const addApplication = async (appUserId, appPropertyId) => {
@@ -37,6 +42,9 @@ const addApplication = async (appUserId, appPropertyId) => {
     let success = await activeApplicationModel.findOneAndUpdate({propertyID: appPropertyId}, applicationListToUpdate, {new: true});
 
     if (success) {
+        let usersApplications = await usersApplicationsModel.findOne({userId: userId});
+        usersApplications.propertiesAppliedFor.push(propertyId);
+        await usersApplicationsModel.findOneAndUpdate({userId: userId}, usersApplications);
         return true;
     } else {
         return false;
