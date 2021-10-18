@@ -26,7 +26,7 @@
         <li class="li"><a class="active" href="./index.html"><b>Home</b></a></li>
           <li class="li"><a href="../html/login.html"><b>Login</b></a></li>
           <li class="li"><a href="./html/profile.html"><b>Profile</b></a></li>
-          <li class="li"><a href="./activeapplications.html">My Applications</a></li>
+          <li class="li"><a href="./activeapplications.html"><b></b>My Applications</b></a></li>
           <li class="li"><a href="./html/chatlogin.html"><b>Lets Chat Living!</b></a></li>
           <li class="li"><a href="#about"><b>About</b></a></li>
         </ul>
@@ -35,37 +35,45 @@
             <li class="li"><a class="active" href="./index.html"><b>Home</b></a></li>
           <li class="li"><a href="../html/login.html"><b>Login</b></a></li>
           <li class="li"><a href="./html/profile.html"><b>Profile</b></a></li>
-          <li class="li"><a href="./activeapplications.html">My Applications</a></li>
+          <li class="li"><a href="./activeapplications.html"><b>My Applications</b></a></li>
           <li class="li"><a href="./html/chatlogin.html"><b>Lets Chat Living!</b></a></li>
           <li class="li"><a href="#about"><b>About</b></a></li>
         </ul>
         <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
       </div>
     </nav>
-		<main class="container">
-        <table>
+
+    <div class="section"></div>
+    <div class="section"></div>
+    <div class="section"></div>
+
+    
+
+
+
+          <!-- address number, address name, suburb, postcode, dateapplication made, status -->
+
+
+		<main class="container light-blue">
+        <table class="striped" id="activeapp_table">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Item Name</th>
-                    <th>Item Price</th>
+                    <th class="center">Address Number</th>
+                    <th class="center">Address Name</th>
+                    <th class="center">Suburb</th>
+                    <th class="center">Postcode</th>
+                    <th class="center">Submitted on</th>
+                    <th class="center">Current Status</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>Alvin</td>
-                    <td>Eclair</td>
-                    <td>$0.87</td>
-                </tr>
-                <tr>
-                    <td>Alan</td>
-                    <td>Jellybean</td>
-                    <td>$3.76</td>
-                </tr>
-                <tr>
-                    <td>Jonathan</td>
-                    <td>Lollipop</td>
-                    <td>$7.00</td>
+                    <td id="address_number"></td>
+                    <td id="address_name"></td>
+                    <td id="suburb"></td>
+                    <td id="postcode"></td>
+                    <td id="submitted_on"></td>
+                    <td id="current_status"></td>
                 </tr>
             </tbody>
       </table>
