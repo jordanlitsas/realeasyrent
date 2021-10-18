@@ -373,6 +373,7 @@ li {
   padding: 30px;
   max-height: 500px;
   overflow-y: scroll;
+  color: #fff;
 }
 
 .chat-messages .message {
@@ -421,7 +422,7 @@ li {
 .join-container {
   max-width: 500px;
   margin: 80px auto;
-  color: #fff;
+  color: rgb(0, 0, 0);
 }
 
 .join-header {
@@ -455,6 +456,7 @@ li {
   padding: 5px;
   height: 40px;
   width: 100%;
+  color: #111;
 }
 
 .join-main select {
@@ -462,11 +464,13 @@ li {
   padding: 5px;
   height: 40px;
   width: 100%;
+  color: #111;
 }
 
 .join-main .btn {
   margin-top: 20px;
   width: 100%;
+  color: #111;
 }
 
 @media (max-width: 700px) {
