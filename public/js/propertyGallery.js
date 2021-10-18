@@ -27,6 +27,10 @@ const getProperties = async () => {
     })
 }
 
+const applyForProperty = (id) => {
+    console.log(id)
+}
+
 const fillPropertyCards = (properties) => {
     let i = 0;
     for (i; i < properties.length; i++){
@@ -46,7 +50,7 @@ const fillPropertyCards = (properties) => {
                 <div class = "row compact">
                 <div class = "col s12 compact">
                     <div class = "row compact">
-                        <p class = "compact">${properties[i].suburb}, ${properties[i].postcode}</p>
+                        <p class = "compact">${properties[i].addressNumber} ${properties[i].addressName}, ${properties[i].suburb}, ${properties[i].postcode}</p>
                         </p>
                     </div>
                 </div>
@@ -68,11 +72,9 @@ const fillPropertyCards = (properties) => {
                     </div>
                 </div>
                 <div class = "col s4 compact">
-                    <button type = "button" class = "btn  apply-btn compacts">Apply</button>
+                    <button type = "button" class = "btn apply-btn compacts" onclick='applyForProperty(this.attributes["id"].value)' id = "${properties[i].addressNumber}-${properties[i].addressName}-${properties[i].postcode}">Apply</button>
                 </div>
             </div>
-
-          
         `
         // cardDescription.appendChild(bathroomSVG)
 
