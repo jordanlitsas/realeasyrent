@@ -65,18 +65,22 @@ const showUpdateUserForm = async () => {
     postcodeInput.id = 'postcode-input';
 
     firstNameInput.placeholder = firstName.innerHTML;
+    firstNameInput.value = firstName.innerHTML;
     firstName.innerHTML = "";
     firstName.appendChild(firstNameInput)
 
     lastNameInput.placeholder = lastName.innerHTML;
+    lastNameInput.value = lastName.innerHTML;
     lastName.innerHTML = "";
     lastName.appendChild(lastNameInput)
 
     postcodeInput.placeholder = postcode.innerHTML;
+    postcodeInput.value = postcode.innerHTML;
     postcode.innerHTML = "";
     postcode.appendChild(postcodeInput)
 
     emailInput.placeholder = email.innerHTML;
+    emailInput.value = email.innerHTML;
     email.innerHTML = "";
     email.appendChild(emailInput)
 

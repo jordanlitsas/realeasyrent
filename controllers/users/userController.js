@@ -159,7 +159,7 @@ const updateUser = async (req, res) => {
 
     if (changingEmail){
         let existingEmail = await Service.userService.getUserWithPersonalInfoQuery({email: userUpdate.email});
-        if (existingEmail != null){
+        if (existingEmail._id != userUpdate._id){
             flag = false;
             errorMessage += "This email is already taken.";
         }
