@@ -1,8 +1,9 @@
-import {setUserId} from './env.js'
+import {setUserId} from '../env.js'
 
 window.addEventListener('DOMContentLoaded', (event) => {
     document.querySelector("#profile-form-submit-btn").onclick = createUser;
-    var form = document.getElementById("user-form");
+    
+    var form = document.getElementById("form");
     function handleForm(event) { event.preventDefault(); } 
     form.addEventListener('submit', handleForm);
 });

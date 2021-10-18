@@ -1,7 +1,8 @@
-var userId;
 
-const setUserId = (newUserId) => {
-    userId = newUserId;
-    console.log(userId)
+
+//stores the userId for the current session
+const setUserId = (userId) => {
+    sessionStorage.setItem('userId', userId);
 }
+
 export {setUserId}

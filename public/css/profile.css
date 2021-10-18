@@ -1,0 +1,15 @@
+#create-rp-btn, #create-property-btn{
+    width: 100%;
+    padding: 0px 0px;
+    margin: 0;
+    
+}
+
+
+#create-rp-btn{
+    border-right: 1px solid black;
+}
+.btn-switch-container{
+    padding: 0px 0px !important;
+
+}

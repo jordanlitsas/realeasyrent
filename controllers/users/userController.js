@@ -75,9 +75,10 @@ const createUser = async (req, res) => {
 
 const getUser = async (req, res) => {
 
-    let operator = req.body.operator;
-    let query = req.body.query;
-    
+    let operator = req.query.operator;
+    let query = req.query.query;
+   
+    console.log(req.query)
     switch(operator){
         case "userId":
         //returns a single user with a given userId (equal to that user's document's objectid)
@@ -93,6 +94,7 @@ const getUser = async (req, res) => {
         
         case "personalInfoQuery":
             Service.userService.getUserWithPersonalInfoQuery(query).then(user => {
+                console.log(user)
                 if (user == null){
                     res.status(204).send()
                 } else {

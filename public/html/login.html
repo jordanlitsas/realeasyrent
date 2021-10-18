@@ -9,11 +9,14 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="../css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="../css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href = "../css/colour-scheme.css" rel = "stylesheet">
 </head>
-<body>
+
+
+<body class = "grey-blue">
   <nav class="light-blue" role="navigation">
     <div class="nav-wrapper container">
-      <a id="logo-container" href="../html/index.html" class="brand-logo hide-on-med-and-down"><img src="../css/images/RealeasyrentalLogo-NAV.jpg" height="64px" ></a>
+      <a id="logo-container" href="../index.html" class="brand-logo hide-on-med-and-down"><img src="../css/images/RealeasyrentalLogo-NAV.jpg" height="64px" ></a>
       <ul class="right hide-on-med-and-down">
         <li><a href="../html/login.html"><b>Login</b></a></li>
         <li><a href="#"><b>LetsChatLiving</b></a></li>
@@ -29,21 +32,22 @@
       <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     </div>
   </nav>
-  <body>
+
+
     <div class="section"></div>
     <main>
       
         
         
   
-      <h5 class="indigo-text center">Welcome Back to Real Easy Rental!</h5>
-      <h5 class="indigo-text center">Please, login into your account below.</h5>
+      <h5 class="center">Welcome Back to Real Easy Rental!</h5>
+      <h5 class="center">Please, login into your account below.</h5>
         <div class="section"></div>
   
         <div class="container center">
-          <div class="z-depth-1 grey lighten-4 row" style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
+          <div class="z-depth-1   row  dark-blue" style="display: inline-block; padding: 32px 48px 0px 48px;">
   
-            <form class="col s12" method="post">
+            <form class="col s12" id = "form"> 
               <div class='row'>
                 <div class='col s12'>
                 </div>
@@ -62,21 +66,21 @@
                   <label for='password'>Enter your password</label>
                 </div>
                 <label style='float: right;'>
-                                  <a class='grey-blue-text' href='#!'><b>Forgot Password?</b></a>
-                              </label>
+                  <a class='grey-blue-text' href='#!'><b>Forgot Password?</b></a>
+                </label>
               </div>
   
               <br />
               
                 <div class='row'>
-                  <button type='submit' name='btn_login' class='col s12 btn btn-large waves-effect grey-blue'>Login</button>
+                  <button id = "user-login-submit-btn" type='submit' name='btn_login' class='col s12 btn btn-large waves-effect '>Login</button>
                 </div>
               
             </form>
           </div>
         </div>
         <div class="center">
-        <a class='col s12 btn btn-large waves-effect light-blue' href="#!">Create account</a>
+        <a class='col s12 btn btn-large waves-effect light-blue' href="./profile_form.html">Create account</a>
         </div>
   
       <div class="section"></div>
@@ -85,7 +89,7 @@
   
     <footer class="page-footer light-blue">
     
-      <div class="footer-copyright grey-blue">
+      <div class="footer-copyright ">
         <div class="container">
           Back to top of <a class="brown-text text-dark-blue" href="../html/index.html">realeasyrental.com.au</a>
           </div>
@@ -94,7 +98,8 @@
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="../js/materialize.js"></script>
-  <script src="../js/init.js"></script>
+  <script src="../js/materialize.js"></script>
+  <script type = "module" src="../js/form-handlers/login.js"></script>
 
   </body>
 </html>
