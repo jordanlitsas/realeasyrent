@@ -62,36 +62,22 @@ const createProperty = async () => {
     
 
 
-    // $.ajax({
-    //     url: '/property',
-    //       contentType: 'application/json',
-    //       data: JSON.stringify(newProperty), 
-    //       type: 'POST',
-    //       complete: function(xmlHttp){
-    //         console.log(xmlHttp)
-    //         if (xmlHttp.status == 200){
-    //             top.location.href = './home.html'
-    //         }
-    //       }, 
-    //       error: function(result){
-            
-    //       }
-    //   }) 
-      $.ajax({
-        url: '/propertyImageUpload',
+    $.ajax({
+        url: '/property',
           contentType: 'application/json',
-          data: JSON.stringify({file: image}), 
+          data: JSON.stringify(newProperty), 
           type: 'POST',
           complete: function(xmlHttp){
             console.log(xmlHttp)
-            // if (xmlHttp.status == 200){
-            //     top.location.href = './home.html'
-            // }
+            if (xmlHttp.status == 200){
+                top.location.href = './home.html'
+            }
           }, 
           error: function(result){
             
           }
-      })
+      }) 
+     
 
 
 

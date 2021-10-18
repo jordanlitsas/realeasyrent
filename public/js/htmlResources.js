@@ -296,10 +296,10 @@
 
 const propertyCard = () => {
   let firstDiv = document.createElement('div');
-  firstDiv.classList = 'col s12 m3 14';
+  firstDiv.classList = 'col s12 m3 14 ';
 
   let secondDiv = document.createElement('div');
-  secondDiv.classList = 'card';
+  secondDiv.classList = 'card grey-blue';
 
   let thirdDiv = document.createElement('div');
   thirdDiv.classList = 'card-image waves-effect waves-block waves-light';
@@ -316,11 +316,16 @@ const propertyCard = () => {
   let titleSpan = document.createElement('span');
   titleSpan.classList = 'card-title home';
 
+  let descriptionDiv = document.createElement('div');
+  descriptionDiv.classList = 'card-action';
+  
+
   aTag.appendChild(img);
   aTag.appendChild(titleSpan);
 
   thirdDiv.appendChild(aTag);
   secondDiv.appendChild(thirdDiv);
+  secondDiv.appendChild(descriptionDiv);
   firstDiv.appendChild(secondDiv);
   return firstDiv;
 //   return `<div class="col s12 m6 l4">
