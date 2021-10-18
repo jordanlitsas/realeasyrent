@@ -1,4 +1,4 @@
- const applicationTableRow = () => {
+ const applicationTableRow = (rowNumber) => {
 
   let tr = document.createElement('tr');
   let address_number = document.createElement('td');
