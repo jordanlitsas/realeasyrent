@@ -1,5 +1,16 @@
  const applicationTableRow = () => {
-   
+
+
+  /*
+  
+    CLASS
+    elementName.classList.add('class name');
+
+    ID
+    elementName.id = "elementId";
+
+  */
+
  } 
  
  
