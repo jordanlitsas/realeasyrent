@@ -1,6 +1,15 @@
  const applicationTableRow = () => {
-
-
+  return
+  `<!-- Form for Property Listing  -->
+                <tr>
+                    <td id="address_number"></td>
+                    <td id="address_name"></td>
+                    <td id="suburb"></td>
+                    <td id="postcode"></td>
+                    <td id="submitted_on"></td>
+                    <td id="current_status"></td>
+                </tr>`;
+            
   /*
   
     CLASS
