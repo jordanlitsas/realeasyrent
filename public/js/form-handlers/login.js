@@ -25,7 +25,6 @@ const loginUser = () => {
             query: {email: email}
         };
         
-        console.log(userData)
         $.ajax({
             url: '/user',
               contentType: 'application/json',
@@ -36,15 +35,14 @@ const loginUser = () => {
                 switch(xmlHttp.status){
                     case 200:
                         let user = xmlHttp.responseJSON;
-                        setUserId(user._id);
-                        top.location.href = '../html/home.html'
+                        if (user.password == password){
+                            setUserId(user._id);
+                            top.location.href = '../html/home.html'
+                        } 
+                        
                 }
-              }, 
-              error: function(result){
-                    // let errorTextNode = document.createTextNode('The email you entered is already being used.')
-                    // document.getElementById("form-error").innerHTML = "";
-                    // document.getElementById("form-error").appendChild(errorTextNode)
               }
+             
           })
     }
 }

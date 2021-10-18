@@ -2,6 +2,7 @@
 var dbConnection = require('./services/database/dbConnection')
 var express = require("express");
 var app = express();
+require('dotenv').config();
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
@@ -28,7 +29,6 @@ let propertyRoute = require('./routes/users/landlord/property');
 let renterProfileRoute = require('./routes/users/renter/renterProfile');
 let applicationRoute = require('./routes/transactions/application');
 let applicationRequirementSorter = require ('./routes/transactions/applicationRequirementSorter');
-
 
 app.use('/user', userRoute);
 app.use('/property', propertyRoute);

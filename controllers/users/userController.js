@@ -1,4 +1,4 @@
-let Service = require('../../services');
+var Service = require('../../services');
 
 /*
     This page is responsible for managing CRUD operations for the user collection. Each document represents a unique system user.

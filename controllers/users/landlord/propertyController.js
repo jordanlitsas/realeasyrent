@@ -1,4 +1,5 @@
 let Service = require('../../../services');
+var multer = require('multer')
 
 
 /*
@@ -47,7 +48,6 @@ const createProperty = async (req, res) => {
 
         if (flag){
             Service.propertyService.createProperty(propertyData).then(propertyId => {
-                // console.log(propertyId);
                 if (propertyId){
                     res.status(200).send(propertyId);
                 }
@@ -73,9 +73,10 @@ const createProperty = async (req, res) => {
 //operator determines whether a single property is returned (propertyId), or multiple (userId and criteria).
 const getProperty = (req, res) => {
 
-    let operator = req.body.operator;
-    let query = req.body.query;
+    let operator = req.query.operator;
+    let query = req.query.query;
 
+    console.log(req.query)
     switch(operator){
         case "userId":
             Service.propertyService.getPropertiesWithUserId(query).then(properties => {
