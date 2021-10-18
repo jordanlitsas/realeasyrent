@@ -1,14 +1,14 @@
  const applicationTableRow = () => {
-  return
-  `<!-- Form for Property Listing  -->
-                <tr>
-                    <td id="address_number"></td>
-                    <td id="address_name"></td>
-                    <td id="suburb"></td>
-                    <td id="postcode"></td>
-                    <td id="submitted_on"></td>
-                    <td id="current_status"></td>
-                </tr>`;
+
+  let tr = document.createElement('tr');
+  let address_number = document.createElement('td');
+  let address_name = document.createElement('td');
+  let suburb = document.createElement('td');
+  let postcode = document.createElement('td');
+  let submitted_on = document.createElement('td');
+  let current_status = document.createElement('td');
+
+
             
   /*
   
