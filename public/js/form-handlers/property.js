@@ -64,6 +64,7 @@ const createProperty = async () => {
 
 
     $.ajax({
+        async: true,
         url: '/property',
           contentType: 'application/json',
           data: JSON.stringify(newProperty), 
@@ -73,9 +74,7 @@ const createProperty = async () => {
             if (xmlHttp.status == 200){
                 let id = xmlHttp.responseText;
                 setPropertyId(id);
-                console.log(id)
-                console.log(xmlHttp)
-                // top.location.href = './application_requirements.html';
+                top.location.href = './application_requirements.html';
             }
           }, 
           error: function(result){

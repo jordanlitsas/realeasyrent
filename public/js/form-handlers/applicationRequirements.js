@@ -1,4 +1,4 @@
-var propertyId = "";
+let propertyId = "";
 
 window.addEventListener('DOMContentLoaded', (event) => {
     document.getElementById('app_req_submit_btn').onclick = submitApplicationRequirementForm;

@@ -60,6 +60,7 @@ const captureActiveApplication = async (userId) => {
   for (i; i < applications.length;i++){
     for (j; j < applications[i].applicants.length; j++){
 
+      console.log(applications[i])
       if (applications[i].applicants[j].userId == sessionStorage.getItem('userId')){
         queryBody.operator = "propertyId";
         queryBody.query = applications[i].propertyId;
@@ -78,12 +79,10 @@ const captureActiveApplication = async (userId) => {
               suburb: property.suburb,
               postcode: property.postcode
             };
+            console.log(property)
             
           }
       })
-      console.log(propertyData)
-      console.log(applications[i].applicants[j])
-
       activeApplications.push({app: applications[i].applicants[j], prop: propertyData});
       }
     }
