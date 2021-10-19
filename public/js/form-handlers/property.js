@@ -72,10 +72,14 @@ const createProperty = async () => {
           complete: function(xmlHttp){
             console.log(xmlHttp)
             if (xmlHttp.status == 200){
+<<<<<<< HEAD
                 let id = xmlHttp.responseText;
                 setPropertyId(id);
                 console.log(id)
                 // top.location.href = './application_requirements.html';
+=======
+                top.location.href = '../html/propertylisting.html'
+>>>>>>> 2ada4d2c3e6625ea736a49dab76b635ade9da9ef
             }
           }, 
           error: function(result){
