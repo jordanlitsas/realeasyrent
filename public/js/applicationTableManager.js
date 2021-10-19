@@ -8,19 +8,27 @@ window.addEventListener('DOMContentLoaded', (event) => {
 const populateApplicationTable = async () => {
 
   let userId = sessionStorage.getItem('userId').toString();
-  let activeApplications = await captureActiveApplication(userId);
-  console.log(activeApplications)
-  activeApplications.forEach(application => {
-    let tr = applicationTableRow();
-    tr.childNodes[0].innerHTML = `
-        ${application.prop.addressNumber} ${application.prop.addressName} ${application.prop.suburb}, ${application.prop.postcode}
-      `;
-  
-    tr.childNodes[1].innerHTML = application.app.dateApplicationMade.substring(0, 15);
-    tr.childNodes[2].innerHTML = application.app.status;
-    document.getElementById('activeapp_table').appendChild(tr);
 
-  })
+  let activeApplications = await captureActiveApplication(userId);
+  
+  
+    console.log(activeApplications)
+    let i = 0;
+
+    for (i; i < activeApplications.length; i++){
+      let tr = applicationTableRow();
+  
+  
+      tr.childNodes[0].innerHTML = `
+          ${activeApplications[i].prop.addressNumber} ${activeApplications[i].prop.addressName} ${activeApplications[i].prop.suburb}, ${activeApplications[i].prop.postcode}
+        `;
+    
+      tr.childNodes[1].innerHTML = activeApplications[i].app.dateApplicationMade.substring(0, 15);
+      tr.childNodes[2].innerHTML = activeApplications[i].app.status;
+      document.getElementById('activeapp_tbody').appendChild(tr);
+      console.log(tr)
+    }
+ 
 
   
 }
@@ -44,14 +52,19 @@ const captureActiveApplication = async (userId) => {
           }
       })
 
-  let activeApplications = [];
-  applications.forEach( async application => {
-    application.applicants.forEach( async userApplication => {
-      if (userApplication.userId == userId){
 
+  //This is really really bad. Need to refactor server to enable easier retrieval of user's applied active_application doc.
+  let activeApplications = [];
+  let i = 0, j = 0;
+
+  for (i; i < applications.length;i++){
+    for (j; j < applications[i].applicants.length; j++){
+
+      if (applications[i].applicants[j].userId == sessionStorage.getItem('userId')){
         queryBody.operator = "propertyId";
-        queryBody.query = application.propertyId;
+        queryBody.query = applications[i].propertyId;
         let propertyData;
+
         await $.ajax({
           url: '/property',
           contentType: 'application/json',
@@ -65,14 +78,15 @@ const captureActiveApplication = async (userId) => {
               suburb: property.suburb,
               postcode: property.postcode
             };
+            
           }
       })
+      console.log(propertyData)
+      console.log(applications[i].applicants[j])
 
-
-        activeApplications.push({app: userApplication, prop: propertyData});
+      activeApplications.push({app: applications[i].applicants[j], prop: propertyData});
       }
-    })
-  })
-
+    }
+  }
   return activeApplications
 }

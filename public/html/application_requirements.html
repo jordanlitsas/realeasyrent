@@ -26,20 +26,22 @@
         
         
         <ul class="right hide-on-med-and-down ul">
-          <li class="li"><a class="active" href="home.html">Home</a></li>
-          <li class="li"><a href="">Lets Chat Living!</a></li>
-          <li class="li"><a href="./profile.html">Profile</a></li>
-          <li class="li"><a href="#about">About</a></li>
-          <li class="li"><a href="index.html">Support</a></li>
-        </ul>
-
-        <ul id="nav-mobile" class="sidenav">
-          <li class="li"><a class="active" href="home.html">Home</a></li>
-          <li class="li"><a href="">Lets Chat Living!</a></li>
-          <li class="li"><a href="#contact">Profile</a></li>
-          <li class="li"><a href="#about">About</a></li>
-          <li class="li"><a href="index.html">Support</a></li>
-        </ul>
+            <li class="li"><a href="../index.html"><b>Home</b></a></li>
+            <!-- <li class="li"><a href="../html/login.html"><b>Login</b></a></li> -->
+            <!-- <li class="li"><a class="active" href="./html/home.html"><b>Property Listings</b></a></li> -->
+            <li class="li"><a href="../html/profile.html"><b>Profile</b></a></li>
+            <li class="li"><a href="../html/applications.html"><b>My Applications</b></a></li>
+            <!-- <li class="li"><a href="../html/chatlogin.html"><b>Lets Chat Living!</b></a></li> -->
+          </ul>
+  
+          <ul id="nav-mobile" class="sidenav">
+            <li class="li"><a class="active" href="./index.html"><b>Home</b></a></li>
+            <!-- <li class="li"><a href="../html/login.html"><b>Login</b></a></li> -->
+            <li class="li"><a href="./html/profile.html"><b>Profile</b></a></li>
+            <li class="li"><a href="./activeapplications.html"><b>My Applications</b></a></li>
+            <!-- <li class="li"><a href="./html/chatlogin.html"><b>Lets Chat Living!</b></a></li> -->
+            <!-- <li class="li"><a href="#about"><b>About</b></a></li> -->
+          </ul>
         <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
       </div>
     </nav>
@@ -62,210 +64,227 @@
                         
                         <tbody>
                             <tr>
-                                <td>Preferred move in date</td> 
+
+
+
+                                <td id = >Preferred move in date</td> 
                                 <td class = "input-field">
-                                    <select class = "app_req_select">
-                                        <option>On</option>
-                                        <option>Before</option>
-                                        <option>After</option>
+                                    <select class = "app_req_select" id = "classification1">
+                                        <option selected></option>
+                                        <option value = "equal">On</option>
+                                        <option  value = "before">Before</option>
+                                        <option  value = "after">After</option>
                                     </select>
                                 </td> 
                                 <td class = "input-field">
-                                    <input type = "date">
+                                    <input type = "date" id = "benchmark1">
                                 </td> 
                              </tr>
+
 
                              <tr>
                                 <td>Number of pets</td> 
                                 <td class = "input-field">
-                                    <select class = "app_req_select">
-                                        <option>less than</option>
-                                        <option>equal to</option>
-                                        <option>greater than</option>
+                                    <select class = "app_req_select" id = "classification2">
+                                        <option selected></option>
+                                        <option  value = "lt">less than</option>
+                                        <option  value = "equal">equal to</option>
+                                        <option  value = "gt">greater than</option>
                                     </select>
                                 </td> 
                                 <td class = "input-field">
-                                    <input type = "number">
+                                    <input type = "number" id = "benchmark2">
                                 </td> 
                              </tr>
+
+
+
                              <tr>
                                 <td>Pet Breed</td> 
                                 <td class = "input-field">
-                                    <select class = "app_req_select">
-                                        <option>Is not a</option>
-                                        <option>Is a</option>
+                                    <select class = "app_req_select" id = "classification3">
+                                        <option selected></option>
+                                        <option  value = "not">Is not a</option>
+                                        <option  value = "equal">Is a</option>
                                     </select>
                                 </td> 
                                 <td class = "input-field">
-                                    <input type = "text">
+                                    <input type = "text" id = "benchmark3">
                                 </td> 
                              </tr>
+
+
+
                              <tr>
                                 <td>Size of pet</td> 
                                 <td class = "input-field">
-                                    <select class = "app_req_select">
-                                        <option>less than</option>
-                                        <option>equal to</option>
-                                        <option>greater than</option>
+                                    <select class = "app_req_select" id = "classification4">
+                                        <option selected></option>
+                                        <option  value = "equal">is </option>
+                                        <option  value = "not">is not</option>
                                     </select>
                                 </td> 
                                 <td class = "input-field">
-                                    <select class = "app_req_select">
-                                        <option>Small</option>
-                                        <option>Medium</option>
-                                        <option>Large</option>
+                                    <select class = "app_req_select" id = "benchmark4">
+                                        <option selected></option>
+                                        <option value = "small">Small</option>
+                                        <option value = "medium">Medium</option>
+                                        <option value = "large">Large</option>
                                     </select>
                                 </td> 
                              </tr>
+
+
                              <tr>
                                 <td>Number of Personal references</td> 
                                 <td class = "input-field">
-                                    <select class = "app_req_select">
-                                        <option>less than</option>
-                                        <option>equal to</option>
-                                        <option>greater than</option>
+                                    <select class = "app_req_select" id = "classification5">
+                                        <option selected></option>
+                                        <option value = "lt">less than</option>
+                                        <option value = "equal">equal to</option>
+                                        <option value = "gt">greater than</option>
                                     </select>
                                 </td> 
                                 <td class = "input-field">
-                                    <input type = "number">
+                                    <input type = "number" id = "benchmark5">
                                 </td> 
                              </tr>
+
+
+
                              <tr>
                                 <td>Number of Professional references</td> 
                                 <td class = "input-field">
-                                    <select class = "app_req_select">
-                                        <option>less than</option>
-                                        <option>equal to</option>
-                                        <option>greater than</option>
+                                    <select class = "app_req_select" id = "classification6">
+                                        <option selected></option>
+                                        <option value = "lt">less than</option>
+                                        <option value = "equal">equal to</option>
+                                        <option value = "gt">greater than</option>
                                     </select>
                                 </td> 
                                 <td class = "input-field">
-                                    <input type = "number">
+                                    <input type = "number" id = "benchmark6">
                                 </td> 
                              </tr>
+
+
+
                              <tr>
                                 <td>Number of children</td> 
                                 <td class = "input-field">
-                                    <select class = "app_req_select">
-                                        <option>less than</option>
-                                        <option>equal to</option>
-                                        <option>greater than</option>
+                                    <select class = "app_req_select" id = "classification7">
+                                        <option selected></option>
+                                        <option value = "lt">less than</option>
+                                        <option value = "equal">equal to</option>
+                                        <option value = "gt">greater than</option>
                                     </select>
                                 </td> 
                                 <td class = "input-field">
-                                    <input type = "number">
+                                    <input type = "number" id = "benchmark7">
                                 </td> 
                              </tr>
+
+
+
                              <tr>
                                 <td>Is employed</td> 
                                 <td class = "input-field">
                                 </td> 
-                                <td class = "input-field col s6">
+                                <td class = "input-field col s12">
                                     <label>
-                                        <input type="checkbox" />
-                                        <span>Yes</span>
+                                        <input type="checkbox" id = "benchmark8"/>
+                                        <span>Tick if the renter must be employed.</span>
                                     </label>
                                 </td>
-                                <td class = "input-field col s6">
-                                    <label>
-                                        <input type="checkbox" />
-                                        <span>No</span>
-                                    </label>
-                                </td>
+                                
                              </tr>
                              <tr>
                                 <td>Monthly Income</td> 
                                 <td class = "input-field">
-                                    <select class = "app_req_select">
-                                        <option>less than</option>
-                                        <option>equal to</option>
-                                        <option>greater than</option>
+                                    <select class = "app_req_select" id = "classification9">
+                                        <option selected></option>
+                                        <option value = "lt">less than</option>
+                                        <option value = "equal">equal to</option>
+                                        <option value = "gt">greater than</option>
                                     </select>
                                 </td> 
                                 <td class = "input-field">
-                                    <input type = "number">
+                                    <input type = "number" id = "benchmark9">
                                 </td> 
                              </tr>
+
+
+
                              <tr>
                                 <td>Evicted from the last rental</td> 
                                 <td class = "input-field">
                                 </td> 
-                                <td class = "input-field col s6">
+                                <td class = "input-field col s12">
                                     <label>
-                                        <input type="checkbox" />
-                                        <span>Yes</span>
+                                        <input type="checkbox" id = "benchmark10" />
+                                        <span>Tick if the previous renter cannot have been evicted.</span>
                                     </label>
                                 </td>
-                                <td class = "input-field col s6">
-                                    <label>
-                                        <input type="checkbox" />
-                                        <span>No</span>
-                                    </label>
-                                </td>
+                                 
+
+
+
                              </tr>
                              <tr>
                                 <td>Rental agreement broken at last rental</td> 
                                 <td class = "input-field">
                                 </td> 
-                                <td class = "input-field col s6">
+                                <td class = "input-field col s12">
                                     <label>
-                                        <input type="checkbox" />
-                                        <span>Yes</span>
-                                    </label>
-                                </td>
-                                <td class = "input-field col s6">
-                                    <label>
-                                        <input type="checkbox" />
-                                        <span>No</span>
+                                        <input type="checkbox" id = "benchmark11" />
+                                        <span>Tick if their last lease cannot be broken.</span>
                                     </label>
                                 </td>
                              </tr>
+
+
                              <tr>
                                 <td>Length of last lease</td> 
                                 <td class = "input-field">
-                                    <select class = "app_req_select">
-                                        <option>less than</option>
-                                        <option>equal to</option>
-                                        <option>greater than</option>
+                                    <select class = "app_req_select" id = "classification12">
+                                        <option selected></option>
+                                        <option value = "lt">less than</option>
+                                        <option value = "equal">equal to</option>
+                                        <option value = "gt">greater than</option>
                                     </select>
                                 </td> 
                                 <td class = "input-field">
-                                    <input type = "number" placeholder="years">
+                                    <input type = "number" placeholder="years" id = "benchmark12">
                                 </td> 
                              </tr>
+
+
+
+
                              <tr>
                                 <td>Is a smoker</td> 
                                 <td class = "input-field">
                                 </td> 
-                                <td class = "input-field col s6">
+                                <td class = "input-field col s12">
                                     <label>
-                                        <input type="checkbox" />
-                                        <span>Yes</span>
-                                    </label>
-                                </td>
-                                <td class = "input-field col s6">
-                                    <label>
-                                        <input type="checkbox" />
-                                        <span>No</span>
+                                        <input type="checkbox" id = "benchmark13" />
+                                        <span>Tick if they cannot be a smoker</span>
                                     </label>
                                 </td>
                              </tr>
+
+
                              <tr>
                                 <td>Has been committed of a crime</td> 
                                 <td class = "input-field">
                                 </td> 
-                                <td class = "input-field col s6">
+                                <td class = "input-field col s12">
                                     <label>
-                                        <input type="checkbox" />
-                                        <span>Yes</span>
+                                        <input type="checkbox" id = "benchmark14"/>
+                                        <span>Tick if they cannot have been committed of a crime.</span>
                                     </label>
                                 </td>
-                                <td class = "input-field col s6">
-                                    <label>
-                                        <input type="checkbox" />
-                                        <span>No</span>
-                                    </label>
-                                </td>
+                              
                              </tr>
                         </tbody>
 
@@ -273,7 +292,11 @@
                     </table>
                 </div>
             </div>
+            <div class = "col s12" style = "padding-top: 15px;">
+                <button type = "button" class = "btn" id = "app_req_submit_btn">Submit</button>
+            </div>
         </div>
+        
     </div>
    
 
@@ -284,6 +307,7 @@
         <script src="../js/init.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="../js/form-handlers/applicationRequirements.js"></script>
 
             
 		
