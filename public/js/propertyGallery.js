@@ -165,11 +165,15 @@ const fillPropertyCards = async (properties) => {
             data: queryBody,
             type: 'GET',
             complete: function(xmlHttp){
-                applicantList = xmlHttp.responseJSON.applicants.forEach(applicant => {
-                    if(sessionStorage.getItem('userId') == applicant.userId){
-                        hasApplied = true;
-                    }
-                })
+                try{
+                    applicantList = xmlHttp.responseJSON.applicants.forEach(applicant => {
+                        if(sessionStorage.getItem('userId') == applicant.userId){
+                            hasApplied = true;
+                        }
+                    })
+                }
+                catch{}
+                
             }     
         })
 

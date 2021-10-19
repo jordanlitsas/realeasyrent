@@ -37,7 +37,7 @@ const loginUser = () => {
                         let user = xmlHttp.responseJSON;
                         if (user.password == password){
                             setUserId(user._id);
-                            top.location.href = '../html/home.html'
+                            top.location.href = '../html/propertyListing.html'
                         } 
                         
                 }
