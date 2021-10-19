@@ -1,3 +1,5 @@
+import createStatsCollector from 'mocha/lib/stats-collector';
+import {setPropertyId} from './applicationRequirements.js'
 
 const createProperty = async () => {
     
@@ -70,7 +72,10 @@ const createProperty = async () => {
           complete: function(xmlHttp){
             console.log(xmlHttp)
             if (xmlHttp.status == 200){
-                top.location.href = './home.html'
+                let id = xmlHttp.responseText;
+                setPropertyId(id);
+                console.log(id)
+                // top.location.href = './application_requirements.html';
             }
           }, 
           error: function(result){
