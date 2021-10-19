@@ -97,7 +97,7 @@ const createRenterProfile = async () => {
           complete: function(xmlHttp){
             console.log(xmlHttp)
             if (xmlHttp.status == 200){
-                top.location.href = './home.html'
+                top.location.href = './propertylisting.html'
             }
           }, 
           error: function(result){
