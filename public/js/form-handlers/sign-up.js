@@ -9,7 +9,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 });
 
 const createUser = () => {
-    
+    document.getElementById('form-error').innerHTML = "";
     let flag = true;
     let firstName = $('#first_name').val();
     let lastName = $('#last_name').val();
@@ -18,9 +18,15 @@ const createUser = () => {
     let password = $('#password').val();
 
     if (firstName == "" || lastName == "" || postcode == "" || email == "" || password == ""){
-        flag = false;
+        return null;
     }
-    
+
+    if (firstName.length < 3){
+        document.getElementById('form-error').innerHTML = 'Your first name must be at least two characters.';
+        document.getElementById('first_name').style.borderBottom = '1px solid #F44336';
+        document.getElementById('first_name').style.boxShadow = '1px solid #F44336';
+        return null;
+    }
     if (flag){
         let userInstance = {
             firstName: firstName,
@@ -42,6 +48,11 @@ const createUser = () => {
                     case 200:
                         setUserId(xmlHttp.responseText);
                         top.location.href = '../html/accountconfirmation.html'
+                    break;
+                    
+                    case 400:
+                    
+                    break;
                 }
               }, 
               error: function(result){
